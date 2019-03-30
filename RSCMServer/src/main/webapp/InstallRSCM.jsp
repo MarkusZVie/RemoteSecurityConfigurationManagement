@@ -8,11 +8,12 @@
 <html>
 <body>
 <table><tr><td>
- <security:authorize access="hasRole('ROLE_Administrator')">
+ <security:authorize access="hasRole('ROLE_Administrator','ROLE_Technician')">
 This zone will be visible to Supervisor only.<br/>
 You have Supervisor role.<br/>
 
-    <a href="Downloads/ClientInstaller">Download Text File</a>  
+
+
 </security:authorize>
  </td></tr>
  <tr><td>
@@ -21,12 +22,5 @@ You have Supervisor role.<br/>
  </table>
  
  
- <%
- Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
- for(SimpleGrantedAuthority sga: authorities){
-	 out.print(sga.getAuthority());
- }
- 
- %>
  </body>
  </html> 

@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		http.formLogin().permitAll().and() //allow everyone to access the login page
 		.authorizeRequests() //declare multiple children									
-		.antMatchers("/applicants/**", "/notExsitent").permitAll() //everyone can access when they are logged in
+		.antMatchers("/applicants/**", "/notExsitent", "/ClientAuthentication/**").permitAll() //everyone can access when they are logged in
 		.antMatchers("/admin/**").hasRole("Administrator") //role admin can get access
 		.anyRequest().authenticated();
 		
