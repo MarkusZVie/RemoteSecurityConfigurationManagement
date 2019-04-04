@@ -14,7 +14,7 @@ public class RscmServerApplication {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(RscmServerApplication.class, args);
-		
+		Port
 		System.out.println(new BCryptPasswordEncoder().encode("okv00obb11kfz22"));
 		
 	}

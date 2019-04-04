@@ -9,7 +9,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
-public class PortScanner extends Thread{
+public class PortScanner extends Thread implements PortScannerInterface{
 
 	private static PortScanner portscanner;
 	@Getter
@@ -26,8 +26,8 @@ public class PortScanner extends Thread{
 	private int timeSpaceScanningMS;
 	
 	private PortScanner() {
-		scanPortBegin = 1;
-		scanPortEnd = 65535;
+		scanPortBegin = 22000;
+		scanPortEnd = 22001;
 		openPorts = new HashSet<Integer>();
 		double time = (double)120000/(double)(scanPortEnd-scanPortBegin);
 		if(time > 1000) {

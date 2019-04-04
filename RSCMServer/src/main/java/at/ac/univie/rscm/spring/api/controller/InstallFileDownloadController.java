@@ -12,22 +12,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptBuilder;
+import at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptHelper;
+import at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptManager;
+import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
+import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
+import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
+
 @RestController
 @RequestMapping("/Downloads")
 public class InstallFileDownloadController {
+	
+	@Autowired
+	private RSCMClientRepository rcsmClientRepository;
+	
+	
 
 	@RequestMapping("/{fileName:.+}") // https://howtodoinjava.com/spring-mvc/spring-mvc-download-file-controller-example/
 	public void downloadResource(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) {
-		System.out.println(fileName);
 		
 		if(fileName.contentEquals("RSCMClientInstaller.exe")) {
-			File file = createClientInstaller();
-			response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+			GlobalSettingsAndVariablesInterface gsav = GlobalSettingsAndVariables.getInstance();
+			gsav.setRSCMClientRepository(rcsmClientRepository);
+			
+			ClientInstallationScriptBuilder cisb = ClientInstallationScriptManager.getInstance();
+			File file = cisb.getClientInstallProgram();
+			response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
 			try {
 				Path path = file.toPath();
 				Files.copy(path, response.getOutputStream());
@@ -56,20 +73,6 @@ public class InstallFileDownloadController {
 		
 		
 		
-	}
-
-	private File createClientInstaller() {
-		File f = null;
-		try {
-			f = File.createTempFile("test", ".txt", null);
-			BufferedWriter out = new BufferedWriter(new FileWriter(f));
-			out.write("aString");
-			out.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return f;
 	}
 
 }
