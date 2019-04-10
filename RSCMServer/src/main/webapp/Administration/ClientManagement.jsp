@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Map"%>
 <%@page import="java.lang.reflect.Method"%>
 <%@page import="java.lang.reflect.Field"%>
 <%@page
@@ -39,7 +41,14 @@
 </head>
 
 <body>
-	<div w3-include-html="../NavBarAdministrator.html"></div>
+	<!-- Navbar (sit on top) -->
+	<div class="w3-top">
+		<div class="w3-bar navbar w3-padding w3-card">
+			<div w3-include-html="../NavBarAdministrator.html"></div>
+			
+		</div>
+	</div>
+
 	<div w3-include-html="../header.html"></div>
 
 	<!-- Page content -->
@@ -50,7 +59,7 @@
 			<table class='w3-table w3-striped w3-hoverable'>
 
 				<%
-					//<th onclick=\"window.location=''>asd</th>
+					GlobalSettingsAndVariablesInterface gsav = GlobalSettingsAndVariables.getInstance();
 					ApplicationContext ac = RequestContextUtils.findWebApplicationContext(request);
 					JSPSupporterBean jsb = (JSPSupporterBean) ac.getBean("jspSupporterBean");
 					RSCMClientRepository rcr = jsb.getRSCMClientRepository();
@@ -74,11 +83,20 @@
 					Method[] methods = RSCMClient.class.getMethods();
 					boolean firstRow = true;
 					//go throw db list
+					Map<Integer,Date> openPorts = gsav.getPortScanner().getOpenPorts();
 					for (RSCMClient rc : rcList) {
+						//add port activity to rc
+						if(openPorts.containsKey(rc.getClientPort())){
+							rc.setIsActive(true);
+						}else{
+							rc.setIsActive(false);
+						}
+						
 						//if its first row than create header
 						if (firstRow) {
 							firstRow = false;
 							out.println("<tr>");
+							
 							for (Method m : methods) {
 								//check if method is a get method
 								if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
@@ -118,17 +136,35 @@
 
 								}
 							}
+							
 							out.println("</tr>");
 						}
-						out.println("<tr>");
+						
+						out.println("<tr onclick=\"window.location='ClientDetail.jsp?clientId="+rc.getKeyID()+"'\">");
 						//print content of db select
+						
 						for (Method m : methods) {
 							if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
 									&& !m.getName().equals("getClass")) {
-								out.println("<td>" + m.invoke(rc, null) + "</td>");
+								if(m.getName().equals("getConnectionLog")){
+									out.println("<td>" + rc.getConnectionLog().size() + "</td>");
+								}else{
+									if(m.getName().equals("getIsActive")){
+										if(rc.getIsActive()){
+											out.println("<td>" + openPorts.get(rc.getClientPort()) + "</td>");
+										}else{
+											out.println("<td>no</td>");
+										}
+									}else{
+										out.println("<td>" + m.invoke(rc, null) + "</td>");
+									}
+								}
+								
 							}
 
 						}
+						
+						
 						out.println("</tr>");
 					}
 				%>

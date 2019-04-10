@@ -3,63 +3,90 @@ package at.ac.univie.rscm.application.connection;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
+import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
+import at.ac.univie.rscm.model.RSCMClientConnection;
 import lombok.Getter;
 import lombok.Setter;
 
-public class PortScanner extends Thread implements PortScannerInterface{
+public class PortScanner extends Thread implements PortScannerInterface {
 
-	private static PortScanner portscanner;
 	@Getter
 	@Setter
 	private int scanPortBegin;
 	@Getter
-	@Setter
 	private int scanPortEnd;
-	@Getter
-	private Set<Integer> openPorts;
-	
+	private Map<Integer, Date> openPorts;
 	@Setter
 	@Getter
 	private int timeSpaceScanningMS;
-	
-	private PortScanner() {
+	private GlobalSettingsAndVariablesInterface gsav;
+
+	public PortScanner() {
+		gsav = GlobalSettingsAndVariables.getInstance();
 		scanPortBegin = 22000;
 		scanPortEnd = 22001;
-		openPorts = new HashSet<Integer>();
-		double time = (double)120000/(double)(scanPortEnd-scanPortBegin);
-		if(time > 1000) {
-			time = 1000;
-		}
-		timeSpaceScanningMS = (int)time;
+		openPorts = new HashMap<Integer, Date>();
+		calcTimePeriod();
 	}
-	
-	public static PortScanner getInstance() {
-		if(portscanner == null) {
-			portscanner = new PortScanner();
-		}
-		return portscanner;
-	}
-	
+
 	@Override
 	public void run() {
-		for (int port = 1; port <= 65535; port++) {
-	         try {
-	        	 
-	            Socket socket = new Socket();
-	            socket.connect(new InetSocketAddress("localhost", port),1);
-	            socket.close();
-	            openPorts.add(port);
-	        } catch (IOException ex) {
-	        	if(openPorts.contains(port)) {
-	        		openPorts.remove(port);
-	        	}
-	        }
-	      }
+		while (true) {
+			for (int port = scanPortBegin; port <= scanPortEnd; port++) {
+				try {
+					Thread.sleep(timeSpaceScanningMS);
+					Socket socket = new Socket();
+					socket.connect(new InetSocketAddress("localhost", port), 1);
+					socket.close();
+					if(!openPorts.containsKey(port)) {
+						openPorts.put(port, new Date());
+					}
+					
+				} catch (IOException ex) {
+					if (openPorts.containsKey(port)) {
+						RSCMClientConnection rscmClientConnection = new RSCMClientConnection();
+						rscmClientConnection.setConnectionStart(openPorts.get(port));
+						rscmClientConnection.setConnectionEnd(new Date());
+						rscmClientConnection.setConnectionExitCode("0;"+port);
+						//rscmClientConnection.setConnectionDescription("fine");
+						gsav.addConnectionLog(rscmClientConnection);
+						openPorts.remove(port);
+						
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
-	
-	
-	
+
+	@Override
+	public synchronized void setScanPortEnd(int port) {
+		scanPortEnd = port;
+		calcTimePeriod();
+
+	}
+
+	private void calcTimePeriod() {
+		double time = (double) 120000 / (double) (scanPortEnd - scanPortBegin);
+		if (time > 1000) {
+			time = 1000;
+		}
+		timeSpaceScanningMS = (int) time;
+
+	}
+
+	@Override
+	public synchronized Map<Integer, Date> getOpenPorts() {
+		return openPorts;
+	}
+
 }

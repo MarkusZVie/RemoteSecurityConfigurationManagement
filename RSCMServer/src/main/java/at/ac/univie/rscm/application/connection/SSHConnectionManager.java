@@ -12,30 +12,20 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
 
-public class SSHManager {
+public class SSHConnectionManager {
 	
 	private PortScanner ps;
 	
-	
-	
-	public SSHManager() {
-		PortScanner ps = PortScanner.getInstance();
-		ps.setScanPortBegin(22220);
-		ps.setScanPortEnd(22500);
-		ps.start();
+	public SSHConnectionManager() {
 	}
-
-
 
 	public static void main(String[] arg) {
 		try {
 		
-			
-			
 			SSHConnectionBuilder cb = new SSHConnectionBuilder("rscm", "localhost", 22222,"test1234");
 			System.out.println(cb.sendComand("dir"));
 			cb.closeSession();
-			SSHManager sm = new SSHManager();
+			SSHConnectionManager sm = new SSHConnectionManager();
 
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block

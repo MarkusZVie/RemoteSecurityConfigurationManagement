@@ -31,6 +31,7 @@ public class ClientInstallationScriptHelper extends Thread {
 	@Getter
 	private Date createnDate;
 	private ClientInstallationScriptManager cism;
+	private GlobalSettingsAndVariablesInterface gsav;
 	@Getter
 	private String rscm_password_value;
 	@Getter
@@ -43,6 +44,7 @@ public class ClientInstallationScriptHelper extends Thread {
 	public ClientInstallationScriptHelper(int availabilityTime) {
 		this.availabilityTime = availabilityTime;
 		cism = ClientInstallationScriptManager.getInstance();
+		gsav = GlobalSettingsAndVariables.getInstance();
 		client_appkey_value = generateRandomString(32);
 		while (cism.checkIfApiKeyIsInUse(client_appkey_value)) {
 			client_appkey_value = generateRandomString(32);
@@ -146,7 +148,6 @@ public class ClientInstallationScriptHelper extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		GlobalSettingsAndVariablesInterface gsav = GlobalSettingsAndVariables.getInstance();
 		String tempScriptBuilding = basicScriptContent.replace(SERVER_IP_ESCAPE, gsav.getServer_ip_value());
 		tempScriptBuilding = tempScriptBuilding.replace(SERVER_RSAFINGERPRINT_ESCAPE, gsav.getServer_ip_value());
 		tempScriptBuilding = tempScriptBuilding.replace(SERVER_PUBLICKEY_ESCAPE, gsav.getServer_ip_value());
