@@ -103,9 +103,11 @@
 <div class="w3-content content">
 	<div class="w3-container w3-padding-64" id="maincontent">
 
-
-
-			<textarea rows="9" cols="80" id="console" style="font-family:'Courier New';">
+			<textarea rows="9" cols="80" id="console" style="background-color: #000;
+    border: 1px solid #000;
+    color: #FFFFFF;
+    padding: 8px;
+    font-family: 'courier new';">
 </textarea>
 	
 	</div>
@@ -139,7 +141,7 @@
 									.ajax({
 										type : "POST",
 										contentType : "application/json; charset=utf-8",
-										url : "http://localhost:8080/ajax/postComand",
+										url : "http://77.119.228.8:8080/ajax/postComand",
 										data : JSON.stringify(shellComand),
 										dataType : 'json',
 										success : function(data) {
@@ -147,6 +149,8 @@
 												document.getElementById("console").value += data[count] + "\n";
 											}
 											shellContent = document.getElementById("console").value;
+											var textarea = document.getElementById('console');
+											textarea.scrollTop = textarea.scrollHeight;
 										}
 									});
 						}

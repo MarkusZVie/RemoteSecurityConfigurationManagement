@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,19 +38,17 @@ public class AjaxRemoteShellController {
 		System.out.println("sdsdöäüfäüafäa");
 		return "employeeForm";
 	}
-
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(value = "/postComand", produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ArrayList<String> postComand(@Valid @RequestBody ShellComand shellComand) {
+		System.out.println("ssdsd");
 		String comand = shellComand.getComand();
 		int keyId = Integer.parseInt(shellComand.getKeyID());
 		
 		SSHConnectionManagerInterface sshConnectionManager = SSHConnectionManager.getInstance();
 		SSHConnectionBuilder cb = sshConnectionManager.getConnection(keyId);
 		ArrayList<String> returnContent = new ArrayList<String>();
-		System.out.println("->" + shellComand.getComand());
-		System.out.println("->" + shellComand.getKeyID());
-		
 		if(cb == null) {
 			returnContent.add("Could not create connection, please check if client is active");
 			returnContent.add("You access ClientID: " + keyId);

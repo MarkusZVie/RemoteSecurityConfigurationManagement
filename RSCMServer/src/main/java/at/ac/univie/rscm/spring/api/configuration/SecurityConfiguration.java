@@ -1,8 +1,12 @@
 package at.ac.univie.rscm.spring.api.configuration;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,6 +16,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
 
@@ -32,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.formLogin().permitAll().and() //allow everyone to access the login page
+		http.formLogin().permitAll().and()//allow everyone to access the login page
 		.authorizeRequests() //declare multiple children									
 		.antMatchers("/applicants/**", "/notExsitent", "/ClientAuthentication/**").permitAll() //everyone can access when they are logged in
 		.antMatchers("/admin/**").hasRole("Administrator") //role admin can get access
@@ -42,8 +50,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		
 	}
 	
-
-
+	
+	 
+	 
 	@Bean
 	public PasswordEncoder encodePassword() {
 		return new BCryptPasswordEncoder();
