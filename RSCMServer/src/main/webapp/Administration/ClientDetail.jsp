@@ -123,7 +123,7 @@
 							if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
 									&& !m.getName().equals("getClass") && !m.getName().equals("getConnectionLog")) {
 								out.println("<h4>" + m.getName().substring(3) + "</h4>");
-								out.println("<p class=\"w3-text-grey\">" + m.invoke(rc, null) + "</p>");
+								out.println("<p class=\"w3-text-grey\"><div style='width:100%; max-width:500px; overflow:auto'>" + m.invoke(rc, null) + "</div></p>");
 								out.println("<br>");
 							}
 						}

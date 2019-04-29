@@ -4,13 +4,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import com.jcraft.jsch.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SSHConnectionBuilder {
 
 	
 	private Session session;
+	@Getter
+	private int port;
+	@Getter
+	@Setter
+	private int keyId;
 	
 	public SSHConnectionBuilder(String user, String host, int port) throws JSchException, IOException {
-
+		//Possibility not tested
 		JSch jsch = new JSch();
 		jsch.addIdentity("C:\\Users\\rscmserver\\.ssh\\id_rsa", "uxHqtAmt!eZ8Zn!e");
 		session = jsch.getSession(user, host, port);
@@ -22,6 +30,7 @@ public class SSHConnectionBuilder {
 	}
 
 	public SSHConnectionBuilder(String user, String host, int port, String password) throws JSchException, IOException {
+		this.port = port;
 		JSch jsch = new JSch();
 		session = jsch.getSession(user, host, port);
 		java.util.Properties config = new java.util.Properties();
@@ -42,6 +51,7 @@ public class SSHConnectionBuilder {
 		channel.connect();
 		
 		StringBuilder sb = new StringBuilder();
+		
 		byte[] tmp = new byte[1024];
 		while (!channel.isClosed()) {
 			
@@ -53,6 +63,8 @@ public class SSHConnectionBuilder {
 			}
 		}
 		sb.append("<exitCode>" + channel.getExitStatus() + "<\\exitCode>");
+		
+		
 		channel.disconnect();
 		return sb.toString();
 	}

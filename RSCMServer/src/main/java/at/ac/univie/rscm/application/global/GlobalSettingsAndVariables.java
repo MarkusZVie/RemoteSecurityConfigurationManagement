@@ -128,7 +128,11 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	@Override
 	public synchronized void addConnectionLog(RSCMClientConnection rscmClientConnection) {
 		String exitCode = rscmClientConnection.getConnectionExitCode();
-		Optional<RSCMClient> dbResult = rSCMClientRepository.findOptionalByClientPort(Integer.parseInt(exitCode.substring(exitCode.indexOf(';')+1)));
+		int exitCodeIndexOf = exitCode.indexOf(';')+1;
+		String portSubString = exitCode.substring(exitCodeIndexOf);
+		int exitCodeExtention = Integer.parseInt(portSubString);
+		
+		Optional<RSCMClient> dbResult = rSCMClientRepository.findOptionalByClientPort(exitCodeExtention);
 		rscmClientConnection.setConnectionExitCode(exitCode.substring(0, exitCode.indexOf(';')));
 		if(dbResult.isPresent()) {
 			RSCMClient rClient = dbResult.get();

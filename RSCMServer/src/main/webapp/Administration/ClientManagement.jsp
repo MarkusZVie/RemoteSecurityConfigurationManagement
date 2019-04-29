@@ -38,6 +38,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="../style.css">
 <script type="text/javascript" src="../w3ContentLoader.js"></script>
+
 </head>
 
 <body>
@@ -56,7 +57,7 @@
 		<div class="w3-container w3-padding-64" id="maincontent">
 			<h1>Clients</h1>
 			<br>
-			<table class='w3-table w3-striped w3-hoverable'>
+			<table class='w3-table w3-striped w3-hoverable table'>
 
 				<%
 					GlobalSettingsAndVariablesInterface gsav = GlobalSettingsAndVariables.getInstance();
@@ -156,7 +157,8 @@
 											out.println("<td>no</td>");
 										}
 									}else{
-										out.println("<td>" + m.invoke(rc, null) + "</td>");
+										//.scrollable { overflow: scroll; overflow-y:hidden; white-space: nowrap; text-overflow:ellipsis;}
+										out.println("<td><div style='width:100%; max-width:200px; overflow:auto'>" + m.invoke(rc, null) + "</div></td>");
 									}
 								}
 								

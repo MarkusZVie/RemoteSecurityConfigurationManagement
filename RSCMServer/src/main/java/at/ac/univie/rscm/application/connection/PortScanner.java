@@ -58,6 +58,8 @@ public class PortScanner extends Thread implements PortScannerInterface {
 						//rscmClientConnection.setConnectionDescription("fine");
 						gsav.addConnectionLog(rscmClientConnection);
 						openPorts.remove(port);
+						SSHConnectionManagerInterface cm= SSHConnectionManager.getInstance();
+						cm.removeActiveClient(port);
 						
 					}
 				} catch (InterruptedException e) {

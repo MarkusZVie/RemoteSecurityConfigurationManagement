@@ -1,6 +1,7 @@
 <%@page import="java.util.Optional"%>
 <%@page import="java.lang.reflect.Method"%>
 <%@page import="java.lang.reflect.Field"%>
+<%@ page import="java.util.*,java.io.*"%>
 <%@page
 	import="at.ac.univie.rscm.spring.api.controller.JSPSupporterBean"%>
 <%@page
@@ -26,9 +27,9 @@
 
 <title>
 	<%
-	String thisPageName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1,
-			request.getRequestURI().lastIndexOf(".jsp"));
-	out.println(thisPageName);
+		String thisPageName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1,
+				request.getRequestURI().lastIndexOf(".jsp"));
+		out.println(thisPageName);
 	%>
 </title>
 <meta charset="UTF-8">
@@ -38,7 +39,8 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="../style.css">
 <script type="text/javascript" src="../w3ContentLoader.js"></script>
-</head>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+
 
 <body>
 	<%
@@ -69,50 +71,87 @@
 		}
 		RSCMClient rc = orc.get();
 	%>
-	<!-- Navbar (sit on top) -->
-	<div class="w3-top">
-		<div class="w3-bar navbar w3-padding w3-card">
-			<a href="ClientDetail.jsp?clientId=<%out.println(clientId);%>"
-				class="w3-bar-item w3-button <%if (thisPageName.equals("ClientDetail")) {
+	<!-- Navbar (sit on top) --><div class="w3-top">
+	<div class="w3-bar navbar w3-padding w3-card">
+		<a href="ClientDetail.jsp?clientId=<%out.println(clientId);%>"
+			class="w3-bar-item w3-button <%if (thisPageName.equals("ClientDetail")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
 			}%> 
 				w3circle">Client-Details</a>
-			<a href="SSHConsole.jsp?clientId=<%out.println(clientId);%>"
-				class="w3-bar-item w3-button <%if (thisPageName.equals("SSHConsole")) {
+		<a href="SSHConsole.jsp?clientId=<%out.println(clientId);%>"
+			class="w3-bar-item w3-button <%if (thisPageName.equals("SSHConsole")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
 			}%>  w3circle w3-margin-left">SSH-Console</a>
-			<a href="SSHScriptBox.jsp?clientId=<%out.println(clientId);%>"
-				class="w3-bar-item w3-button <%if (thisPageName.equals("SSHScriptBox")) {
+		<a href="SSHScriptBox.jsp?clientId=<%out.println(clientId);%>"
+			class="w3-bar-item w3-button <%if (thisPageName.equals("SSHScriptBox")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
 			}%>  w3circle w3-margin-left">SSH-ScriptBox</a>
-			<div w3-include-html="../NavBarAdministrator.html"></div>
-		</div>
+		<div w3-include-html="../NavBarAdministrator.html"></div>
 	</div>
+</div>
 
 
-	<div w3-include-html="../header.html"></div>
+<div w3-include-html="../header.html"></div>
 
-	<!-- Page content -->
-	<div class="w3-content content">
-		<div class="w3-container w3-padding-64" id="maincontent">
-		
-		
-		</div>
+<!-- Page content -->
+<div class="w3-content content">
+	<div class="w3-container w3-padding-64" id="maincontent">
+
+
+
+			<textarea rows="9" cols="80" id="console" style="font-family:'Courier New';">
+</textarea>
+	
 	</div>
-	<!-- Footer -->
-	<footer class="w3-center w3-content content w3-padding-16">
-		<div w3-include-html="../footer.html"></div>
-		<script>
-			includeHTML();
-		</script>
-	</footer>
+</div>
+<!-- Footer -->
+<footer class="w3-center w3-content content w3-padding-16">
+	<div w3-include-html="../footer.html"></div>
+	<script>
+		includeHTML();
+	</script>
+</footer>
 
+<script type="text/javascript">
+	var shellContent = "";
+	document
+			.getElementById("console")
+			.addEventListener(
+					'keypress',
+					function(e) {
+						//event.preventDefault();
+						if (e.key === 'Enter') {
+							var shellComand = {}
+							var beginComand = shellContent.length;
+							
+							shellComand["comand"] = document.getElementById("console").value.substring(beginComand,document.getElementById("console").value.length);
+							shellComand["keyID"] = <% out.println(clientId); %>;
+							//shellComand["firstName"] = $("#firstName").val();
+							//shellComand["lastName"] = $("#lastName").val();
+
+							jQuery
+									.ajax({
+										type : "POST",
+										contentType : "application/json; charset=utf-8",
+										url : "http://localhost:8080/ajax/postComand",
+										data : JSON.stringify(shellComand),
+										dataType : 'json',
+										success : function(data) {
+											for (var count = 0; count < data.length; count++) {
+												document.getElementById("console").value += data[count] + "\n";
+											}
+											shellContent = document.getElementById("console").value;
+										}
+									});
+						}
+					});
+</script>
 </body>
 </html>
 
