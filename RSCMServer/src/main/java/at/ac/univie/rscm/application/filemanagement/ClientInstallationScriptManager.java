@@ -29,12 +29,13 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	private ArrayList<ClientInstallationScriptHelper> activeClientInstallations;
 	
 	private RSCMClientRepository rcrClientRepository;
+	private GlobalSettingsAndVariablesInterface gsav;
 	
 	private ClientInstallationScriptManager() {
 		activeClientInstallations = new ArrayList<ClientInstallationScriptHelper>();
 		availabilityTime = 5*60*1000;
-		GlobalSettingsAndVariablesInterface gsav = GlobalSettingsAndVariables.getInstance();
-		rcrClientRepository = gsav.getRSCMClientRepository();
+		gsav = GlobalSettingsAndVariables.getInstance();
+		
 	}
 	
 	public static ClientInstallationScriptManager getInstance() {
@@ -45,13 +46,13 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	}
 		
 	@Override
-	public File getClientInstallProgram() {
+	public File getClientInstallProgram(boolean isExtern) {
 		//create a new Thread with availabilityTime for the API Key
 		ClientInstallationScriptHelper cish = new ClientInstallationScriptHelper(availabilityTime);
 		//add Thread to list
 		activeClientInstallations.add(cish);
 		//let the Tread create the exe file
-		File file = cish.getFile();
+		File file = cish.getFile(isExtern);
 		//Start the API-Key Availability timer
 		cish.start();
 		//return exe file
@@ -73,6 +74,8 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 
 	@Override
 	public void confirmAppKey(RSCMClient rsaClientKey) {
+
+		rcrClientRepository = gsav.getRSCMClientRepository();
 		ClientInstallationScriptHelper cish = getHelperByAppKey(rsaClientKey.getApplikationKey());
 		System.out.println(rsaClientKey.toString() + "test");
 		if(cish!=null) {
@@ -83,10 +86,29 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 			rsaClientKey.setRscmKeypass(cish.getRscm_keypass_value());
 			rsaClientKey.setRscmPassword(cish.getRscm_password_value());
 			rcrClientRepository.save(rsaClientKey);
+			registerRSAKey(rsaClientKey.getClientRSAPublicKey());
 			cish.clearUp();
 			cish.stop();
 			System.out.println(rsaClientKey.toString());
 		}		
+		
+	}
+	
+	private void registerRSAKey(String rsaKey) {
+		try {
+			String path = gsav.getPathToAuthorized_keys();
+			File file = new File(path);
+			FileWriter fw = new FileWriter(file, true);
+			BufferedWriter writer = new BufferedWriter(fw);
+			writer.newLine();
+			writer.append(rsaKey);
+			writer.close();
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	
@@ -101,9 +123,9 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 
 
 	public int getPortNumber() {
-		System.out.println();
+
+		rcrClientRepository = gsav.getRSCMClientRepository();
 		Collection<Integer> port = rcrClientRepository.getHighestPort();
-		GlobalSettingsAndVariablesInterface gsav = GlobalSettingsAndVariables.getInstance();
 		if(port.size()==0) {
 			gsav.setPortEndRange(22000);
 			return 22000;

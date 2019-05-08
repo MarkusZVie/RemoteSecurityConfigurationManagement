@@ -33,17 +33,63 @@ public class InstallFileDownloadController {
 	@Autowired
 	private RSCMClientRepository rcsmClientRepository;
 	
+	private GlobalSettingsAndVariablesInterface gsav;
+	private ClientInstallationScriptBuilder cisb;
 	
+	
+
+	public InstallFileDownloadController() {
+		gsav = GlobalSettingsAndVariables.getInstance();
+		cisb = ClientInstallationScriptManager.getInstance();
+		gsav.addDownload("RSCMExternClientInstaller.exe", "Install Application for World-Wide usage");
+		gsav.addDownload("RSCMInternClientInstaller.exe", "Install Application for Local usage");
+	}
+
+
 
 	@RequestMapping("/{fileName:.+}") // https://howtodoinjava.com/spring-mvc/spring-mvc-download-file-controller-example/
 	public void downloadResource(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) {
 		
-		if(fileName.contentEquals("RSCMClientInstaller.exe")) {
-			GlobalSettingsAndVariablesInterface gsav = GlobalSettingsAndVariables.getInstance();
+		
+		if(fileName.contentEquals("RSCMExternClientInstaller.exe")) {
+			
 			gsav.setRSCMClientRepository(rcsmClientRepository);
 			
-			ClientInstallationScriptBuilder cisb = ClientInstallationScriptManager.getInstance();
-			File file = cisb.getClientInstallProgram();
+			
+			File file = cisb.getClientInstallProgram(true);
+			response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
+			try {
+				Path path = file.toPath();
+				Files.copy(path, response.getOutputStream());
+				response.getOutputStream().flush();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+			
+		}else {
+			String dataDirectory = request.getServletContext().getRealPath("/WEB-INF/downloads/");
+			File file = new File(dataDirectory + fileName);
+			if(file.exists()) {
+				//response.setContentType("application/pdf");
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				try {
+					Path path = file.toPath();
+					Files.copy(path, response.getOutputStream());
+					response.getOutputStream().flush();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+			
+			
+		}
+		
+		if(fileName.contentEquals("RSCMInternClientInstaller.exe")) {
+			gsav = GlobalSettingsAndVariables.getInstance();
+			gsav.setRSCMClientRepository(rcsmClientRepository);
+			
+			cisb = ClientInstallationScriptManager.getInstance();
+			File file = cisb.getClientInstallProgram(false);
 			response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
 			try {
 				Path path = file.toPath();

@@ -20,6 +20,7 @@ public class RSARegisterController {
 	
 	@Autowired
 	private RSCMClientRepository rcrClientRepository;
+	private ClientInstallationScriptBuilder cisb;
 	
 	public RSARegisterController() {
 		sb= new StringBuilder();
@@ -28,8 +29,7 @@ public class RSARegisterController {
 	@PostMapping("/SendPublicKey")
 	public String addClientPublicKeyToKnowenHosts(@RequestBody RSCMClient rsaClientKey) {
 		
-		
-		ClientInstallationScriptBuilder cisb = ClientInstallationScriptManager.getInstance();
+		cisb = ClientInstallationScriptManager.getInstance();
 		cisb.confirmAppKey(rsaClientKey);
 		sb.append(rsaClientKey);
 		return "user added ";

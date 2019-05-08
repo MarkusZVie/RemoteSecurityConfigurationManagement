@@ -45,9 +45,12 @@ public class JSPSupporterBean {
 	
 	@PostConstruct
     public void init() {
+		
+		
 		gsav.setRSCMClientRepository(rcr);
 		gsav.setRoleRepository(rr);
 		gsav.setApplicantRepository(ar);
 		gsav.initPortScanner();
+		
     }
 }

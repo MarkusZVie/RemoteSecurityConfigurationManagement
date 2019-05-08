@@ -29,10 +29,14 @@ import at.ac.univie.rscm.application.connection.SSHConnectionManagerInterface;
 import at.ac.univie.rscm.application.global.data.ShellComand;
 
 
+
 @RestController
 @RequestMapping("/ajax/")
 public class AjaxRemoteShellController {
 	// https://www.boraji.com/spring-4-mvc-jquery-ajax-form-submit-example
+	
+	private SSHConnectionManagerInterface sshConnectionManager;
+	
 	@GetMapping("/postComand")
 	public String employeeForm() {
 		System.out.println("sdsdöäüfäüafäa");
@@ -42,11 +46,10 @@ public class AjaxRemoteShellController {
 	@PostMapping(value = "/postComand", produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ArrayList<String> postComand(@Valid @RequestBody ShellComand shellComand) {
-		System.out.println("ssdsd");
 		String comand = shellComand.getComand();
 		int keyId = Integer.parseInt(shellComand.getKeyID());
 		
-		SSHConnectionManagerInterface sshConnectionManager = SSHConnectionManager.getInstance();
+		sshConnectionManager = SSHConnectionManager.getInstance();
 		SSHConnectionBuilder cb = sshConnectionManager.getConnection(keyId);
 		ArrayList<String> returnContent = new ArrayList<String>();
 		if(cb == null) {

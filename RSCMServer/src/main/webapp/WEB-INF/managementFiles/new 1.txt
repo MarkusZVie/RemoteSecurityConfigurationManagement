@@ -1,0 +1,26 @@
+ssh -fN -R 7000:localhost:22 username@yourMachine-ipaddress
+
+session.setPortForwardingR(rport, lhost, lport);
+
+79Q3!mFArK00
+RSA passfrase
+Gestern sah die Zukunft anders aus, beim Teutates!
+
+$username = 'rscmserver'
+$password = '79Q3!mFArK00'
+
+$securePassword = ConvertTo-SecureString $password -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential $username, $securePassword
+Start-Process sshd -Credential $credential
+
+
+#Match User *
+	#AllowTcpForwarding no
+    #PermitTTY no
+	#ForceCommand cmd.exe /C echo No SHell available & pause
+	
+AuthorizedKeysFile C:/Users/RSCMServer/.ssh/authorized_keys
+
+$objSID = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-21-2037646214-965435356-1153635105-118596")
+$objUser2 = $objSID.Translate( [System.Security.Principal.NTAccount])
+$objUser2.Value

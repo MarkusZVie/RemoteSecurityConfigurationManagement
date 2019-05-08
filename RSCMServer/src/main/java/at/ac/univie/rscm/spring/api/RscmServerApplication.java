@@ -3,6 +3,7 @@ package at.ac.univie.rscm.spring.api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -12,6 +13,7 @@ import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
 @SpringBootApplication
 @EntityScan("at.ac.univie.rscm.model")
 @ComponentScan(basePackages = "at.ac.univie.rscm.spring.api")
+@EnableConfigurationProperties({FileStorageProperties.class})
 public class RscmServerApplication {
 
 	public static void main(String[] args) {

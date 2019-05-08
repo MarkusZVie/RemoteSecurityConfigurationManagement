@@ -1,11 +1,15 @@
 package at.ac.univie.rscm.application.global;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Optional;
 
 import at.ac.univie.rscm.application.connection.PortScanner;
@@ -22,7 +26,10 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	private static GlobalSettingsAndVariables gsav;	
 	@Getter
 	@Setter
-	private String server_ip_value;
+	private String server_intern_ip_value;
+	@Getter
+	@Setter
+	private String server_extern_ip_value;
 	@Getter
 	@Setter
 	private String server_rsafingerprint_value;
@@ -44,19 +51,41 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	@Getter
 	@Setter
 	private RoleRepository roleRepository;
+	@Setter
+	@Getter
+	private Map<String, String> providedDownloads;
 	
 	@Getter
 	private PortScannerInterface portScanner;
 	
-	private int portNumber;
+	@Getter
+	private String pathToAuthorized_keys;
 	
+	private int portNumber;
+	@Getter
+	@Setter
+	private String fileDownloadDirectory;
 	
 	private GlobalSettingsAndVariables() {
-		server_ip_value = "192.168.178.16";
+		try {
+			fileDownloadDirectory = new File(".").getCanonicalPath() + "\\src\\main\\webapp\\WEB-INF\\managementFiles";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		providedDownloads = new HashMap<String, String>();
+		server_intern_ip_value = "192.168.178.16";
+		server_extern_ip_value = "77.119.228.8";
 		server_rsafingerprint_value = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAYu3YwUiKt2/pnh8wiXHHAHLhGB8xhrsKSE1vwpoTO89LYFh9Pf1MGGdoDhLzKLTlJRKVmu6bq5ZNCzQmKfHdM=";
+		pathToAuthorized_keys = "C:\\Users\\rscmserver\\.ssh\\authorized_keys";
 		server_publickey_value = getHostPublicKey();
 		portNumber = 22000;
 	}
+	
+	public void addDownload(String key, String value) {
+		providedDownloads.put(key, value);
+	}
+	
 	
 	
 	@Override
@@ -144,6 +173,7 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 		
 	}
 
+	
 	
 
 

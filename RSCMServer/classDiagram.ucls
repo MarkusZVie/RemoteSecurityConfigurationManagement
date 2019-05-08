@@ -1,243 +1,237 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.3" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <interface id="1" language="java" name="at.ac.univie.rscm.spring.api.repository.ApplicantRepository" 
-    project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository/ApplicantRepository.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="81" width="213" x="5003" y="786"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="2" language="java" name="at.ac.univie.rscm.spring.api.controller.InstallFileDownloadController" 
-    project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/InstallFileDownloadController.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="99" width="381" x="3586" y="786"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" name="at.ac.univie.rscm.spring.api.service.CustomApplicantDetails" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service/CustomApplicantDetails.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="243" width="296" x="5899" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <package id="4" language="java" name="at.ac.univie.rscm.model" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="159" x="157" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  <package id="1" language="java" name="at.ac.univie.rscm.application.connection" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="720" width="1104" x="162" y="27"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="5" language="java" name="at.ac.univie.rscm.application.global" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/global" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="223" x="356" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
-  </package>  
-  <interface id="6" language="java" name="at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface" 
-    project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/global/GlobalSettingsAndVariablesInterface.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="225" width="286" x="5256" y="786"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="7" language="java" name="at.ac.univie.rscm.spring.api.controller.ApplicantController" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/ApplicantController.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="135" width="168" x="4834" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <package id="8" language="java" name="at.ac.univie.rscm.application.filemanagement" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/filemanagement" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="281" x="837" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
-  </package>  
-  <package id="9" language="java" name="at.ac.univie.rscm.spring.api.controller" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="238" x="1158" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
-  </package>  
-  <class id="10" language="java" name="at.ac.univie.rscm.spring.api.controller.ApplicationController" 
-    project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/ApplicationController.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="99" width="167" x="1436" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <package id="11" language="java" name="at.ac.univie.rscm.spring.api.repository" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="241" x="1643" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
-  </package>  
-  <class id="12" language="java" name="at.ac.univie.rscm.spring.api.controller.JSPSupporterBean" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/JSPSupporterBean.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="99" width="266" x="4007" y="786"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="13" language="java" name="at.ac.univie.rscm.model.Role" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model/Role.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="189" width="148" x="5899" y="1177"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="14" language="java" name="at.ac.univie.rscm.spring.api.ServletInitializer" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/ServletInitializer.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="99" width="317" x="1924" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <interface id="15" language="java" name="at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptBuilder" 
-    project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/filemanagement/ClientInstallationScriptBuilder.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="4805" y="1240"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="16" language="java" name="at.ac.univie.rscm.application.connection.SSHConnectionBuilder" 
-    project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection/SSHConnectionBuilder.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="153" width="246" x="2281" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="17" language="java" name="at.ac.univie.rscm.model.RSCMClient" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model/RSCMClient.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="585" width="195" x="2567" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <package id="18" language="java" name="at.ac.univie.rscm.spring.api.service" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="225" x="2802" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
-  </package>  
-  <interface id="19" language="java" name="at.ac.univie.rscm.application.connection.PortScannerInterface" 
+  <interface id="2" language="java" name="at.ac.univie.rscm.application.connection.PortScannerInterface" 
     project="RSCMServer" 
     file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection/PortScannerInterface.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="63" width="178" x="6207" y="1177"/>    
+    <position height="-1" width="-1" x="300" y="230"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <package id="20" language="java" name="at.ac.univie.rscm.application.connection" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="252" x="3067" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  <class id="3" language="java" name="at.ac.univie.rscm.application.connection.SSHConnectionBuilder" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection/SSHConnectionBuilder.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="954" y="245"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="4" language="java" name="at.ac.univie.rscm.application.connection.SSHConnectionManagerInterface" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection/SSHConnectionManagerInterface.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1110" y="634"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="5" language="java" name="at.ac.univie.rscm.application.connection.SSHConnectionManager" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection/SSHConnectionManager.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="791" y="476"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <package id="6" language="java" name="at.ac.univie.rscm.application.filemanagement" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/filemanagement" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1008" width="578" x="2010" y="1370"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <class id="21" language="java" name="at.ac.univie.rscm.spring.api.configuration.SecurityConfiguration" 
+  <class id="7" language="java" name="at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptHelper" 
     project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/configuration/SecurityConfiguration.java" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/filemanagement/ClientInstallationScriptHelper.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="153" width="247" x="3359" y="143"/>    
+    <position height="-1" width="-1" x="2440" y="1728"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="22" language="java" name="at.ac.univie.rscm.spring.api.repository.RoleRepository" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository/RoleRepository.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="63" width="171" x="3646" y="143"/>    
+  <interface id="8" language="java" name="at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptBuilder" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/filemanagement/ClientInstallationScriptBuilder.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2152" y="1947"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="23" language="java" name="at.ac.univie.rscm.application.global.GlobalSettingsAndVariables" 
-    project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/global/GlobalSettingsAndVariables.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="441" width="286" x="5563" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="24" language="java" name="at.ac.univie.rscm.spring.api.service.CustomApplicantDetailsService" 
-    project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service/CustomApplicantDetailsService.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="99" width="225" x="5042" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="25" language="java" name="at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptManager" 
+  <class id="9" language="java" name="at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptManager" 
     project="RSCMServer" 
     file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/filemanagement/ClientInstallationScriptManager.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="225" width="309" x="4644" y="786"/>    
+    <position height="-1" width="-1" x="2420" y="2249"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="at.ac.univie.rscm.model.Applicant" project="RSCMServer" 
+  <package id="10" language="java" name="at.ac.univie.rscm.application.global" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/global" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="683" width="1102" x="160" y="787"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="11" language="java" name="at.ac.univie.rscm.application.global.GlobalSettingsAndVariables" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/global/GlobalSettingsAndVariables.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="339" y="1120"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="12" language="java" name="at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/global/GlobalSettingsAndVariablesInterface.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1010" y="1107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <package id="13" language="java" name="at.ac.univie.rscm.application.global.data" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/global/data" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="244" width="684" x="1288" y="519"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="14" language="java" name="at.ac.univie.rscm.application.global.data.ShellComand" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/global/data/ShellComand.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1440" y="658"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <package id="15" language="java" name="at.ac.univie.rscm.model" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1313" width="1008" x="2008" y="27"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="16" language="java" name="at.ac.univie.rscm.model.Role" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model/Role.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2424" y="173"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="at.ac.univie.rscm.model.RSCMClientConnection" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model/RSCMClientConnection.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2156" y="1011"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="at.ac.univie.rscm.model.RSCMClient" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model/RSCMClient.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2169" y="406"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="at.ac.univie.rscm.model.Applicant" project="RSCMServer" 
     file="/RSCMServer/src/main/java/at/ac/univie/rscm/model/Applicant.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="351" width="195" x="5899" y="786"/>    
+    <position height="-1" width="-1" x="2455" y="1027"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="27" language="java" name="at.ac.univie.rscm.spring.api.RscmServerApplication" project="RSCMServer" 
+  <package id="20" language="java" name="at.ac.univie.rscm.spring.api" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="216" width="690" x="1284" y="37"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="21" language="java" name="at.ac.univie.rscm.spring.api.ServletInitializer" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/ServletInitializer.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1500" y="152"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="at.ac.univie.rscm.spring.api.RscmServerApplication" project="RSCMServer" 
     file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/RscmServerApplication.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="99" width="158" x="3857" y="143"/>    
+    <position height="-1" width="-1" x="1809" y="146"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <package id="23" language="java" name="at.ac.univie.rscm.spring.api.configuration" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/configuration" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="237" width="687" x="1287" y="272"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="24" language="java" name="at.ac.univie.rscm.spring.api.configuration.SecurityConfiguration" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/configuration/SecurityConfiguration.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1476" y="410"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <package id="25" language="java" name="at.ac.univie.rscm.spring.api.controller" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="676" width="1191" x="781" y="1491"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="26" language="java" name="at.ac.univie.rscm.spring.api.controller.JSPSupporterBean" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/JSPSupporterBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="980" y="1604"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="at.ac.univie.rscm.spring.api.controller.ApplicantController" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/ApplicantController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1325" y="1876"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -248,216 +242,500 @@
     project="RSCMServer" 
     file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/AdministratorController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="117" width="216" x="5307" y="143"/>    
+    <position height="-1" width="-1" x="1535" y="2007"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="29" language="java" name="at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptHelper" 
+  <class id="29" language="java" name="at.ac.univie.rscm.spring.api.controller.ApplicationController" 
     project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/filemanagement/ClientInstallationScriptHelper.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="603" width="221" x="4573" y="143"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="30" language="java" name="at.ac.univie.rscm.application.connection.PortScanner" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection/PortScanner.java" binary="false" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/ApplicationController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="315" width="196" x="6207" y="786"/>    
+    <position height="-1" width="-1" x="1579" y="1609"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <package id="31" language="java" name="at.ac.univie.rscm.spring.api" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="180" x="4055" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  <package id="30" language="java" name="at.ac.univie.rscm.spring.api.repository" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="365" width="837" x="104" y="2178"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <interface id="32" language="java" name="at.ac.univie.rscm.spring.api.repository.RSCMClientRepository" 
+  <interface id="31" language="java" name="at.ac.univie.rscm.spring.api.repository.ApplicantRepository" 
     project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository/RSCMClientRepository.java" binary="false" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository/ApplicantRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="81" width="198" x="4406" y="1177"/>    
+    <position height="-1" width="-1" x="270" y="2314"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="33" language="java" name="at.ac.univie.rscm.application.connection.SSHConnectionManager" 
+  <interface id="32" language="java" name="at.ac.univie.rscm.spring.api.repository.RSCMClientRepository" 
     project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection/SSHConnectionManager.java" binary="false" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository/RSCMClientRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="99" width="178" x="6235" y="143"/>    
+    <position height="-1" width="-1" x="546" y="2399"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="33" language="java" name="at.ac.univie.rscm.spring.api.repository.RoleRepository" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository/RoleRepository.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="794" y="2484"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <package id="34" language="java" name="at.ac.univie.rscm.spring.api.service" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1140" width="375" x="2607" y="1395"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="35" language="java" name="at.ac.univie.rscm.spring.api.service.CustomApplicantDetails" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service/CustomApplicantDetails.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2792" y="1664"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <package id="34" language="java" name="at.ac.univie.rscm.spring.api.configuration" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/configuration" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="258" x="4275" y="143"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
-  </package>  
-  <class id="35" language="java" name="at.ac.univie.rscm.spring.api.controller.RSARegisterController" 
+  <class id="36" language="java" name="at.ac.univie.rscm.spring.api.service.CustomApplicantDetailsService" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service/CustomApplicantDetailsService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2788" y="2450"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="at.ac.univie.rscm.spring.api.controller.AjaxRemoteShellController" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/AjaxRemoteShellController.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1830" y="1613"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="at.ac.univie.rscm.application.connection.PortScanner" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/application/connection/PortScanner.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="482" y="552"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="at.ac.univie.rscm.spring.api.controller.InstallFileDownloadController" 
+    project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/InstallFileDownloadController.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1195" y="1741"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="at.ac.univie.rscm.spring.api.controller.RSARegisterController" 
     project="RSCMServer" 
     file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/RSARegisterController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="135" width="291" x="4313" y="786"/>    
+    <position height="-1" width="-1" x="1817" y="2072"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="36">    
-    <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="37" name="applicantRepository"/>      
-      <multiplicity id="38" minimum="0" maximum="1"/>    
+  <association id="41">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="42" name="gsav">        
+        <position height="0" width="0" x="-56" y="-95"/>      
+      </attribute>      
+      <multiplicity id="43" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-56" y="-95"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="39">    
-    <end type="SOURCE" refId="28" navigable="false">      
-      <attribute id="40" name="applicantRepository"/>      
-      <multiplicity id="41" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="42">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="43" name="rcsmClientRepository"/>      
-      <multiplicity id="44" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="32" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="45">    
-    <end type="SOURCE" refId="30"/>    
-    <end type="TARGET" refId="19"/>  
-  </realization>  
-  <association id="46">    
+  <association id="44">    
     <end type="SOURCE" refId="26" navigable="false">      
-      <attribute id="47" name="roles"/>      
-      <multiplicity id="48" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="13" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="49">    
-    <end type="SOURCE" refId="35" navigable="false">      
-      <attribute id="50" name="rcrClientRepository"/>      
-      <multiplicity id="51" minimum="0" maximum="1"/>    
+      <attribute id="45" name="rcr">        
+        <position height="0" width="0" x="-87" y="-120"/>      
+      </attribute>      
+      <multiplicity id="46" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-87" y="-120"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="32" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="52">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
-  <realization id="53">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="15"/>  
-  </realization>  
-  <association id="54">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="55" name="rcrClientRepository"/>      
-      <multiplicity id="56" minimum="0" maximum="1"/>    
+  <association id="47">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="48" name="connectionLog">        
+        <position height="0" width="0" x="-193" y="2"/>      
+      </attribute>      
+      <multiplicity id="49" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-193" y="2"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="32" navigable="true"/>    
+    <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="57">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="58" name="activeClientInstallations"/>      
-      <multiplicity id="59" minimum="0" maximum="2147483647"/>    
+  <association id="50">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="51" name="gsav"/>      
+      <multiplicity id="52" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="29" navigable="true"/>    
+    <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="60">    
-    <end type="SOURCE" refId="29" navigable="false">      
-      <attribute id="61" name="gsav"/>      
-      <multiplicity id="62" minimum="0" maximum="1"/>    
+  <association id="53">    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="54" name="cisb"/>      
+      <multiplicity id="55" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="63">    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="64" name="rcr"/>      
-      <multiplicity id="65" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="32" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="66">    
+  <association id="56">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="67" name="applicantRepository"/>      
-      <multiplicity id="68" minimum="0" maximum="1"/>    
+      <attribute id="57" name="cism">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="58" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="69">    
-    <bendpoint x="5572" y="786"/>    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="70" name="rSCMClientRepository"/>      
-      <multiplicity id="71" minimum="0" maximum="1"/>    
+  <association id="59">    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="60" name="applicant">        
+        <position height="0" width="0" x="-384" y="-3"/>      
+      </attribute>      
+      <multiplicity id="61" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-384" y="-3"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="62">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="63" name="sshConnectionManager">        
+        <position height="0" width="0" x="-30" y="-16"/>      
+      </attribute>      
+      <multiplicity id="64" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-30" y="-16"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="65">    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="66" name="cisb"/>      
+      <multiplicity id="67" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="68">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="69" name="sshConnectionManager"/>      
+      <multiplicity id="70" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="71">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="72" name="applicantRepository">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </attribute>      
+      <multiplicity id="73" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="74">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="75" name="gsav">        
+        <position height="0" width="0" x="-61" y="51"/>      
+      </attribute>      
+      <multiplicity id="76" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-61" y="51"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="77">    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="78" name="applicantRepository">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </attribute>      
+      <multiplicity id="79" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="80">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="81" name="roles">        
+        <position height="0" width="0" x="-243" y="-54"/>      
+      </attribute>      
+      <multiplicity id="82" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-243" y="-54"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="83">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <association id="84">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="85" name="activeClientList">        
+        <position height="0" width="0" x="73" y="31"/>      
+      </attribute>      
+      <multiplicity id="86" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="73" y="31"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="87">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="88" name="gsav">        
+        <position height="0" width="0" x="-61" y="51"/>      
+      </attribute>      
+      <multiplicity id="89" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-61" y="51"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="90">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="91" name="ar">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </attribute>      
+      <multiplicity id="92" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="93">    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="94" name="rcrClientRepository"/>      
+      <multiplicity id="95" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="32" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="72">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="73" name="gsav"/>      
-      <multiplicity id="74" minimum="0" maximum="1"/>    
+  <association id="96">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="97" name="gsav">        
+        <position height="0" width="0" x="-61" y="51"/>      
+      </attribute>      
+      <multiplicity id="98" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-61" y="51"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="75">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="76" name="applicant"/>      
-      <multiplicity id="77" minimum="0" maximum="1"/>    
+  <association id="99">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="100" name="ps">        
+        <position height="0" width="0" x="-36" y="40"/>      
+      </attribute>      
+      <multiplicity id="101" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="40"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="26" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="78">    
-    <end type="SOURCE" refId="33" navigable="false">      
-      <attribute id="79" name="ps"/>      
-      <multiplicity id="80" minimum="0" maximum="1"/>    
+  <association id="102">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="103" name="rcrClientRepository">        
+        <position height="0" width="0" x="-87" y="-120"/>      
+      </attribute>      
+      <multiplicity id="104" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-87" y="-120"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="30" navigable="true"/>    
+    <end type="TARGET" refId="32" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="81">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="82" name="cism"/>      
-      <multiplicity id="83" minimum="0" maximum="1"/>    
+  <association id="105">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="106" name="rSCMClientRepository">        
+        <position height="0" width="0" x="-87" y="-120"/>      
+      </attribute>      
+      <multiplicity id="107" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-87" y="-120"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="25" navigable="true"/>    
+    <end type="TARGET" refId="32" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="84">    
-    <end type="SOURCE" refId="29" navigable="false">      
-      <attribute id="85" name="cism"/>      
-      <multiplicity id="86" minimum="0" maximum="1"/>    
+  <association id="108">    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="109" name="gsav"/>      
+      <multiplicity id="110" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="25" navigable="true"/>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="111">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="112" name="applicantRepository">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </attribute>      
+      <multiplicity id="113" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="114">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="115" name="roleRepository">        
+        <position height="0" width="0" x="-99" y="-17"/>      
+      </attribute>      
+      <multiplicity id="116" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-99" y="-17"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="117">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="118" name="rscmClient">        
+        <position height="0" width="0" x="-215" y="-40"/>      
+      </attribute>      
+      <multiplicity id="119" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-215" y="-40"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="120">    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="121" name="rcsmClientRepository"/>      
+      <multiplicity id="122" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="123">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <realization id="124">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </realization>  
+  <association id="125">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="126" name="applicantRepository">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </attribute>      
+      <multiplicity id="127" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-82" y="-196"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="128">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="129" name="rr">        
+        <position height="0" width="0" x="-99" y="-17"/>      
+      </attribute>      
+      <multiplicity id="130" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-99" y="-17"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="131">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="4"/>  
+  </realization>  
+  <association id="132">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="133" name="portScanner">        
+        <position height="0" width="0" x="-36" y="40"/>      
+      </attribute>      
+      <multiplicity id="134" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="40"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="135">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="136" name="activeClientInstallations">        
+        <position height="0" width="0" x="66" y="-33"/>      
+      </attribute>      
+      <multiplicity id="137" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="66" y="-33"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="138">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="139" name="cism">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="140" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Date;
 import java.util.Random;
 
@@ -87,8 +88,8 @@ public class ClientInstallationScriptHelper extends Thread {
 		return returnString;
 	}
 
-	public File getFile() {
-		scriptFile = getInstallPS1Script();
+	public File getFile(boolean isExtern) {
+		scriptFile = getInstallPS1Script(isExtern);
 		exeFile = createExeFromScript(scriptFile);
 		return exeFile;
 	}
@@ -127,7 +128,7 @@ public class ClientInstallationScriptHelper extends Thread {
 		return new File(scriptFile.getAbsolutePath().substring(0, scriptFile.getAbsolutePath().length()-3) + "exe");
 	}
 
-	private File getInstallPS1Script() {
+	private File getInstallPS1Script(boolean isExtern) {
 		// Server specific escapes
 		final String SERVER_IP_ESCAPE = "<escape>serverIP</escape>";
 		final String SERVER_RSAFINGERPRINT_ESCAPE = "<escape>ServerFingerPrint</escape>";
@@ -148,9 +149,16 @@ public class ClientInstallationScriptHelper extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String tempScriptBuilding = basicScriptContent.replace(SERVER_IP_ESCAPE, gsav.getServer_ip_value());
-		tempScriptBuilding = tempScriptBuilding.replace(SERVER_RSAFINGERPRINT_ESCAPE, gsav.getServer_ip_value());
-		tempScriptBuilding = tempScriptBuilding.replace(SERVER_PUBLICKEY_ESCAPE, gsav.getServer_ip_value());
+		String tempScriptBuilding;
+		if(isExtern) {
+			tempScriptBuilding = basicScriptContent.replace(SERVER_IP_ESCAPE, gsav.getServer_extern_ip_value());
+		}else {
+			tempScriptBuilding = basicScriptContent.replace(SERVER_IP_ESCAPE, gsav.getServer_intern_ip_value());
+		}
+		
+		
+		tempScriptBuilding = tempScriptBuilding.replace(SERVER_RSAFINGERPRINT_ESCAPE, gsav.getServer_rsafingerprint_value());
+		tempScriptBuilding = tempScriptBuilding.replace(SERVER_PUBLICKEY_ESCAPE, gsav.getServer_publickey_value());
 
 		tempScriptBuilding = tempScriptBuilding.replace(RSCM_PASSWORD_ESCAPE,
 				rscm_password_value = generateRandomString(16));
@@ -161,21 +169,15 @@ public class ClientInstallationScriptHelper extends Thread {
 		tempScriptBuilding = tempScriptBuilding.replace(CLIENT_APPKEY_ESCAPE, client_appkey_value);
 		tempScriptBuilding = tempScriptBuilding.replace(CLIENT_SPECIFICPORT_ESCAPE, (client_specificport_value=cism.getPortNumber()) + "");
 
+		//System.out.println(tempScriptBuilding);
+		
 		return createFile(tempScriptBuilding, "ClientInstall_" + client_appkey_value, "ps1",
 				getApplicationPath() + "/src/main/webapp/WEB-INF/files/tempFiles/");
 	}
 
-	private File writeStringToFile(String content, String path) throws IOException {
-		File file = new File("out.txt");
-		FileOutputStream fos = new FileOutputStream(file);
-
-		OutputStreamWriter osw = new OutputStreamWriter(fos);
-
-		osw.write(content);
-		osw.close();
-		return file;
-
-	}
+	
+	
+	
 
 	private String getFileContent(String path) throws IOException {
 		InputStream is = new FileInputStream(path);

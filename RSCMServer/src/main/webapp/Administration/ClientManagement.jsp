@@ -36,8 +36,8 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="../style.css">
-<script type="text/javascript" src="../w3ContentLoader.js"></script>
+<link rel="stylesheet" type="text/css" href="../WebressourcenImport/style.css">
+<script type="text/javascript" src="../WebressourcenImport/w3ContentLoader.js"></script>
 
 </head>
 
@@ -45,12 +45,12 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
-			<div w3-include-html="../NavBarAdministrator.html"></div>
+			<div w3-include-html="../WebressourcenImport/NavBarAdministrator.html"></div>
 			
 		</div>
 	</div>
 
-	<div w3-include-html="../header.html"></div>
+	<div w3-include-html="../WebressourcenImport/header.html"></div>
 
 	<!-- Page content -->
 	<div class="w3-content content">
@@ -187,7 +187,7 @@
 
 	<!-- Footer -->
 	<footer class="w3-center w3-content content w3-padding-16">
-		<div w3-include-html="../footer.html"></div>
+		<div w3-include-html="../WebressourcenImport/footer.html"></div>
 		<script>
 			includeHTML();
 		</script>

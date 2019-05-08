@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
 
@@ -51,7 +52,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	}
 	
 	
-	 
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver multipartResolver() {
+	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+	    multipartResolver.setMaxUploadSize(100000);
+	    return multipartResolver;
+	} 
 	 
 	@Bean
 	public PasswordEncoder encodePassword() {

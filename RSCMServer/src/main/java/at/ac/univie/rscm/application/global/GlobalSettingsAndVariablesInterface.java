@@ -1,5 +1,8 @@
 package at.ac.univie.rscm.application.global;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import at.ac.univie.rscm.application.connection.PortScanner;
 import at.ac.univie.rscm.application.connection.PortScannerInterface;
 import at.ac.univie.rscm.model.RSCMClientConnection;
@@ -17,8 +20,16 @@ public interface GlobalSettingsAndVariablesInterface {
 	
 	public int getPortNumber();
 
-	public CharSequence getServer_ip_value();
-
+	public CharSequence getServer_intern_ip_value();
+	public CharSequence getServer_extern_ip_value();
+	public String getServer_rsafingerprint_value();
+	public String getServer_publickey_value();
+	
+	public void addDownload(String key, String value);
+	public Map<String,String> getProvidedDownloads();
+	public String getFileDownloadDirectory();
+	public String getPathToAuthorized_keys();
+	
 	public void setRSCMClientRepository(RSCMClientRepository rcrClientRepository);
 
 	public RSCMClientRepository getRSCMClientRepository();

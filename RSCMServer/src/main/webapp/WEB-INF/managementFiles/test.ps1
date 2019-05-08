@@ -1,5 +1,5 @@
 #Create new User that can be managed remotely
-$password =  ConvertTo-SecureString '2o5AEG735oy74OEk' -asplaintext -force
+$password =  ConvertTo-SecureString 'BoDo7AJLb!AxkltW' -asplaintext -force
 New-LocalUser 'rscm' -Password $password
 
 #Make user Administrator
@@ -37,27 +37,27 @@ $wshell.Run("ssh rscm@localhost")
 Start-Sleep -m 1000
 $wshell.SendKeys("yes{ENTER}")
 Start-Sleep -m 1000
-$wshell.SendKeys("2o5AEG735oy74OEk{ENTER}")
+$wshell.SendKeys("BoDo7AJLb!AxkltW{ENTER}")
 Start-Sleep -m 1000
 $wshell.SendKeys("mkdir C:\Users\rscm\.ssh{ENTER}")
 Start-Sleep -m 1000
-$wshell.SendKeys("ssh-keygen.exe -f C:\Users\rscm\.ssh\id_rsa -N 'yGvZyS5yLZcQACH4'{ENTER}")
+$wshell.SendKeys("ssh-keygen.exe -f C:\Users\rscm\.ssh\id_rsa -N '9OHjYp0X64ZGLOSk'{ENTER}")
 Start-Sleep -m 1000
 $wshell.SendKeys("exit{ENTER}")
 
 #create own keys
-ssh-keygen.exe -f $HOME\.ssh\id_rsa -N 'Rx5in2fbES!6nGro'
+ssh-keygen.exe -f $HOME\.ssh\id_rsa -N '57ye04tUKbaC9n5n'
 
 $wshell2 = New-Object -ComObject Wscript.Shell
 $wshell2.Run("ssh-add.exe $HOME\.ssh\id_rsa")
 Start-Sleep -m 1000
-$wshell2.SendKeys("Rx5in2fbES!6nGro{ENTER}")
+$wshell2.SendKeys("57ye04tUKbaC9n5n{ENTER}")
 
 
 #add keys
 $pubKeyRSCMUser = [IO.File]::ReadAllText("C:\Users\rscm\.ssh\id_rsa.pub")
 $pubKeyLocalUser = [IO.File]::ReadAllText("$HOME\.ssh\id_rsa.pub")
-$pubKeyServer = '192.168.178.16'
+$pubKeyServer = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+Wz5RK3pjdP6nuu3W80YfvAAhUBKxOfOj3GWjd4gN21t98A8c548HYhlnStLE5GZxN1uqsLSg5bPkDSqwLBYZ1e/DZxCWTtaK+Ef9hzxhRV4EPX82k4QHI3HHccqpUA3f5/gpkmcrrLxeDohpUPwWBLwQroyD43ZpCfRzU2C5F2FzA1KX4DLRJAv5GwiCNIuGWv8rBH7o7BBp5Mj+/8OtfUDPshaA2Bcte45FwI05ak8sTJfoJq80QWgoAJPQjgRMB0U3OG1KJX5pkpBYPjUfcDholBDroohqdmvMjqXt15FocIEp3EnYsBCOSKcRGTMmXErwGvMvk/inXabI4rsL rscmserver@DESKTOP-QH02IEJ'
 Add-Content C:\Users\rscm\.ssh\authorized_keys $pubKeyLocalUser
 Add-Content C:\Users\rscm\.ssh\authorized_keys $pubKeyRSCMUser
 Add-Content C:\Users\rscm\.ssh\authorized_keys $pubKeyServer
@@ -93,18 +93,18 @@ For ($i=1; $i -le $sids.Length-2; $i++) {
 
 #send public keygen
 $content = [IO.File]::ReadAllText("$HOME\.ssh\id_rsa.pub")
-$params = @{"applikationKey"="55tQk4deL14knW3RYCvlhDs8dysXy08J";
+$params = @{"applikationKey"="a!SZAEpNYm7EzcCpiO9IG!ksXqF3nubK";
     "clientRSAPublicKey"= $content;
 }
-$response = Invoke-WebRequest -Uri "http://192.168.178.16:8080/ClientAuthentication/SendPublicKey" -Method Post -Body ($params|ConvertTo-Json) -ContentType "application/json"
+$response = Invoke-WebRequest -Uri "https://192.168.178.16:8433/ClientAuthentication/SendPublicKey" -Method Post -Body ($params|ConvertTo-Json) -ContentType "application/json"
 
 #test connect
-Add-Content $Home\.ssh\known_hosts "192.168.178.16 192.168.178.16"
+Add-Content $Home\.ssh\known_hosts "192.168.178.16 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAYu3YwUiKt2/pnh8wiXHHAHLhGB8xhrsKSE1vwpoTO89LYFh9Pf1MGGdoDhLzKLTlJRKVmu6bq5ZNCzQmKfHdM="
 
 #create bat connect script
 mkdir $HOME\rscm
 Add-Content $HOME\rscm\rscmServerConnect.vbs 'Set objShell = WScript.CreateObject("WScript.Shell")'
-Add-Content $HOME\rscm\rscmServerConnect.vbs 'objShell.Run "cmd /c ssh -f -N -T -R22000:localhost:22 rscmserver@192.168.178.16", 0, True'
+Add-Content $HOME\rscm\rscmServerConnect.vbs 'objShell.Run "cmd /c ssh -f -N -T -R22006:localhost:22 rscmserver@192.168.178.16", 0, True'
 #create script helper
 
 
@@ -116,11 +116,3 @@ $WshShell = New-Object -comObject WScript.Shell
 $Shortcut = $WshShell.CreateShortcut($env:USERPROFILE + '\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\rscm.lnk')
 $Shortcut.TargetPath = "$HOME\rscm\rscmServerConnect.vbs"
 $Shortcut.Save()
-
-
-
-
-
-
-
-

@@ -9,7 +9,7 @@ public interface ClientInstallationScriptBuilder {
 		return null;
 	}
 	
-	public File getClientInstallProgram();
+	public File getClientInstallProgram(boolean isExtern);
 
 	public void confirmAppKey(RSCMClient rsaClientKey);
 }
