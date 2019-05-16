@@ -13,7 +13,7 @@ import at.ac.univie.rscm.model.RSCMClient;
 @Component("rscmClientRepositoryBean")
 public interface RSCMClientRepository extends JpaRepository<RSCMClient, Integer>{
 
-	@Query(value = "SELECT max(client_port) FROM rscmdatabase.clientkeys" , nativeQuery = true)
+	@Query(value = "SELECT max(client_port) FROM rscmdatabase.rscmclients" , nativeQuery = true)
 	Collection<Integer> getHighestPort();
 	
 	Optional<RSCMClient> findOptionalByClientPort(int port);

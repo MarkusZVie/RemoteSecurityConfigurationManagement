@@ -17,19 +17,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "roles")
-public class Role {
+@Entity
+@Table(name = "environmentthreats")
+public class Environmentthreat {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int roleId;
-	private String roleName;
-	private String roleDescription;
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Applicant> applicants = new HashSet<>();
+	private int environmentthreatId;
+	private int threatLevel;
+	private String threatTitle;
+	private String threatDescription;
+	private String expectedProblem;
+	@ManyToMany(mappedBy = "environmentthreats" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Environment> environment = new HashSet<>();
 }
-

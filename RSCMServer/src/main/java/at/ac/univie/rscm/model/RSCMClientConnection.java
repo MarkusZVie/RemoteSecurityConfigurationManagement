@@ -18,17 +18,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "client_connectionlog")
+@Table(name = "rscmclient_connections")
 public class RSCMClientConnection {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private int logId;
+		private int connectionId;
 		private Date connectionStart;
 		private Date connectionEnd;
 		private String connectionExitCode;
 		private String connectionDescription;
+		private String connectionSupplement;
 		@ManyToOne
 	    @JoinColumn(name="rscmclient_fs", nullable=false)
 		private RSCMClient rscmClient;
+		@ManyToOne
+	    @JoinColumn(name="environment_fs", nullable=false)
+		private Environment environment;
 
 }

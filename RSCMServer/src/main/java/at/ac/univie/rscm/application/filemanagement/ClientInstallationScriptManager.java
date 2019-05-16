@@ -130,9 +130,17 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 			gsav.setPortEndRange(22000);
 			return 22000;
 		}else {
-			int p = Integer.parseInt(port.iterator().next()+"");
-			gsav.setPortEndRange(++p);
-			return p;
+			String portString = port.iterator().next()+"";
+			if(!portString.equals("null")) {
+				int p = Integer.parseInt(portString);
+				gsav.setPortEndRange(++p);
+				return p;
+			}else {
+				gsav.setPortEndRange(22000);
+				return 22000;
+			}
+			
+			
 		}
 		
 	}

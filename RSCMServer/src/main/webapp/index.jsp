@@ -1,4 +1,4 @@
-<%@page import="at.ac.univie.rscm.model.RSCMClientConnection"%>
+
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.HashMap"%>
@@ -29,29 +29,31 @@
 <html>
 <head>
 
-<title>
-	Remote Security Configuration Management
-	<%
-		String thisPageName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1,
-				request.getRequestURI().lastIndexOf(".jsp"));
-	%>
+<title>Remote Security Configuration Management <%
+	String thisPageName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1,
+			request.getRequestURI().lastIndexOf(".jsp"));
+%>
 </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="WebressourcenImport/style.css">
-<script type="text/javascript" src="WebressourcenImport/w3ContentLoader.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="WebressourcenImport/style.css">
+<script type="text/javascript"
+	src="WebressourcenImport/w3ContentLoader.js"></script>
 </head>
 
 <body>
-	
+
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
-		<a href="Downloads.jsp"	class="w3-bar-item w3-button w3-teal">Downloads</a>
-			
+			<a href="Downloads.jsp" class="w3-bar-item w3-button w3-teal">Downloads</a>
+			<a href="RegisterAccount.jsp" class="w3-bar-item w3-button w3-teal">Register</a>
+			<a href="login" class="w3-bar-item w3-button w3-teal">Login</a>
+
 			<div w3-include-html="WebressourcenImport/NavBarGeneral.html"></div>
 		</div>
 	</div>
@@ -60,24 +62,10 @@
 
 	<!-- Page content -->
 	<div class="w3-content content">
-		<div class="w3-container w3-padding-64" id="maincontent"></div>
+		<div class="w3-container w3-padding-64" id="maincontent">
+			<h1>Welcome to Remote Security Configuration Management Page</h1>
+			<br>
 
-		<!-- Menu Section -->
-		<div class="w3-row" id="menu">
-			<div class="w3-col l6 w3-padding-large">
-				<h2 class="w3-center">
-					ClientInformation
-					</h1>
-					<br>
-					
-				
-			</div>
-			<div class="w3-col l6 w3-padding-large">
-				<h2 class="w3-center">
-					Client Connection History </h2>
-					
-					<br>
-			</div>
 		</div>
 	</div>
 	<!-- Footer -->

@@ -92,8 +92,15 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	public void initPortScanner() {
 		Iterator<Integer> dbPortResult = rSCMClientRepository.getHighestPort().iterator();
 		int highestUsedPortnumber = 0;
+		
 		if(dbPortResult.hasNext()) {
-			highestUsedPortnumber = Integer.parseInt(dbPortResult.next()+"");
+			String portString = dbPortResult.next()+"";
+			if(!portString.equals("null")) {
+				highestUsedPortnumber = Integer.parseInt(portString);
+			}else {
+				highestUsedPortnumber = 22000;
+			}
+			
 		}else {
 			highestUsedPortnumber = 22000;
 		}
@@ -166,7 +173,7 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 		if(dbResult.isPresent()) {
 			RSCMClient rClient = dbResult.get();
 			rscmClientConnection.setRscmClient(rClient);
-			rClient.addConnectionLog(rscmClientConnection);
+			rClient.addRSCMClientConnection(rscmClientConnection);
 			rSCMClientRepository.save(rClient);
 
 		}

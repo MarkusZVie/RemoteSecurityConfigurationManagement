@@ -121,7 +121,7 @@
 						for (Method m : methods) {
 							//check if method is a get method
 							if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
-									&& !m.getName().equals("getClass") && !m.getName().equals("getConnectionLog")) {
+									&& !m.getName().equals("getClass") && !m.getName().equals("getRSCMClientConnections")) {
 								out.println("<h4>" + m.getName().substring(3) + "</h4>");
 								out.println("<p class=\"w3-text-grey\"><div style='width:100%; max-width:500px; overflow:auto'>" + m.invoke(rc, null) + "</div></p>");
 								out.println("<br>");
@@ -142,7 +142,7 @@
 					Client Connection History </h2>
 					<table class='w3-table w3-striped w3-hoverable'>
 						<%
-							List<RSCMClientConnection> connectionList = rc.getConnectionLog();
+							List<RSCMClientConnection> connectionList = rc.getRSCMClientConnections();
 							boolean firstRow = true;
 							Method[] methods2 = RSCMClientConnection.class.getMethods();
 							

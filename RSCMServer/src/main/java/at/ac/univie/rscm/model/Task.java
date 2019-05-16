@@ -1,5 +1,6 @@
 package at.ac.univie.rscm.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,19 +18,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "roles")
-public class Role {
+@Entity
+@Table(name = "tasks")
+public class Task {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int roleId;
-	private String roleName;
-	private String roleDescription;
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private int taskId;
+	private String taskName;
+	private Date taskCreationdate;
+	private Date taskPlanBegindate;
+	private Date taskPlanEnddate;
+	private Date taskActualBegindate;
+	private Date taskActualEnddate;
+	private String taskDescription;
+	private String taskOutcome;
+	@ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Applicant> applicants = new HashSet<>();
-}
 
+}

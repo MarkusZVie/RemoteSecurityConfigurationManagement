@@ -74,10 +74,10 @@
 						if (!(sortFielName.equals("") || sortDirection.equals(""))) {
 							rcList = rcr.findAll(new Sort(Sort.Direction.fromString(sortDirection), sortFielName));
 						} else {
-							rcList = rcr.findAll(new Sort(Sort.Direction.ASC, "KeyID"));
+							rcList = rcr.findAll(new Sort(Sort.Direction.ASC, "RscmclientId"));
 						}
 					} else {
-						rcList = rcr.findAll(new Sort(Sort.Direction.ASC, "KeyID"));
+						rcList = rcr.findAll(new Sort(Sort.Direction.ASC, "RscmclientId"));
 					}
 					
 					//create list of methots (get)
@@ -141,14 +141,14 @@
 							out.println("</tr>");
 						}
 						
-						out.println("<tr onclick=\"window.location='ClientDetail.jsp?clientId="+rc.getKeyID()+"'\">");
+						out.println("<tr onclick=\"window.location='ClientDetail.jsp?clientId="+rc.getRscmclientId()+"'\">");
 						//print content of db select
 						
 						for (Method m : methods) {
 							if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
 									&& !m.getName().equals("getClass")) {
-								if(m.getName().equals("getConnectionLog")){
-									out.println("<td>" + rc.getConnectionLog().size() + "</td>");
+								if(m.getName().equals("getRSCMClientConnections")){
+									out.println("<td>" + rc.getRSCMClientConnections().size() + "</td>");
 								}else{
 									if(m.getName().equals("getIsActive")){
 										if(rc.getIsActive()){
