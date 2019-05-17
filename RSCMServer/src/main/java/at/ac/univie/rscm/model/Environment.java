@@ -15,6 +15,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +39,7 @@ public class Environment {
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="hasEnvironmentEnvironmentthreat", joinColumns=@JoinColumn(name="environmentId"), inverseJoinColumns=@JoinColumn(name="environmentthreatId"))
 	private Set<Environmentthreat> environmentthreats;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="environment",cascade=CascadeType.ALL, orphanRemoval = true)
+	@LazyCollection(LazyCollectionOption.TRUE)
+	@OneToMany(mappedBy="environment",cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<RSCMClientConnection> rSCMClientConnections;
 }

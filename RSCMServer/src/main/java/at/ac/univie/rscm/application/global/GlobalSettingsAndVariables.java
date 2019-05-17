@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -65,8 +66,18 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	@Getter
 	@Setter
 	private String fileDownloadDirectory;
+	@Getter
+	@Setter
+	private SimpleDateFormat dateTime;
+	@Getter
+	@Setter
+	private SimpleDateFormat date;
 	
 	private GlobalSettingsAndVariables() {
+		
+		dateTime = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		date = new SimpleDateFormat("dd-MM-yyyy");
+		
 		try {
 			fileDownloadDirectory = new File(".").getCanonicalPath() + "\\src\\main\\webapp\\WEB-INF\\managementFiles";
 		} catch (IOException e) {
@@ -85,6 +96,7 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	public void addDownload(String key, String value) {
 		providedDownloads.put(key, value);
 	}
+	
 	
 	
 	

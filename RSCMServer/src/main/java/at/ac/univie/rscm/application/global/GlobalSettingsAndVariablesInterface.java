@@ -1,5 +1,6 @@
 package at.ac.univie.rscm.application.global;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -48,5 +49,8 @@ public interface GlobalSettingsAndVariablesInterface {
 	public void initPortScanner();
 
 	public void addConnectionLog(RSCMClientConnection rscmClientConnection);
+	
+	public SimpleDateFormat getDateTime();
+	public SimpleDateFormat getDate();
 	
 }

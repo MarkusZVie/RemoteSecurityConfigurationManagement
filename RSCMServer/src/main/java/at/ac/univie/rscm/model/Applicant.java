@@ -49,7 +49,7 @@ public class Applicant {
 	private Set<Job> jobs;
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="hasApplicantRscmclient", joinColumns=@JoinColumn(name="applicantId"), inverseJoinColumns=@JoinColumn(name="rscmclientId"))
-	private Set<Job> rscmclients;
+	private Set<RSCMClient> rscmclients;
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="hasApplicantTask", joinColumns=@JoinColumn(name="applicantId"), inverseJoinColumns=@JoinColumn(name="taskId"))
 	private Set<Task> tasks; 

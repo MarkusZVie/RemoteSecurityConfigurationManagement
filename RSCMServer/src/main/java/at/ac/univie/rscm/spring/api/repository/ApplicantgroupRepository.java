@@ -16,4 +16,6 @@ public interface ApplicantgroupRepository extends JpaRepository<Applicantgroup, 
 
 	@Query(value = "SELECT * FROM rscmdatabase.applicantgroups WHERE applicantgroup_name LIKE %:substring%" , nativeQuery = true)
 	List<Applicantgroup> findByContainsInName(@Param("substring") String substring);
+	
+	
 }
