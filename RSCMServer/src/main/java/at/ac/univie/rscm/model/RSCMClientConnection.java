@@ -1,5 +1,6 @@
 package at.ac.univie.rscm.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -34,5 +35,38 @@ public class RSCMClientConnection {
 		@ManyToOne
 	    @JoinColumn(name="environment_fs", nullable=false)
 		private Environment environment;
+		
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			sb.append("Class: " + this.getClass().getName() + "<br/>");
+			sb.append("connectionId: " + connectionId + "<br/>");
+			if(connectionStart!=null) {
+				sb.append("connectionStart: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(connectionStart) + "<br/>");
+			}else {
+				sb.append("connectionStart: null<br/>");
+			}
+			if(connectionEnd!=null) {
+				sb.append("connectionEnd: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(connectionEnd) + "<br/>");
+			}else {
+				sb.append("connectionEnd: null<br/>");
+			}
+			sb.append("connectionExitCode: " + connectionExitCode + "<br/>");
+			sb.append("connectionDescription: " + connectionDescription + "<br/>");
+			sb.append("connectionSupplement: " + connectionSupplement + "<br/>");
+			if(rscmClient!=null) {
+				sb.append("rscmClient: " + rscmClient.getRscmclientId() + "<br/>");
+			}else {
+				sb.append("rscmClient: null<br/>");
+			}
+			if(environment!=null) {
+				sb.append("environment: " + environment.getIpRangeBegin() + "<br/>");
+			}else {
+				sb.append("environment: null<br/>");
+			}
+			
+			return sb.toString();
+		}
+		
 
 }

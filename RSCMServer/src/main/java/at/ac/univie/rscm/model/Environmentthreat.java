@@ -33,4 +33,23 @@ public class Environmentthreat {
 	private String expectedProblem;
 	@ManyToMany(mappedBy = "environmentthreats" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Environment> environment = new HashSet<>();
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("environmentthreatId: " + environmentthreatId + "<br/>");
+		sb.append("threatLevel: " + threatLevel + "<br/>");
+		sb.append("threatTitle: " + threatTitle + "<br/>");
+		sb.append("threatDescription: " + threatDescription + "<br/>");
+		sb.append("expectedProblem: " + expectedProblem + "<br/>");
+		if(environment!=null) {
+			sb.append("environment number: " + environment.size() + "<br/>");
+		}else {
+			sb.append("environment: null<br/>");
+		}
+		
+		return sb.toString();
+	}
+	
 }

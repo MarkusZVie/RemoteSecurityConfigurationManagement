@@ -1,6 +1,7 @@
 package at.ac.univie.rscm.model;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -64,19 +65,43 @@ public class RSCMClient {
 	
 	@Override
 	public String toString() {
-		String s = "";
-		s =s+ "KeyID: " + rscmclientId + "<BR>";
-		s =s+ "APKey: " + applikationKey + "<BR>";
-		s =s+ "RSKey: " + clientRSAPublicKey + "<BR>";
-		s =s+ "Date : " + createdOn + "<BR>";
-		s =s+ "KDate : " + keyCreationDate + "<BR>";
-		s =s+ "rPassw : " + rscmPassword + "<BR>";
-		s =s+ "rkeypa" + rscmKeypass + "<BR>";
-		s =s+ "ckpass : " + clientKeypass + "<BR>";
-		s =s+ "cPort : " + clientPort + "<BR>";
-		s =s+ "---------------------<BR>";
-		return s;
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("rscmclientId: " + rscmclientId + "<br/>");
+		sb.append("applikationKey: " + applikationKey + "<br/>");
+		sb.append("clientRSAPublicKey: " + clientRSAPublicKey + "<br/>");
+		if(createdOn!=null) {
+			sb.append("createdOn: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(createdOn) + "<br/>");
+		}else {
+			sb.append("createdOn: null<br/>");
+		}
+		if(keyCreationDate!=null) {
+			sb.append("keyCreationDate: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(keyCreationDate) + "<br/>");
+		}else {
+			sb.append("keyCreationDate: null<br/>");
+		}
+		sb.append("rscmKeypass: " + rscmKeypass + "<br/>");
+		sb.append("clientKeypass: " + clientKeypass + "<br/>");
+		sb.append("clientPort: " + clientPort + "<br/>");
+		if(rSCMClientConnections!=null) {
+			sb.append("rSCMClientConnections number: " + rSCMClientConnections.size() + "<br/>");
+		}else {
+			sb.append("rSCMClientConnections: null<br/>");
+		}
+		if(applicants!=null) {
+			if(applicants.iterator().hasNext()) {
+				sb.append("applicant: " + applicants.iterator().next().getApplicantName() + "<br/>");
+			}else {
+				sb.append("applicant: <br/>");
+			}
+		}else {
+			sb.append("applicants: null<br/>");
+		}
+		
+		
+		return sb.toString();
 	}
+	
 	
 }
 

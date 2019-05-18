@@ -1,5 +1,6 @@
 package at.ac.univie.rscm.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,4 +40,47 @@ public class Task {
 	@ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Applicant> applicants = new HashSet<>();
 
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("taskId: " + taskId + "<br/>");
+		sb.append("taskName: " + taskName + "<br/>");
+		if(taskCreationdate!=null) {
+			sb.append("taskCreationdate: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(taskCreationdate) + "<br/>");
+		}else {
+			sb.append("taskCreationdate: null<br/>");
+		}
+		if(taskPlanBegindate!=null) {
+			sb.append("taskPlanBegindate: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(taskPlanBegindate) + "<br/>");
+		}else {
+			sb.append("taskPlanBegindate: null<br/>");
+		}
+		if(taskPlanEnddate!=null) {
+			sb.append("taskPlanEnddate: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(taskPlanEnddate) + "<br/>");
+		}else {
+			sb.append("taskPlanEnddate: null<br/>");
+		}
+		if(taskActualBegindate!=null) {
+			sb.append("taskActualBegindate: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(taskActualBegindate) + "<br/>");
+		}else {
+			sb.append("taskActualBegindate: null<br/>");
+		}
+		if(taskActualEnddate!=null) {
+			sb.append("taskActualEnddate: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(taskActualEnddate) + "<br/>");
+		}else {
+			sb.append("taskActualEnddate: null<br/>");
+		}
+		sb.append("taskDescription: " + taskDescription + "<br/>");
+		sb.append("taskOutcome: " + taskOutcome + "<br/>");
+		if(applicants!=null) {
+			sb.append("applicants: " +applicants.size() + "<br/>");
+		}else {
+			sb.append("applicants: null<br/>");
+		}
+		
+		return sb.toString();
+	}
+	
 }

@@ -1,6 +1,10 @@
 package at.ac.univie.rscm.model;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -144,6 +148,47 @@ public class Scriptexecution {
 		return role.getRoleId();
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("scriptexecutionId: " + scriptexecutionId + "<br/>");
+		if(scriptexecutionAssigneddate!=null) {
+			sb.append("scriptexecutionAssigneddate: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(scriptexecutionAssigneddate) + "<br/>");
+		}else {
+			sb.append("scriptexecutionAssigneddate: null<br/>");
+		}
+		if(scriptexecutionExecutiondate!=null) {
+			sb.append("scriptexecutionExecutiondate: " + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(scriptexecutionExecutiondate) + "<br/>");
+		}else {
+			sb.append("scriptexecutionExecutiondate: null<br/>");
+		}
+		sb.append("scriptName: " + scriptName + "<br/>");
+		sb.append("assignment: [" + getAssignment() + "]<br/>");
+		
+		return sb.toString();
+	}
+	
+	private String getAssignment() {
+		try {
+			StringBuilder sb = new StringBuilder();
+			Method[] methods = this.getClass().getMethods();
+			
+			for (Method m : methods) {
+				if(m.getName().contains("_fs") && m.getName().contains("get")) {
+					Integer i;
+					i = (Integer) m.invoke(this, null);
+					if(i != null) {
+						String cleanedMethodName = m.getName().substring(3, m.getName().length()-3);
+						sb.append(cleanedMethodName + ",");
+					}
+				}
+			}
+			return sb.toString().substring(0, sb.toString().length()-1);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			return "";
+		}
+	}
 	
 	
 	

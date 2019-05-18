@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -451,6 +452,7 @@ public class ApplicationController {
 		newTask.setTaskName(formVarsMap.get("taskName"));
 		newTask.setTaskDescription(formVarsMap.get("taskDescription"));
 		newTask.setTaskOutcome(formVarsMap.get("taskOutcome"));
+		newTask.setTaskCreationdate(new Date());
 		SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
 		System.out.println(">>"+formVarsMap.get("taskPlanBegindate")+"<<");
@@ -480,7 +482,6 @@ public class ApplicationController {
 		} catch (ParseException e) {
 			return "wrong Taskend Date format";
 		}	
-		
 		taskRepository.save(newTask);
 		return "Task '"+formVarsMap.get("taskName")+"' was saved successfully";
 	}

@@ -1,5 +1,6 @@
 package at.ac.univie.rscm.model;
 
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,20 +55,7 @@ public class Applicant {
 	@JoinTable(name="hasApplicantTask", joinColumns=@JoinColumn(name="applicantId"), inverseJoinColumns=@JoinColumn(name="taskId"))
 	private Set<Task> tasks; 
 	
-	@Override
-	public String toString() {
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("ID    : " + applicantId + "\n");
-		sb.append("Name  : " + applicantName + "\n");
-		sb.append("Email : " + applicantEmail + "\n");
-		sb.append("Passwd: " +applicantPassword + "\n");
-		sb.append("Roles : ");
-		for(Role r : roles) {
-			sb.append("[" + r.getRoleId() +"," + r.getRoleName()+"]");
-		}
-		return sb.toString();
-	}
+
 
 	public void addRole(Role role) {
 		if(roles==null) {
@@ -76,4 +64,54 @@ public class Applicant {
 		roles.add(role);
 		
 	}
+
+
+	@Override
+	public String toString() {
+		int i;
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("applicantId: " +applicantId + "<br/>");
+		sb.append("applicantName: " + applicantName + "<br/>");
+		sb.append("applicantEmail: " + applicantEmail + "<br/>");
+		sb.append("applicantFirstname: " + applicantFirstname + "<br/>");
+		sb.append("applicantLastname: " + applicantLastname + "<br/>");
+		
+		sb.append("applicantgroups: [");
+		i =0;
+		for(Applicantgroup a:applicantgroups) {
+			sb.append(a.getApplicantgroupName());
+			if(++i<applicantgroups.size()) {
+				sb.append(",");
+			}
+				
+		}
+		sb.append("] <br/>");
+		
+		sb.append("jobs: [");
+		i =0;
+		for(Job j:jobs) {
+			sb.append(j.getJobName());
+			if(++i<jobs.size()) {
+				sb.append(",");
+			}
+				
+		}
+		sb.append("] <br/>");
+		
+		sb.append("rscmclients: [");
+		i =0;
+		for(RSCMClient r:rscmclients) {
+			sb.append(r.getRscmclientId() + " " + r.getClientPort() + " " + new SimpleDateFormat("dd-MM-yyyy").format(r.getCreatedOn()));
+			if(++i<rscmclients.size()) {
+				sb.append(",");
+			}
+				
+		}
+		sb.append("] <br/>");
+		
+		sb.append("ammount of tasks: " + tasks.size() + "<br/>");
+		
+		return sb.toString();
+		}
 }

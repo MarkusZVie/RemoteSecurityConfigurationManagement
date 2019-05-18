@@ -79,11 +79,11 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND task_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
 	List<Scriptexecution> getExsistingExecutionPlanBasedOnTask(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND environment_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
-	List<Scriptexecution> getExsistingExecutionPlanBasedOnEnvironment(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND environment_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getExsistingExecutionPlanBasedOnEnvironment(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND environmentthreat_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
-	List<Scriptexecution> getExsistingExecutionPlanBasedOnEnvironmentthreat(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND environmentthreat_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getExsistingExecutionPlanBasedOnEnvironmentthreat(@Param("scriptName") String scriptName,@Param("entityId") int entityId);
 	
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND job_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
 	List<Scriptexecution> getExsistingExecutionPlanBasedOnJob(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
@@ -97,6 +97,28 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND role_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
 	List<Scriptexecution> getExsistingExecutionPlanBasedOnRole(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
 	
+	
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND task_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnTask(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND environment_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnEnvironment(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND environmentthreat_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnEnvironmentthreat(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND job_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnJob(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND applicantgroup_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnApplicantgroup(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND applicant_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnApplicant(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND role_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnRole(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
 	
 	
 }

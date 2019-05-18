@@ -102,7 +102,7 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
-			<script>document.write("<a href='"+returnURL+"' class='w3-bar-item marginRight w3-button w3-teal'>Back to: "+backName+"</a>");</script>
+			<script>document.write("<a href='"+returnURL+"' class='w3-bar-item marginRight w3-button w3-teal'>&#8592; Back to: "+backName+"</a>");</script>
 			
 			<div w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 		</div>
@@ -114,12 +114,45 @@
 
 	<div w3-include-html="../WebressourcenImport/header.html"></div>
 
+	
+	
+
 	<!-- Page content -->
 	<div class="w3-content content " style="padding-top: 70px;">
+	<div class="w3-row" id="menu">
+		<div class="w3-col l6 w3-padding-large" id="leftPageContent">
+			
+		</div>
+		<div class="w3-col l6 w3-padding-large" id="rightPageContent">
+			
+		</div>
+	</div>
 		<div class="w3-container " id="maincontent">
-			asdasd
 			<div id="response"></div>
-				
+			<table class='w3-table w3-striped w3-hoverable table'>
+					<thead >
+					<tr id="headLineContent" style="font-weight:bold" >
+					<td style="border-bottom: 1px solid #000000;">SE Id</td>
+					<td style="border-bottom: 1px solid #000000;">SE Assigneddate</td>
+					<td style="border-bottom: 1px solid #000000;">SE Executiondate</td>
+					<td style="border-bottom: 1px solid #000000;">Assignedby</td>
+					<td style="border-bottom: 1px solid #000000;">A Id</td>
+					<td style="border-bottom: 1px solid #000000;">A Name</td>
+					<td style="border-bottom: 1px solid #000000;">A Firstname</td>
+					<td style="border-bottom: 1px solid #000000;">A Lastname</td>
+					<td style="border-bottom: 1px solid #000000;">A Email</td>
+					<td style="border-bottom: 1px solid #000000;">A createdOn</td>
+					<td style="border-bottom: 1px solid #000000;">Client ID</td>
+					<td style="border-bottom: 1px solid #000000;">C Port</td>
+					
+					
+						
+					</tr>
+					</thead>
+					<tbody  id="clientList">
+					
+					</tbody>
+			</table>	
 		</div>
 	</div>
 
@@ -133,8 +166,65 @@
 			xhr.open("POST", "/ScriptExecution/showExecutionDetails");
 			xhr.onload = function() {
 				console.log(xhr.responseText);
-				var responsArray = JSON.parse(xhr.responseText); //parse Json
-				document.getElementById("response").innerHTML = xhr.responseText;
+				var json = JSON.parse(xhr.responseText); //parse Json
+				var headline = "<h3>"
+				var endHeadline ="</h3>"
+				var beginText = "<p>"
+				var endText = "</p>"
+				var htmlContent ="";
+				htmlContent += headline + "assigned by: (entityDetails)" +  endHeadline;
+				htmlContent += beginText + json['entityDetails'] +  endText;
+				
+				document.getElementById("leftPageContent").innerHTML = htmlContent;
+				htmlContent=""
+				
+				htmlContent += headline + "fileName" +  endHeadline;
+				htmlContent += beginText + json['fileName'] +  endText;
+				
+				htmlContent += headline + "fileCreationDate" +  endHeadline;
+				htmlContent += beginText + json['fileCreationDate'] +  endText;
+				
+				htmlContent += headline + "fileSize" +  endHeadline;
+				htmlContent += beginText + json['fileSize'] + " Byte"+  endText;
+				
+				htmlContent += headline + "executionPercentageNumbers" +  endHeadline;
+				htmlContent += beginText + json['executionPercentageNumbers'] +  endText;
+				
+				htmlContent += headline + "executionPercentage" +  endHeadline;
+				htmlContent += beginText + json['executionPercentage'] +  endText;
+				
+				htmlContent += headline + "executionAssignDate" +  endHeadline;
+				htmlContent += beginText + json['executionAssignDate'] +  endText;
+				
+				document.getElementById("rightPageContent").innerHTML = htmlContent;
+				
+				var tableContent ="";
+				for ( var i in json['ClientArray']) {
+					tableContent +="<tr>";
+					tableContent += "<td>" + json['ClientArray'][i]['scriptexecutionId'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['scriptexecutionAssigneddate'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['scriptexecutionExecutiondate'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['Assignedby'] + "</td>";
+					tableContent += "<td style=\"border-left: 1px solid #000000;\"  >" + json['ClientArray'][i]['applicantId'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['applicantName'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['applicantFirstname'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['applicantLastname'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['applicantEmail'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['createdOn'] + "</td>";
+					tableContent += "<td style=\"border-left: 1px solid #000000;\" >" + json['ClientArray'][i]['rscmclientId'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['clientPort'] + "</td>";
+					
+					
+					
+					
+					
+					
+					
+					
+					tableContent +="</tr>";
+				}
+				document.getElementById("clientList").innerHTML = tableContent;
+				
 			}
 			
 	        var data = new FormData();

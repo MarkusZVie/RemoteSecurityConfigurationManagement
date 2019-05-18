@@ -57,7 +57,56 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
-
+		
+			<a href="ExecuteOnApplicants.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnApplicants")) {
+				out.println("w3-orange");
+			} else {
+				out.println("w3-teal");
+			}%>	w3circle">E. Applicants</a>
+		
+			<a href="ExecuteOnApplicantgroups.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnApplicantgroups")) {
+				out.println("w3-orange");
+			} else {
+				out.println("w3-teal");
+			}%>	w3circle">E. Applicantgroups</a>
+			
+			<a href="ExecuteOnRoles.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnRoles")) {
+				out.println("w3-orange");
+			} else {
+				out.println("w3-teal");
+			}%>	w3circle">E. Roles</a>	
+			
+			<a href="ExecuteOnTasks.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnTasks")) {
+				out.println("w3-orange");
+			} else {
+				out.println("w3-teal");
+			}%>	w3circle">E. Tasks</a>	
+			
+			<a href="ExecuteOnJobs.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnJobs")) {
+				out.println("w3-orange");
+			} else {
+				out.println("w3-teal");
+			}%>	w3circle">E. Jobs</a>
+			
+			<a href="ExecuteOnEnvironments.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnEnvironments")) {
+				out.println("w3-orange");
+			} else {
+				out.println("w3-teal");
+			}%>	w3circle">E. Environments</a>
+			
+			<a href="ExecuteOnEnvironmentthreats.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnEnvironmentthreats")) {
+				out.println("w3-orange");
+			} else {
+				out.println("w3-teal");
+			}%>	w3circle">E. Environmentthreats</a>
+			
 			<div w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 		</div>
 	</div>
@@ -74,7 +123,7 @@
 		<div class="w3-container " id="maincontent">
 
 			<div id="response"></div>
-			<div id="updateAssignmentButtonDiv">
+			<div id="updateAssignmentButtonDiv1">
 				
 			</div>
 		</div>
@@ -115,6 +164,12 @@
 				<br>
 			</div>
 		</div>
+		<div class="w3-container " id="maincontent">
+			<div id="updateAssignmentButtonDiv2">
+				
+			</div>
+		</div>
+		</form>
 	</div>
 	<!-- Footer -->
 	<footer class="w3-center w3-content content w3-padding-16">
@@ -152,9 +207,9 @@
 					var responsArray = JSON.parse(xhr.responseText); //parse Json
 					if (xhr.status == 200) {
 						var contentString = ""; //build table content
-						for (var i = 0; i < responsArray.length; i++) {
+						for (var i = 0; i < responsArray.length; i++) {   
 							contentString += "<tr>";
-							contentString += "<td><div style='overflow-x: auto;'>" + responsArray[i]['fileName']+ "</div></td>";
+							contentString += "<td><div style='overflow-x: auto;'> <a href='ScriptDisplay.jsp?fileName="+responsArray[i]['fileName']+"&returnURL="+onclickURL+"'>" + responsArray[i]['fileName']+ "</div></td>";
 							contentString += "<td>" + responsArray[i]['fileCreationDate']	+ "</td>";
 							contentString += "<td>"	+ responsArray[i]['fileSize'] + "</td>";
 							//File settings
@@ -173,9 +228,15 @@
 									contentString += responsArray[i]['executionPercentageNumbers'] + " " + responsArray[i]['executionPercentage'];
 									contentString +="</button>";
 									contentString +="</td>";
+									contentString += "<td><input type='checkbox' name='assignToByEntity' value='"+responsArray[i]['fileName']+"' checked></td>";
 								}else{
 									contentString += "<td></td>";
+									contentString += "<td></td>";
+									
 								}
+
+								
+								
 							}else{
 								contentString += "<td><input type='checkbox' name='fileAssignment' value='"+responsArray[i]['fileName']+"'></td>";
 							}
@@ -186,6 +247,17 @@
 							
 							contentString += "</tr>";
 						}
+						if(applicantgroupIdParameter>=0){
+							contentString += "<tr>";
+							contentString += "<td></td>";
+							contentString += "<td></td>";
+							contentString += "<td></td>";
+							contentString += "<td></td>";
+							contentString += "<td align='right' colspan=\"2\"><button class=\"w3-bar-item marginRight w3-btn w3-teal\" onclick=\"removeAssignment()\" >update assign &#8593;</button></td>";
+							contentString += "</tr>";
+						}
+						
+						
 						document.getElementById("scriptListContent").innerHTML = contentString;
 						
 						
@@ -206,6 +278,50 @@
 				window.location=location.protocol + '//' + location.host + location.pathname;
 			}
 			
+			function removeAssignment(){
+				var applicantgroupIdParameter ="";
+				var url = new URL(window.location.href);
+				if(window.location.href.indexOf('?applicantgroupId=') != -1){
+					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
+				}else if(window.location.href.indexOf('&applicantgroupId=') != -1){
+					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
+				}else{
+					applicantgroupIdParameter=-1;
+					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+					
+				}
+				
+				var uncheckedAssignments = new Array();
+		        var chks = document.getElementsByName("assignToByEntity");
+		        for (var i = 0; i < chks.length; i++) {
+		            if (!chks[i].checked) {
+		            	uncheckedAssignments.push(chks[i].value);
+		            }
+		        }
+			        
+			    console.log(uncheckedAssignments);    
+			    console.log(applicantgroupIdParameter);  
+			    console.log("applicantgroup");  
+		        var formData = new FormData();
+				formData.append("uncheckedFileNameAssignments", uncheckedAssignments);
+				formData.append("entityID", applicantgroupIdParameter);
+				formData.append("table", "applicantgroup");
+				
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "/ScriptExecution/removeAssignment");
+				xhr.onload = function() {
+					if (xhr.status == 200) {
+						document.getElementById("response").innerHTML = xhr.responseText;
+						getFileList();
+					} else {
+						console.log(xhr.responseText);
+						document.getElementById("response").innerHTML = "some error happend"
+					}
+				}
+				xhr.send(formData);
+			}
+			
 			function loadApplicantgroupList() {
 				
 				//check for Parameter
@@ -213,13 +329,18 @@
 				var url = new URL(window.location.href);
 				if(window.location.href.indexOf('?applicantgroupId=') != -1){
 					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
-					document.getElementById("updateAssignmentButtonDiv").innerHTML = "";
+					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "";
+					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "";
 				}else if(window.location.href.indexOf('&applicantgroupId=') != -1){
 					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
-					document.getElementById("updateAssignmentButtonDiv").innerHTML = "";
+					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "";
+					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "";
 				}else{
 					applicantgroupIdParameter=-1;
-					document.getElementById("updateAssignmentButtonDiv").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+
+					
 				}
 				
 				var xhr = new XMLHttpRequest();

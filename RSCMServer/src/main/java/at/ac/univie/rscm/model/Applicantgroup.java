@@ -31,4 +31,21 @@ public class Applicantgroup {
 	private String applicantgroupDescription;
 	@ManyToMany(mappedBy = "applicantgroups", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Applicant> applicants = new HashSet<>();
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("applicantgroupId: " + applicantgroupId + "<br/>");
+		sb.append("applicantgroupName: " + applicantgroupName + "<br/>");
+		sb.append("applicantgroupDescription: " + applicantgroupDescription + "<br/>");
+		if(applicants!=null) {
+			sb.append("applicants number: " + applicants.size() + "<br/>");
+		}else {
+			sb.append("applicants: null<br/>");
+		}
+		return sb.toString();
+	}
+	
+	
 }

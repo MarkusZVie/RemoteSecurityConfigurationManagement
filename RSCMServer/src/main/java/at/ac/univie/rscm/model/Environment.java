@@ -42,4 +42,33 @@ public class Environment {
 	@LazyCollection(LazyCollectionOption.TRUE)
 	@OneToMany(mappedBy="environment",cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<RSCMClientConnection> rSCMClientConnections;
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("environmentId: " + environmentId + "<br/>");
+		sb.append("ipRangeBegin: " + ipRangeBegin + "<br/>");
+		sb.append("ipRangeEnd: " + ipRangeEnd + "<br/>");
+		sb.append("environmentDescription: " + environmentDescription + "<br/>");
+		if(rSCMClientConnections!=null) {
+			sb.append("rSCMClientConnections number: " + rSCMClientConnections.size() + "<br/>");
+		}else {
+			sb.append("rSCMClientConnections: null<br/>");
+		}
+		
+		if(environmentthreats!=null) {
+			sb.append("environmentthreats: [");
+			for(Environmentthreat et : environmentthreats) {
+				sb.append(et.getThreatTitle() +", ");
+			}
+			
+			return sb.toString().substring(0, sb.toString().length()-2)+"]<br/>";
+		}else {
+			sb.append("environmentthreats: [] <br/>");
+			return sb.toString();
+		}
+		
+	}
+	
 }

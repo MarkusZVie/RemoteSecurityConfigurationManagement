@@ -31,4 +31,21 @@ public class Job {
 	private String jobDescription;
 	@ManyToMany(mappedBy = "jobs" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Applicant> applicants = new HashSet<>();
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("jobId: " + jobId + "<br/>");
+		sb.append("jobName: " + jobName + "<br/>");
+		sb.append("jobDescription: " + jobDescription + "<br/>");	
+		if(applicants!=null) {
+			sb.append("applicants number: " + applicants.size() + "<br/>");
+		}else {
+			sb.append("applicants: null<br/>");
+		}
+		
+		return sb.toString();
+	}
+	
 }

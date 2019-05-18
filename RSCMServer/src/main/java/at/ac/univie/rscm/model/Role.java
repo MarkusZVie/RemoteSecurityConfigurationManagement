@@ -31,5 +31,23 @@ public class Role {
 	private String roleDescription;
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Applicant> applicants = new HashSet<>();
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Class: " + this.getClass().getName() + "<br/>");
+		sb.append("roleId: " + roleId + "<br/>");
+		sb.append("roleName: " + roleName + "<br/>");
+		sb.append("roleDescription: " + roleDescription + "<br/>");
+		
+		if(applicants!=null) {
+			sb.append("applicants number: " + applicants.size() + "<br/>");
+		}else {
+			sb.append("applicants: null<br/>");
+		}
+		
+		return sb.toString();
+	}
+	
 }
 
