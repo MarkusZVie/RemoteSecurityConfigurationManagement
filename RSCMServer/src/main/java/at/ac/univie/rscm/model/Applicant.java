@@ -64,6 +64,8 @@ public class Applicant {
 		roles.add(role);
 		
 	}
+	
+
 
 
 	@Override

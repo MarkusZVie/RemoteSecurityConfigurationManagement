@@ -1,3 +1,7 @@
+<%@page import="java.nio.file.Paths"%>
+<%@page import="java.nio.file.Files"%>
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.File"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.lang.reflect.Method"%>
@@ -40,6 +44,30 @@
 	href="../WebressourcenImport/style.css">
 <script type="text/javascript"
 	src="../WebressourcenImport/w3ContentLoader.js"></script>
+<script type="text/javascript">
+	
+	var returnURL ="";
+	var url = new URL(window.location.href);
+	if(window.location.href.indexOf('?returnURL=') != -1){
+		returnURL=url.searchParams.get("returnURL");
+	}else if(window.location.href.indexOf('&returnURL=') != -1){
+		returnURL=url.searchParams.get("returnURL");
+	}else{
+		window.location='../index.jsp';
+	}
+	
+	var fileName ="";
+	var url = new URL(window.location.href);
+	if(window.location.href.indexOf('?filename=') != -1){
+		fileName=url.searchParams.get("filename");
+	}else if(window.location.href.indexOf('&filename=') != -1){
+		fileName=url.searchParams.get("filename");
+	}else{
+		window.location=returnURL;
+	}
+	
+	var backName= returnURL.substring(returnURL.lastIndexOf("/")+1, returnURL.length-4);
+	</script>
 
 
 </head>
@@ -55,8 +83,9 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
+		<script>document.write("<a href='"+returnURL+"' class='w3-bar-item marginRight w3-button w3-teal'>&#8592; Back to: "+backName+"</a>");</script>
 			<div
-				w3-include-html="../WebressourcenImport/NavBarAdministrator.html"></div>
+				w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 
 		</div>
 	</div>
@@ -66,43 +95,26 @@
 	<!-- Page content -->
 	<div class="w3-content content">
 		<div class="w3-container w3-padding-64" id="maincontent">
-			<div class="multiple-upload">
-				<h3>Upload Script(s)</h3>
-				<form id="multipleUploadForm" name="multipleUploadForm">
-					<input id="multipleFileUploadInput" type="file" name="files"
-						class="file-input" multiple required />
-					<button type="submit" class="primary submit-btn">Submit</button>
-				</form>
-				<div class="upload-response">
-					<div id="multipleFileUploadError"></div>
-					<div id="multipleFileUploadSuccess"></div>
-				</div>
+			
+			<h1>File: <%out.println(request.getParameter("filename")); %></h1>
+			
+			<div id="content" style="font-family: 'Courier New'; width:auto;">
+			<%
+			 try (BufferedReader br = Files.newBufferedReader(Paths.get(gsav.getFileDownloadDirectory()+"/"+request.getParameter("filename")))) {
+
+		            // read line by line
+		            String line;
+		            while ((line = br.readLine()) != null) {
+		                out.println(line + "<br>");
+		            }
+
+		        } catch (Exception e) {
+		            System.err.format("IOException: %s%n", e);
+		        }
+			
+			%>
 			</div>
-			<script src="../WebressourcenImport/fileUploadHelper.js"></script>
-
-
-			<h1>Script Management</h1>
-			<br>
-			<form id="searchNameForm" name="searchNameForm">
-				<input id="searchName" type="text" name="searchName" />
-			</form>
-
-			<table class='w3-table w3-striped w3-hoverable table'>
-				<thead>
-				<tr>
-					<th>filename</th>
-					<th>size</th>
-					<th>creation date</th>
-					
-					<th>inspect</th>
-					<th>delete</th>
-					</tr>
-				</thead>
-				<tbody  id="tableContent">
-				
-				</tbody>
-				
-			</table>
+			
 
 		</div>
 
@@ -111,10 +123,8 @@
 	<!-- Footer -->
 	<footer class="w3-center w3-content content w3-padding-16">
 		<div w3-include-html="../WebressourcenImport/footer.html"></div>
-		<script src="../WebressourcenImport/fileUploadHelper.js"></script>
 		<script>
 			includeHTML();
-			getFileList();
 		</script>
 	</footer>
 

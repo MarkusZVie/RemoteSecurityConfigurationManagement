@@ -52,26 +52,19 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
-		The Installation require: vcredist
-		<a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=21254">download vcredist</a>
-		<a href="Downloads.jsp"
-				class="w3-bar-item w3-button <%if (thisPageName.equals("Downloads")) {
-				out.println("w3-orange");
-			} else {
-				out.println("w3-teal");
-			}%> 
-				w3circle">Downloads</a>
-		
-			
 			<div w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 		</div>
 	</div>
 	<div w3-include-html="../WebressourcenImport/header.html"></div>
 
 	<!-- Page content -->
-	<div class="w3-content content">
+	<div class="w3-content content"  style="padding-top: 70px;">
 		<div class="w3-container w3-padding-64" id="maincontent">
+		<h2>Downloads</h2>
 		<table class='w3-table w3-striped w3-hoverable table'>
+		<tr>
+		<th>File-Name</th><th>File-Secription</th>
+		</tr>
 		<%
 		//https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
 		Iterator it = gsav.getProvidedDownloads().entrySet().iterator();
@@ -84,6 +77,17 @@
 	        //it.remove(); // avoids a ConcurrentModificationException
 	    }
 		%>
+		</table>
+		<br>
+		<h2>External Files</h2>
+		<table class='w3-table w3-striped w3-hoverable table'>
+			<tr>
+		<th>File-Name</th><th>File-Secription</th>
+		</tr>
+			<tr>
+			<td><a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=21254">download vcredist</a></td><td>The Installation of RSCMClient require: vcredist</td>
+			</tr>
+			
 		</table>
 		</div>
 		

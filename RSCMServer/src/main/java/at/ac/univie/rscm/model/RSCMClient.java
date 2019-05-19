@@ -58,8 +58,19 @@ public class RSCMClient {
 		this.isActive = isActive;
 	}
 	
+
+	public void addApplicant(Applicant applicant) {
+		if(applicants==null) {
+			applicants = new HashSet<Applicant>();
+		}
+		applicants.add(applicant);
+		
+	}
 	
 	public void addRSCMClientConnection(RSCMClientConnection rscmClientConnection) {
+		if(rSCMClientConnections==null) {
+			rSCMClientConnections = new ArrayList<RSCMClientConnection>();
+		}
 		rSCMClientConnections.add(rscmClientConnection);
 	}
 	

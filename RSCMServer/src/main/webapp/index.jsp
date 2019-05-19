@@ -50,12 +50,20 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
-			<a href="Downloads.jsp" class="w3-bar-item w3-button w3-teal">Downloads</a>
-			<a href="RegisterAccount.jsp" class="w3-bar-item w3-button w3-teal">Register</a>
-			<a href="login" class="w3-bar-item w3-button w3-teal">Login</a>
-
-			<div w3-include-html="WebressourcenImport/NavBarGeneral.html"></div>
+			<a href="RegisterAccount.jsp"	class="w3-bar-item w3-button w3-teal w3-margin-right">Register</a> 
+			<a href="login" class="w3-bar-item w3-button w3-teal w3-margin-right">Login</a>
+<div class="w3-right w3-hide-small">
+			<a href="/WebPage/Downloads.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">Downloads</a>
+			<a href="/Administration/ClientManagement.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">Administration</a>
+			<a href="/Application/ManageRoles.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">Application</a>
+			<a href="/ScriptExecution/ExecuteOnApplicants.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">ScriptExecution</a>
+			<a href="/index.jsp" class="w3-button w3-circle w3-teal w3-margin-left"><i class="fa fa-home"></i></a> 
 		</div>
+		</div>
+		
+		<!-- Right-sided navbar links. Hide them on small screens -->
+		
+		
 	</div>
 
 	<div w3-include-html="WebressourcenImport/header.html"></div>
@@ -63,8 +71,38 @@
 	<!-- Page content -->
 	<div class="w3-content content">
 		<div class="w3-container w3-padding-64" id="maincontent">
-			<h1>Welcome to Remote Security Configuration Management Page</h1>
+			<h1>Welcome to Remote Security Configuration Management</h1>
 			<br>
+			<table>
+				<tr>
+					<td><a style="width:150px;" href="RegisterAccount.jsp" class="w3-bar-item w3-button w3-teal w3-margin-right">Register</a></td>
+					<td><p>Here you can sign up yourself to use the RSCM Application</p></td>
+				</tr>
+				<tr>
+					<td><a style="width:150px;" href="login" class="w3-bar-item w3-button w3-teal w3-margin-right">Login</a></td>
+					<td><p>If you have already an account you can sign-in here</p></td>
+				</tr>
+				<tr >
+					<td style ="border-top: 1px solid black;"><a style="width:150px;" href="/WebPage/Downloads.jsp" class="w3-bar-item w3-button w3-teal w3-margin-right">Downloads</a></td>
+					<td style ="border-top: 1px solid black;"><p>Here are all available downloads (for instance RSCM-Client-Installer)</p></td>
+				</tr>
+				<tr>
+					<td><a style="width:150px;" href="/Administration/ClientManagement.jsp" class="w3-bar-item w3-button w3-teal w3-margin-right">Administration</a></td>
+					<td><p>Here just for Administration purposes</p></td>
+				</tr>
+				<tr>
+					<td><a style="width:150px;" href="/Application/ManageRoles.jsp" class="w3-bar-item w3-button w3-teal w3-margin-right">Application</a></td>
+					<td><p>You can add and modify applicationdata here</p></td>
+				</tr>
+				<tr>
+					<td><a style="width:150px;" href="/ScriptExecution/ExecuteOnApplicants.jsp" class="w3-bar-item w3-button w3-teal w3-margin-right">Script Execution</a></td>
+					<td><p>You can define the script execution here</p></td>
+				</tr>
+				
+
+			</table>
+
+
 
 		</div>
 	</div>

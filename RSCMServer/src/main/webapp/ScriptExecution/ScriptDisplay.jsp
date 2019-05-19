@@ -83,7 +83,7 @@
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
 			<script>document.write("<a href='"+returnURL+"' class='w3-bar-item marginRight w3-button w3-teal'>&#8592; Back to: "+backName+"</a>");</script>
-			<div w3-include-html="../WebressourcenImport/NavBarAdministrator.html"></div>
+			<div w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 
 		</div>
 	</div>

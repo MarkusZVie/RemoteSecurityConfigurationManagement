@@ -108,6 +108,13 @@
 				out.println("w3-teal");
 			}%>	w3circle">Manage-Environments</a>	
 			
+			<a href="ManageScripts.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ManageScripts")) {
+				out.println("w3-orange");
+			} else {
+				out.println("w3-teal");
+			}%>	w3circle">Manage-Scripts</a>	
+			
 			<div w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 		</div>
 	</div>

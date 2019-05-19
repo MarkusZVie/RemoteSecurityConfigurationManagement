@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Random;
 
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
+import at.ac.univie.rscm.model.Applicant;
 import lombok.Getter;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 
@@ -41,8 +42,11 @@ public class ClientInstallationScriptHelper extends Thread {
 	private String client_keypass_value;
 	@Getter
 	private int client_specificport_value;
+	@Getter
+	private Applicant loggedInApplicant;
 
-	public ClientInstallationScriptHelper(int availabilityTime) {
+	public ClientInstallationScriptHelper(int availabilityTime, Applicant loggedInApplicant) {
+		this.loggedInApplicant = loggedInApplicant;
 		this.availabilityTime = availabilityTime;
 		cism = ClientInstallationScriptManager.getInstance();
 		gsav = GlobalSettingsAndVariables.getInstance();

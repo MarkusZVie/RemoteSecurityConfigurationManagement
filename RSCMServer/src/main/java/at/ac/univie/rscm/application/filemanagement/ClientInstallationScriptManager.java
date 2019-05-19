@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
+import at.ac.univie.rscm.model.Applicant;
 import at.ac.univie.rscm.model.RSCMClient;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 
@@ -46,9 +47,9 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	}
 		
 	@Override
-	public File getClientInstallProgram(boolean isExtern) {
+	public File getClientInstallProgram(boolean isExtern, Applicant loggedInApplicant) {
 		//create a new Thread with availabilityTime for the API Key
-		ClientInstallationScriptHelper cish = new ClientInstallationScriptHelper(availabilityTime);
+		ClientInstallationScriptHelper cish = new ClientInstallationScriptHelper(availabilityTime,loggedInApplicant);
 		//add Thread to list
 		activeClientInstallations.add(cish);
 		//let the Tread create the exe file
@@ -85,6 +86,7 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 			rsaClientKey.setKeyCreationDate(cish.getCreatenDate());
 			rsaClientKey.setRscmKeypass(cish.getRscm_keypass_value());
 			rsaClientKey.setRscmPassword(cish.getRscm_password_value());
+			rsaClientKey.addApplicant(cish.getLoggedInApplicant());
 			rcrClientRepository.save(rsaClientKey);
 			registerRSAKey(rsaClientKey.getClientRSAPublicKey());
 			cish.clearUp();

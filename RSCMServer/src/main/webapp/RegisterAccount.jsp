@@ -56,7 +56,7 @@
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
 			<div
-				w3-include-html="../WebressourcenImport/NavBarAdministrator.html"></div>
+				w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 
 		</div>
 	</div>

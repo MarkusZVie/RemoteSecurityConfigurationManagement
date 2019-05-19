@@ -96,7 +96,7 @@
 			} else {
 				out.println("w3-teal");
 			}%>  w3circle w3-margin-left">SSH-ScriptBox</a>
-			<div w3-include-html="../WebressourcenImport/NavBarAdministrator.html"></div>
+			<div w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 		</div>
 	</div>
 
