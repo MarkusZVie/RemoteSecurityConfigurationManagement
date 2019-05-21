@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -21,6 +22,7 @@ import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
 import at.ac.univie.rscm.model.Applicant;
 import at.ac.univie.rscm.model.RSCMClient;
+import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 
 public class ClientInstallationScriptManager implements ClientInstallationScriptBuilder{
@@ -31,6 +33,7 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	
 	private RSCMClientRepository rcrClientRepository;
 	private GlobalSettingsAndVariablesInterface gsav;
+	private ApplicantRepository applicantRepository;
 	
 	private ClientInstallationScriptManager() {
 		activeClientInstallations = new ArrayList<ClientInstallationScriptHelper>();
@@ -47,9 +50,9 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	}
 		
 	@Override
-	public File getClientInstallProgram(boolean isExtern, Applicant loggedInApplicant) {
+	public File getClientInstallProgram(boolean isExtern, int loggedInApplicantId) {
 		//create a new Thread with availabilityTime for the API Key
-		ClientInstallationScriptHelper cish = new ClientInstallationScriptHelper(availabilityTime,loggedInApplicant);
+		ClientInstallationScriptHelper cish = new ClientInstallationScriptHelper(availabilityTime,loggedInApplicantId);
 		//add Thread to list
 		activeClientInstallations.add(cish);
 		//let the Tread create the exe file
@@ -74,25 +77,39 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	}
 
 	@Override
-	public void confirmAppKey(RSCMClient rsaClientKey) {
+	public String confirmAppKey(String applikationKey, String clientRSAPublicKey) {
 
+		applicantRepository = gsav.getApplicantRepository();
 		rcrClientRepository = gsav.getRSCMClientRepository();
-		ClientInstallationScriptHelper cish = getHelperByAppKey(rsaClientKey.getApplikationKey());
-		System.out.println(rsaClientKey.toString() + "test");
+		ClientInstallationScriptHelper cish = getHelperByAppKey(applikationKey);
+		
 		if(cish!=null) {
-			rsaClientKey.setClientKeypass(cish.getClient_keypass_value());
-			rsaClientKey.setClientPort(cish.getClient_specificport_value());
-			rsaClientKey.setCreatedOn(new Date());
-			rsaClientKey.setKeyCreationDate(cish.getCreatenDate());
-			rsaClientKey.setRscmKeypass(cish.getRscm_keypass_value());
-			rsaClientKey.setRscmPassword(cish.getRscm_password_value());
-			rsaClientKey.addApplicant(cish.getLoggedInApplicant());
-			rcrClientRepository.save(rsaClientKey);
-			registerRSAKey(rsaClientKey.getClientRSAPublicKey());
+			RSCMClient rscmClient = new RSCMClient();
+			rscmClient.setApplikationKey(applikationKey);
+			rscmClient.setClientRSAPublicKey(clientRSAPublicKey);
+			rscmClient.setClientKeypass(cish.getClient_keypass_value());
+			rscmClient.setClientPort(cish.getClient_specificport_value());
+			rscmClient.setCreatedOn(new Date());
+			rscmClient.setKeyCreationDate(cish.getCreatenDate());
+			rscmClient.setRscmKeypass(cish.getRscm_keypass_value());
+			rscmClient.setRscmPassword(cish.getRscm_password_value());
+			System.out.println(cish.getLoggedInApplicantId());
+			Applicant applicant = applicantRepository.findById(cish.getLoggedInApplicantId()).get();
+			rscmClient.addApplicant(applicant);
+			rcrClientRepository.save(rscmClient);
+			
+			applicant.addRSCMClient(rscmClient);
+			applicantRepository.save(applicant);
+			
+			registerRSAKey(rscmClient.getClientRSAPublicKey());
+			gsav.updatePortScannerPortEnd();
 			cish.clearUp();
 			cish.stop();
-			System.out.println(rsaClientKey.toString());
-		}		
+			return "client added";
+		}else {
+			System.out.println("Installation out of time, Client not added");
+			return "Installation out of time, Client not added";
+		}
 		
 	}
 	

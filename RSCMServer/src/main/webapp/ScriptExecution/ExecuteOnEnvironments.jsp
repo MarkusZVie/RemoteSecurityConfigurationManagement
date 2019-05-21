@@ -142,9 +142,9 @@
 							
 						<td style="font-size: 12px;">Environment IpRangeEnd</td>
 						<td style="font-size: 12px;">Environment Description</td>
-						<td style="font-size: 12px;">Connection Number</td>
 						<td style="font-size: 12px;">Threats Number</td>
-
+						<td style="font-size: 12px;">Connections Number</td>
+						
 
 
 					</thead>

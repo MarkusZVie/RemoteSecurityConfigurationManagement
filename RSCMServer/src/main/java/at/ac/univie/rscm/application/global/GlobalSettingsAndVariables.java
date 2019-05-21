@@ -18,8 +18,10 @@ import at.ac.univie.rscm.application.connection.PortScannerInterface;
 import at.ac.univie.rscm.model.RSCMClient;
 import at.ac.univie.rscm.model.RSCMClientConnection;
 import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.spring.api.repository.EnvironmentRepository;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 import at.ac.univie.rscm.spring.api.repository.RoleRepository;
+import at.ac.univie.rscm.spring.api.repository.ScriptexecutionRepository;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,6 +53,9 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	private ApplicantRepository applicantRepository;
 	@Getter
 	@Setter
+	private EnvironmentRepository environmentRepository;
+	@Getter
+	@Setter
 	private RoleRepository roleRepository;
 	@Setter
 	@Getter
@@ -73,6 +78,10 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	@Setter
 	private SimpleDateFormat date;
 	
+	@Getter
+	@Setter
+	private ScriptexecutionRepository scriptexecutionRepository;
+	
 	private GlobalSettingsAndVariables() {
 		
 		dateTime = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -85,7 +94,7 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 			e.printStackTrace();
 		}
 		providedDownloads = new HashMap<String, String>();
-		server_intern_ip_value = "192.168.178.16";
+		server_intern_ip_value = "192.168.178.10";
 		server_extern_ip_value = "77.119.228.8";
 		server_rsafingerprint_value = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAYu3YwUiKt2/pnh8wiXHHAHLhGB8xhrsKSE1vwpoTO89LYFh9Pf1MGGdoDhLzKLTlJRKVmu6bq5ZNCzQmKfHdM=";
 		pathToAuthorized_keys = "C:\\Users\\rscmserver\\.ssh\\authorized_keys";
@@ -175,13 +184,13 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 
 	@Override
 	public synchronized void addConnectionLog(RSCMClientConnection rscmClientConnection) {
-		String exitCode = rscmClientConnection.getConnectionExitCode();
+		String exitCode = rscmClientConnection.getConnectionExitcode();
 		int exitCodeIndexOf = exitCode.indexOf(';')+1;
 		String portSubString = exitCode.substring(exitCodeIndexOf);
 		int exitCodeExtention = Integer.parseInt(portSubString);
 		
 		Optional<RSCMClient> dbResult = rSCMClientRepository.findOptionalByClientPort(exitCodeExtention);
-		rscmClientConnection.setConnectionExitCode(exitCode.substring(0, exitCode.indexOf(';')));
+		rscmClientConnection.setConnectionExitcode(exitCode.substring(0, exitCode.indexOf(';')));
 		if(dbResult.isPresent()) {
 			RSCMClient rClient = dbResult.get();
 			rscmClientConnection.setRscmClient(rClient);
@@ -189,6 +198,27 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 			rSCMClientRepository.save(rClient);
 
 		}
+		
+	}
+
+	@Override
+	public void updatePortScannerPortEnd() {
+		Iterator<Integer> dbPortResult = rSCMClientRepository.getHighestPort().iterator();
+		int highestUsedPortnumber = 0;
+		
+		if(dbPortResult.hasNext()) {
+			String portString = dbPortResult.next()+"";
+			if(!portString.equals("null")) {
+				highestUsedPortnumber = Integer.parseInt(portString);
+			}else {
+				highestUsedPortnumber = 22000;
+			}
+			
+		}else {
+			highestUsedPortnumber = 22000;
+		}
+		portNumber = highestUsedPortnumber;
+		getPortScanner().setScanPortEnd(portNumber);
 		
 	}
 

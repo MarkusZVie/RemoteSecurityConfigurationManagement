@@ -1,9 +1,14 @@
+Install-PackageProvider -Name "NuGet" -MinimumVersion "2.8.5.201" -Force
+Set-ExecutionPolicy Unrestricted -force 
+
 #Create new User that can be managed remotely
 $password =  ConvertTo-SecureString '<escape>rscmClientPassword</escape>' -asplaintext -force
 New-LocalUser 'rscm' -Password $password
 
 #Make user Administrator
 Add-LocalGroupMember -Group 'Administratoren' -Member 'rscm'
+
+
 
 #Remove User from Welcome Screen
 $path = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList'

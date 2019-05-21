@@ -8,9 +8,13 @@ import org.springframework.stereotype.Component;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
 import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.spring.api.repository.EnvironmentRepository;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 import at.ac.univie.rscm.spring.api.repository.RoleRepository;
+import at.ac.univie.rscm.spring.api.repository.ScriptexecutionRepository;
+import lombok.Getter;
 
+@Getter
 @Component("jspSupporterBean")
 public class JSPSupporterBean {
 
@@ -21,35 +25,28 @@ public class JSPSupporterBean {
 	}
 
 	@Autowired
-	private RSCMClientRepository rcr;
+	private RSCMClientRepository rSCMClientRepository;
 	
 	@Autowired
-	private RoleRepository rr;
+	private RoleRepository roleRepository;
 	
 	@Autowired
-	private ApplicantRepository ar;
+	private ApplicantRepository applicantRepository;
 	
-	public RSCMClientRepository getRSCMClientRepository() {
-		return rcr;
-	}
+	@Autowired 
+	private ScriptexecutionRepository scriptexecutionRepository;
 	
-	public RoleRepository getRoleRepository() {
-		return rr;
-	}
-	
-	public ApplicantRepository getApplicantRepository() {
-		return ar;
-	}
-	
-	
+	@Autowired
+	private EnvironmentRepository environmentRepository;
 	
 	@PostConstruct
     public void init() {
 		
-		
-		gsav.setRSCMClientRepository(rcr);
-		gsav.setRoleRepository(rr);
-		gsav.setApplicantRepository(ar);
+		gsav.setRSCMClientRepository(rSCMClientRepository);
+		gsav.setRoleRepository(roleRepository);
+		gsav.setApplicantRepository(applicantRepository);
+		gsav.setScriptexecutionRepository(scriptexecutionRepository);
+		gsav.setEnvironmentRepository(environmentRepository);
 		gsav.initPortScanner();
 		
     }

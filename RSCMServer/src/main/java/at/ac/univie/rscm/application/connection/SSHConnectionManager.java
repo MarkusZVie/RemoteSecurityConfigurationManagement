@@ -33,14 +33,14 @@ public class SSHConnectionManager implements SSHConnectionManagerInterface{
 		ps = gsav.getPortScanner();
 	}
 	
-	public static SSHConnectionManager getInstance() {
+	public synchronized static SSHConnectionManager getInstance() {
 		if(sshConnectionManager == null) {
 			sshConnectionManager = new SSHConnectionManager();
 		}
 		return sshConnectionManager;
 	}
 	
-	public SSHConnectionBuilder getConnection(int keyId) {
+	public synchronized SSHConnectionBuilder getConnection(int keyId) {
 		if(activeClientList.containsKey(keyId)) {
 			return activeClientList.get(keyId);
 		}else {

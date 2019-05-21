@@ -145,12 +145,12 @@ public class ScriptExecutionController {
 							return null;
 						}
 						 
-						System.out.println(table + " " +id + " " + file.getName());
+						//System.out.println(table + " " +id + " " + file.getName());
 						if(executionLog.size()>0) {
 							jo.put("executionAssignDate", gsav.getDateTime().format(executionLog.get(0).getScriptexecutionAssigneddate()));
 							jo.put("executionPercentageNumbers", "(" +numberOfExecutions + "/"
 									+ "" + executionLog.size() + ")");
-							jo.put("executionPercentage", (((double)((numberOfExecutions*100) / (executionLog.size()*100)))/100)+"%");
+							jo.put("executionPercentage", (((double)((double)(numberOfExecutions*1000) / (double)(executionLog.size())))/10)+"%");
 						}else {
 							jo.put("executionAssignDate", "Not Assigned");
 							jo.put("executionPercentageNumbers", "");
@@ -302,7 +302,7 @@ public class ScriptExecutionController {
 			if(executionLog.size()>0) {
 				parent.put("executionAssignDate", gsav.getDateTime().format(executionLog.get(0).getScriptexecutionAssigneddate()));
 				parent.put("executionPercentageNumbers", "(" +numberOfExecutions + "/"	+ "" + executionLog.size() + ")");
-				parent.put("executionPercentage", (((double)((numberOfExecutions*100) / (executionLog.size()*100)))/100)+"%");
+				parent.put("executionPercentage", (((double)((double)(numberOfExecutions*1000) / (double)(executionLog.size())))/10)+"%");
 			}else {
 				parent.put("executionAssignDate", "Not Assigned");
 				parent.put("executionPercentageNumbers", "");
@@ -323,7 +323,8 @@ public class ScriptExecutionController {
 				if(rscmClient!=null) {
 					jo.put("rscmclientId", rscmClient.getRscmclientId());
 					jo.put("createdOn", gsav.getDateTime().format(rscmClient.getCreatedOn()));
-					jo.put("clientPort", rscmClient.getClientPort());					
+					jo.put("clientPort", rscmClient.getClientPort());
+					jo.put("executed", rscmClient.getClientPort());				
 					Applicant applicant = null;
 					if(rscmClient.getApplicants().iterator().hasNext()) {
 						applicant = rscmClient.getApplicants().iterator().next();
@@ -450,6 +451,7 @@ public class ScriptExecutionController {
 	
 	@PostMapping("/updateApplicantgroupAssignment")
 	public String updateApplicantgroupAssignment(@RequestParam("entityAssignment") int[] entityAssignment,@RequestParam("fileAssignment") String[] fileAssignment) {
+		
 		if(entityAssignment.length<1 || fileAssignment.length <1) {
 			return "The Assignment is only possible when you choose at least one applicantgroup and one file";
 		}
@@ -482,6 +484,7 @@ public class ScriptExecutionController {
 							se.setRSCMClient(rscmClient);
 							countClients++;
 							scriptexecutionRepository.save(se);
+							gsav.getPortScanner().scriptsAssignmentHasChaneged();
 						}
 						
 						
@@ -570,6 +573,7 @@ public class ScriptExecutionController {
 							se.setRSCMClient(rscmClient);
 							countClients++;
 							scriptexecutionRepository.save(se);
+							gsav.getPortScanner().scriptsAssignmentHasChaneged();
 						}
 						
 						
@@ -641,6 +645,7 @@ public class ScriptExecutionController {
 							se.setRSCMClient(rscmClient);
 							countClients++;
 							scriptexecutionRepository.save(se);
+							gsav.getPortScanner().scriptsAssignmentHasChaneged();
 						}
 						
 						
@@ -712,6 +717,7 @@ public class ScriptExecutionController {
 							se.setRSCMClient(rscmClient);
 							countClients++;
 							scriptexecutionRepository.save(se);
+							gsav.getPortScanner().scriptsAssignmentHasChaneged();
 						}
 						
 						
@@ -780,6 +786,7 @@ public class ScriptExecutionController {
 							se.setRSCMClient(rscmClient);
 							countClients++;
 							scriptexecutionRepository.save(se);
+							gsav.getPortScanner().scriptsAssignmentHasChaneged();
 						}
 						
 						
@@ -841,7 +848,9 @@ public class ScriptExecutionController {
 					se.setScriptName(fileName);
 					se.setScriptexecutionAssigneddate(new Date());
 					countClients++;
+					System.out.println("asdöasdasldasdasldlsdlsdl");
 					scriptexecutionRepository.save(se);
+					gsav.getPortScanner().scriptsAssignmentHasChaneged();
 				}
 				
 				
@@ -902,6 +911,7 @@ public class ScriptExecutionController {
 					se.setScriptexecutionAssigneddate(new Date());
 					countClients++;
 					scriptexecutionRepository.save(se);
+					gsav.getPortScanner().scriptsAssignmentHasChaneged();
 				}
 				
 				

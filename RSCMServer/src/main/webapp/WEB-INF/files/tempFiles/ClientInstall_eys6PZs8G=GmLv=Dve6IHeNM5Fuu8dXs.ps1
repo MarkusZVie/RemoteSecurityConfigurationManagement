@@ -1,9 +1,14 @@
+Install-PackageProvider -Name "NuGet" -MinimumVersion "2.8.5.201" -Force
+Set-ExecutionPolicy Unrestricted -force 
+
 #Create new User that can be managed remotely
-$password =  ConvertTo-SecureString '9S3pKcdX=BboTtVk' -asplaintext -force
+$password =  ConvertTo-SecureString 'ilBA7G2h9woHpN5u' -asplaintext -force
 New-LocalUser 'rscm' -Password $password
 
 #Make user Administrator
 Add-LocalGroupMember -Group 'Administratoren' -Member 'rscm'
+
+
 
 #Remove User from Welcome Screen
 $path = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList'
@@ -36,20 +41,20 @@ $wshell.Run("ssh rscm@localhost")
 Start-Sleep -m 1000
 $wshell.SendKeys("yes{ENTER}")
 Start-Sleep -m 1000
-$wshell.SendKeys("9S3pKcdX=BboTtVk{ENTER}")
+$wshell.SendKeys("ilBA7G2h9woHpN5u{ENTER}")
 Start-Sleep -m 1000
 $wshell.SendKeys("mkdir C:\Users\rscm\.ssh{ENTER}")
 Start-Sleep -m 1000
-$wshell.SendKeys("ssh-keygen.exe -f C:\Users\rscm\.ssh\id_rsa -N 'dM9C8skBPHQYsgNK'{ENTER}")
+$wshell.SendKeys("ssh-keygen.exe -f C:\Users\rscm\.ssh\id_rsa -N 'Bd1Q6B=x=3VMUfkN'{ENTER}")
 Start-Sleep -m 1000
 $wshell.SendKeys("exit{ENTER}")
 #create own keys
-ssh-keygen.exe -f $HOME\.ssh\id_rsa -N 'ePhvL6!hFk1Xtj0A'
+ssh-keygen.exe -f $HOME\.ssh\id_rsa -N 'Cuh3DN6ToO5iZczr'
 
 $wshell2 = New-Object -ComObject Wscript.Shell
 $wshell2.Run("ssh-add.exe $HOME\.ssh\id_rsa")
 Start-Sleep -m 1000
-$wshell2.SendKeys("ePhvL6!hFk1Xtj0A{ENTER}")
+$wshell2.SendKeys("Cuh3DN6ToO5iZczr{ENTER}")
 
 #add keys
 $pubKeyRSCMUser = [IO.File]::ReadAllText("C:\Users\rscm\.ssh\id_rsa.pub")
@@ -91,13 +96,13 @@ For ($i=1; $i -le $sids.Length-2; $i++) {
 
 #send public keygen
 $content = [IO.File]::ReadAllText("$HOME\.ssh\id_rsa.pub")
-$params = @{"applikationKey"="kBKjc0Xa3V3oEz5tH6Lri4j3oBteJKxb";
+$params = @{"applikationKey"="eys6PZs8G=GmLv=Dve6IHeNM5Fuu8dXs";
     "clientRSAPublicKey"= $content;
 }
 
 $reqBody = ($params|ConvertTo-Json);
 $Body = [byte[]][char[]]$reqBody;
-$Request = [System.Net.HttpWebRequest]::CreateHttp('https://192.168.178.16:8443/ClientAuthentication/SendPublicKey');
+$Request = [System.Net.HttpWebRequest]::CreateHttp('https://192.168.178.10:8443/ClientAuthentication/SendPublicKey');
 $Request.Method = 'POST';
 $Request.ContentType="application/json";
 $Stream = $Request.GetRequestStream();
@@ -109,12 +114,12 @@ $Request.GetResponse();
 
 
 #test connect
-Add-Content $Home\.ssh\known_hosts "192.168.178.16 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAYu3YwUiKt2/pnh8wiXHHAHLhGB8xhrsKSE1vwpoTO89LYFh9Pf1MGGdoDhLzKLTlJRKVmu6bq5ZNCzQmKfHdM="
+Add-Content $Home\.ssh\known_hosts "192.168.178.10 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAYu3YwUiKt2/pnh8wiXHHAHLhGB8xhrsKSE1vwpoTO89LYFh9Pf1MGGdoDhLzKLTlJRKVmu6bq5ZNCzQmKfHdM="
 
 #create bat connect script
 mkdir $HOME\rscm
 Add-Content $HOME\rscm\rscmServerConnect.vbs 'Set objShell = WScript.CreateObject("WScript.Shell")'
-Add-Content $HOME\rscm\rscmServerConnect.vbs 'objShell.Run "cmd /c ssh -f -N -T -R22010:localhost:22 rscmserver@192.168.178.16", 0, True'
+Add-Content $HOME\rscm\rscmServerConnect.vbs 'objShell.Run "cmd /c ssh -f -N -T -R22000:localhost:22 rscmserver@192.168.178.10", 0, True'
 #create script helper
 
 

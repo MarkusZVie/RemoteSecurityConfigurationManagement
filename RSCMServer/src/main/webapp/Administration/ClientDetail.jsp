@@ -1,3 +1,4 @@
+<%@page import="org.hibernate.SessionFactory"%>
 <%@page import="at.ac.univie.rscm.model.RSCMClientConnection"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Date"%>
@@ -156,7 +157,7 @@
 									for (Method m : methods2) {
 										//check if method is a get method
 										if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
-												&& !m.getName().equals("getClass") && !m.getName().equals("getRscmClient")) {
+												&& !m.getName().equals("getClass") && !m.getName().equals("getRscmClient")&& !m.getName().equals("getEnvironment")) {
 											out.println("<th>" + m.getName().substring(3) + "</th>");
 										}
 									}
@@ -169,8 +170,8 @@
 
 								for (Method m : methods2) {
 									if (m.getName().startsWith("get") && m.getParameterTypes().length == 0
-											&& !m.getName().equals("getClass") && !m.getName().equals("getRscmClient")) {
-
+											&& !m.getName().equals("getClass") && !m.getName().equals("getRscmClient")&& !m.getName().equals("getEnvironment")) {
+										
 										out.println("<td>" + m.invoke(rcc, null) + "</td>");
 
 									}

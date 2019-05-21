@@ -455,8 +455,6 @@ public class ApplicationController {
 		newTask.setTaskCreationdate(new Date());
 		SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println(">>"+formVarsMap.get("taskPlanBegindate")+"<<");
-		System.out.println(">>"+formVarsMap.get("taskPlanBegintime")+"<<");
 		try {
 			if(!formVarsMap.get("taskPlanBegindate").equals("")) {
 				if(!formVarsMap.get("taskPlanBegintime").equals("")) {

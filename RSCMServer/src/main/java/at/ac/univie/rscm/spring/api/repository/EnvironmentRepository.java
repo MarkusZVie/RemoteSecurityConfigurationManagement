@@ -17,4 +17,10 @@ public interface EnvironmentRepository extends JpaRepository<Environment, Intege
 	@Query(value = "SELECT * FROM rscmdatabase.environments WHERE ip_range_begin LIKE %:substring%" , nativeQuery = true)
 	List<Environment> findByContainsInIp(@Param("substring") String substring);
 	
+	@Query(value = "SELECT * FROM rscmdatabase.environments WHERE ip_range_begin LIKE :ipRangeBegin AND ip_range_end LIKE :ipRangeEnd" , nativeQuery = true)
+	List<Environment> findAllByIpRangeBeginAndEnd(String ipRangeBegin, String ipRangeEnd);
+
+	@Query(value = "SELECT * FROM rscmdatabase.environments WHERE ip_range_begin LIKE :ipRangeBegin AND ip_range_end LIKE :ipRangeEnd AND environment_description LIKE :environmentDescription" , nativeQuery = true)
+	List<Environment> findByIpAndDescriptin(String ipRangeBegin, String ipRangeEnd, String environmentDescription);
+	
 }

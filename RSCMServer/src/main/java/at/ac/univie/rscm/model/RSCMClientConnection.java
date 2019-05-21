@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,15 +27,24 @@ public class RSCMClientConnection {
 		private int connectionId;
 		private Date connectionStart;
 		private Date connectionEnd;
-		private String connectionExitCode;
+		private String connectionExitcode;
 		private String connectionDescription;
 		private String connectionSupplement;
 		@ManyToOne
 	    @JoinColumn(name="rscmclient_fs", nullable=false)
 		private RSCMClient rscmClient;
 		@ManyToOne
-	    @JoinColumn(name="environment_fs", nullable=false)
+	    @JoinColumn(name="environment_fs")
 		private Environment environment;
+		
+		public String getEnvironmentIp() {
+			if(environment!=null) {
+				return environment.getIpRangeBegin();
+			}else {
+				return "null";
+			}
+			
+		}
 		
 		@Override
 		public String toString() {
@@ -51,7 +61,7 @@ public class RSCMClientConnection {
 			}else {
 				sb.append("connectionEnd: null<br/>");
 			}
-			sb.append("connectionExitCode: " + connectionExitCode + "<br/>");
+			sb.append("connectionExitCode: " + connectionExitcode + "<br/>");
 			sb.append("connectionDescription: " + connectionDescription + "<br/>");
 			sb.append("connectionSupplement: " + connectionSupplement + "<br/>");
 			if(rscmClient!=null) {

@@ -21,6 +21,12 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	@Query(value = "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE %:substring%" , nativeQuery = true)
 	List<Scriptexecution> findByContainsInName(@Param("substring") String substring);
 	
+	@Query(value = "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL" , nativeQuery = true)
+	List<Scriptexecution> findByScriptNameAndExDateNotNull(@Param("scriptName") String scriptName);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE rscmclient_fs = :rscmclientId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> findAllToExecuteScriptAssigns(@Param("rscmclientId") int rscmclientId);
+	
 	
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE applicantgroup_fs = :id AND script_name LIKE :scriptName", nativeQuery = true)
 	List<Scriptexecution> findByApplicantgroup(@Param("id") int id,@Param("scriptName") String scriptName);
@@ -119,6 +125,9 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND role_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
 	List<Scriptexecution> getAssignedExecutionBasedOnRole(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE scriptexecution_executiondate IS NULL AND (environment_fs IS NOT NULL OR environmentthreat_fs IS NOT NULL)", nativeQuery = true)
+	List<Scriptexecution> findAllToExecuteScriptEnvironment();
 	
 	
 }

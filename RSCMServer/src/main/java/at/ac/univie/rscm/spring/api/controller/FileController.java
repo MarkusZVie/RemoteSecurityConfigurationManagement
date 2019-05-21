@@ -16,7 +16,9 @@ import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
 import at.ac.univie.rscm.application.global.data.DownloadFileInfo;
 import at.ac.univie.rscm.application.global.data.UploadFileResponse;
+import at.ac.univie.rscm.model.Scriptexecution;
 import at.ac.univie.rscm.spring.api.FileStorageService;
+import at.ac.univie.rscm.spring.api.repository.ScriptexecutionRepository;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,14 +48,19 @@ public class FileController {
 
 	@Autowired
 	private FileStorageService fileStorageService;
+	
+	@Autowired
+	private ScriptexecutionRepository scriptexecutionRepository;
 
 	@PostMapping("/deleteFile")
-	public void deleteFile(@RequestParam String[] fileName) {
+	public String deleteFile(@RequestParam String[] fileName) {
 		File f = new File(gsav.getFileDownloadDirectory()+"\\" + fileName[0]);
+		List<Scriptexecution> seList = scriptexecutionRepository.findByScriptNameAndExDateNotNull(fileName[0]);
+		scriptexecutionRepository.deleteAll(seList);
 		if(f.delete()) {
-			//System.out.println("file deleted");
+			return "file deleted";
 		}else {
-			//System.out.println("fileNot found");
+			return "fileNot found";
 		}
 		
 	}

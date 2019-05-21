@@ -16,4 +16,6 @@ public interface PortScannerInterface {
 	public int getTimeSpaceScanningMS();
 	public void setTimeSpaceScanningMS(int ms);
 	public void start();
+	public void scriptsAssignmentHasChaneged();
+	public void addEnvironment(int environmentId, int portNumber);
 }

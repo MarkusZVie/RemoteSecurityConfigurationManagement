@@ -73,7 +73,7 @@ public class InstallFileDownloadController {
 			gsav.setRSCMClientRepository(rcsmClientRepository);
 			
 			
-			File file = cisb.getClientInstallProgram(true,loggedInApplicant);
+			File file = cisb.getClientInstallProgram(true,loggedInApplicant.getApplicantId());
 			response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
 			try {
 				Path path = file.toPath();
@@ -88,7 +88,7 @@ public class InstallFileDownloadController {
 			gsav.setRSCMClientRepository(rcsmClientRepository);
 			
 			cisb = ClientInstallationScriptManager.getInstance();
-			File file = cisb.getClientInstallProgram(false,loggedInApplicant);
+			File file = cisb.getClientInstallProgram(false,loggedInApplicant.getApplicantId());
 			response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
 			try {
 				Path path = file.toPath();

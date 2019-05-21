@@ -39,7 +39,7 @@ public class Environment {
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="hasEnvironmentEnvironmentthreat", joinColumns=@JoinColumn(name="environmentId"), inverseJoinColumns=@JoinColumn(name="environmentthreatId"))
 	private Set<Environmentthreat> environmentthreats;
-	@LazyCollection(LazyCollectionOption.TRUE)
+	//@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="environment",cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<RSCMClientConnection> rSCMClientConnections;
 	
@@ -53,6 +53,7 @@ public class Environment {
 		sb.append("environmentDescription: " + environmentDescription + "<br/>");
 		if(rSCMClientConnections!=null) {
 			sb.append("rSCMClientConnections number: " + rSCMClientConnections.size() + "<br/>");
+			//sb.append("rSCMClientConnections number: " +"asdkjafdhbjfaebhjkaf" + "<br/>");
 		}else {
 			sb.append("rSCMClientConnections: null<br/>");
 		}
@@ -63,7 +64,7 @@ public class Environment {
 				sb.append(et.getThreatTitle() +", ");
 			}
 			
-			return sb.toString().substring(0, sb.toString().length()-2)+"]<br/>";
+			return sb.toString().substring(0, sb.toString().length()-1)+"]<br/>";
 		}else {
 			sb.append("environmentthreats: [] <br/>");
 			return sb.toString();

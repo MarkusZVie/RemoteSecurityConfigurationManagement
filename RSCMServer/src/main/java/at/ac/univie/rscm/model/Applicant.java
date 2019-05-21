@@ -65,6 +65,14 @@ public class Applicant {
 		
 	}
 	
+	public void addRSCMClient(RSCMClient rscmClient) {
+		if(rscmClient==null) {
+			rscmclients = new HashSet<RSCMClient>();
+		}
+		rscmclients.add(rscmClient);
+		
+	}
+	
 
 
 

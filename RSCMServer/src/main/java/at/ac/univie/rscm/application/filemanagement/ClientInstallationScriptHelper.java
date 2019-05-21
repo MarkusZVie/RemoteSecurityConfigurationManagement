@@ -43,10 +43,10 @@ public class ClientInstallationScriptHelper extends Thread {
 	@Getter
 	private int client_specificport_value;
 	@Getter
-	private Applicant loggedInApplicant;
+	private int loggedInApplicantId;
 
-	public ClientInstallationScriptHelper(int availabilityTime, Applicant loggedInApplicant) {
-		this.loggedInApplicant = loggedInApplicant;
+	public ClientInstallationScriptHelper(int availabilityTime, int loggedInApplicantId) {
+		this.loggedInApplicantId = loggedInApplicantId;
 		this.availabilityTime = availabilityTime;
 		cism = ClientInstallationScriptManager.getInstance();
 		gsav = GlobalSettingsAndVariables.getInstance();
