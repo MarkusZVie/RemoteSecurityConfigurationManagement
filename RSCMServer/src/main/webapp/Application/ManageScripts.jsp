@@ -108,10 +108,11 @@
 	<!-- Page content -->
 	<div class="w3-content content">
 		<div class="w3-container w3-padding-64" id="maincontent">
+		<div id="response"></div>
 			<div class="multiple-upload">
 				<h3>Upload Script(s)</h3>
 				<form id="multipleUploadForm" name="multipleUploadForm">
-					<input id="multipleFileUploadInput" type="file" name="files"
+					<input id="../FileManager/multipleFileUploadInput" type="file" name="files"
 						class="file-input" multiple required />
 					<button type="submit" class="primary submit-btn">Submit</button>
 				</form>
@@ -120,15 +121,14 @@
 					<div id="multipleFileUploadSuccess"></div>
 				</div>
 			</div>
-			<script src="../WebressourcenImport/fileUploadHelper.js"></script>
-
+			
 
 			<h1>Script Management</h1>
 			<br>
 			<form id="searchNameForm" name="searchNameForm">
 				<input id="searchName" type="text" name="searchName" />
 			</form>
-
+			
 			<table class='w3-table w3-striped w3-hoverable table'>
 				<thead>
 				<tr>
@@ -173,9 +173,9 @@
 				
 				var searchString = document.getElementById("searchName").value;
 				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "/getFileList");
+				xhr.open("POST", "../FileManager/getFileList");
 				xhr.onload = function() {
-					console.log(xhr.responseText);
+					//console.log(xhr.responseText);
 					var response = JSON.parse(xhr.responseText);
 					if (xhr.status == 200) {
 						var tableBuild = "";
@@ -216,20 +216,40 @@
 			function deleteFile(filename) {
 				//https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
 				var xhr = new XMLHttpRequest();
-				xhr.open('POST', '/deleteFile', true);
+				xhr.open('POST', '../FileManager/deleteFile', true);
 				
 				xhr.onload = function () {
-					getFileList();
-					multipleFileUploadSuccess.innerHTML = "the file " + filename +" was deleted successfully";
+					if (xhr.status == 200) {
+						document.getElementById("response").innerHTML = xhr.responseText;
+						getFileList();
+					} else {
+						console.log(xhr.responseText);
+						document.getElementById("response").innerHTML = "some error happend "
+					}
+					
 					
 				};
 				var formData = new FormData();
 				formData.append("fileName", filename);
 				xhr.send(formData);
-				// xhr.send('string');
-				// xhr.send(new Blob());
-				// xhr.send(new Int8Array());
-				// xhr.send(document);
+			}
+			
+			function forceDeleteFile(filename) {
+				var formData = new FormData();
+				formData.append("fileName", filename);
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "../FileManager/forceDeleteFile");
+				xhr.onload = function() {
+					if (xhr.status == 200) {
+						document.getElementById("response").innerHTML = xhr.responseText;
+						getFileList();
+					} else {
+						console.log(xhr.responseText);
+						document.getElementById("response").innerHTML = "some error happend "
+					}
+				}
+
+				xhr.send(formData);
 			}
 
 			function displayFile(filename) {
@@ -245,7 +265,7 @@
 				}
 
 				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "/uploadMultipleFiles");
+				xhr.open("POST", "../FileManager/uploadMultipleFiles");
 
 				xhr.onload = function() {
 					console.log(xhr.responseText);

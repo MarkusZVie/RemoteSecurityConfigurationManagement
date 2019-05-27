@@ -16,6 +16,8 @@ import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
 import at.ac.univie.rscm.application.global.data.DownloadFileInfo;
 import at.ac.univie.rscm.application.global.data.UploadFileResponse;
+import at.ac.univie.rscm.model.Applicant;
+import at.ac.univie.rscm.model.Role;
 import at.ac.univie.rscm.model.Scriptexecution;
 import at.ac.univie.rscm.spring.api.FileStorageService;
 import at.ac.univie.rscm.spring.api.repository.ScriptexecutionRepository;
@@ -33,10 +35,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 //https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
 @RestController
+@RequestMapping("/FileManager/")
 public class FileController {
 
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
@@ -55,10 +59,30 @@ public class FileController {
 	@PostMapping("/deleteFile")
 	public String deleteFile(@RequestParam String[] fileName) {
 		File f = new File(gsav.getFileDownloadDirectory()+"\\" + fileName[0]);
+
+		List<Scriptexecution> seList = scriptexecutionRepository.findByScriptNameAndExDateNotNull(fileName[0]);
+		if(seList.size()==0 ) {
+			scriptexecutionRepository.deleteAll(seList);
+			if(f.delete()) {
+				return "The File with name: " + fileName[0] + " was deleted successfully" ;
+			}else {
+				return "fileNot found";
+			}
+		}else {
+			return "There are other objects that depend on the file. <br>"
+					+ "There are "+seList.size() +" ScriptExecutions that depend on this file <br>"
+					+ "If you really want to delete this file press here:<br>"
+					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteFile('"+fileName[0]+"')\">force delete</button>";
+		}		
+	}
+	
+	@PostMapping("/forceDeleteFile")
+	public String forceDeleteFile(@RequestParam String[] fileName) {
+		File f = new File(gsav.getFileDownloadDirectory()+"\\" + fileName[0]);
 		List<Scriptexecution> seList = scriptexecutionRepository.findByScriptNameAndExDateNotNull(fileName[0]);
 		scriptexecutionRepository.deleteAll(seList);
 		if(f.delete()) {
-			return "file deleted";
+			return "The File with name: " + fileName[0] + " was deleted successfully" ;
 		}else {
 			return "fileNot found";
 		}

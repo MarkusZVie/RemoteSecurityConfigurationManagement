@@ -370,6 +370,25 @@
 				xhr.send(formData);
 			}
 			
+			
+			function forceDeleteTask(taskId) {
+				var formData = new FormData();
+				formData.append("taskId", taskId);
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "/Application/forceDeleteTask");
+				xhr.onload = function() {
+					if (xhr.status == 200) {
+						document.getElementById("response").innerHTML = xhr.responseText;
+						loadTaskList()
+					} else {
+						console.log(xhr.responseText);
+						document.getElementById("response").innerHTML = "some error happend "
+					}
+				}
+
+				xhr.send(formData);
+			}
+			
 			function sendAddTaskData() {
 				var formData = new FormData();
 				//https://stackoverflow.com/questions/19978600/how-to-loop-through-elements-of-forms-with-javascript

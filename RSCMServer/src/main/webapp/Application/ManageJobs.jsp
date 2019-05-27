@@ -350,12 +350,33 @@
 						document.getElementById("response").innerHTML = xhr.responseText;
 						loadJobList()
 					} else {
-						document.getElementById("response").innerHTML = "some error happend"
+						console.log(xhr.responseText);
+						document.getElementById("response").innerHTML = "some error happend "
 					}
 				}
 
 				xhr.send(formData);
 			}
+			
+			function forceDeleteJob(jobId) {
+				var formData = new FormData();
+				formData.append("jobId", jobId);
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "/Application/forceDeleteJob");
+				xhr.onload = function() {
+					if (xhr.status == 200) {
+						document.getElementById("response").innerHTML = xhr.responseText;
+						loadJobList()
+					} else {
+						console.log(xhr.responseText);
+						document.getElementById("response").innerHTML = "some error happend "
+					}
+				}
+
+				xhr.send(formData);
+			}
+			
+			
 			
 			function sendAddJobData() {
 				var formData = new FormData();

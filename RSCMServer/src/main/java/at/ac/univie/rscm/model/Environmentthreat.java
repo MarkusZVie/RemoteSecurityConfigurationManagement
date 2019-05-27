@@ -51,5 +51,16 @@ public class Environmentthreat {
 		
 		return sb.toString();
 	}
+
+	public void deleteEnvironment(int id) {
+		Environment toDeleteEnvironment = null;
+		for(Environment e : environment) {
+			if(e.getEnvironmentId() == id) {
+				toDeleteEnvironment=e;
+			}
+		}
+		environment.remove(toDeleteEnvironment);
+		
+	}
 	
 }

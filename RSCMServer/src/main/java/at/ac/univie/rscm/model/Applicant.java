@@ -1,6 +1,7 @@
 package at.ac.univie.rscm.model;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -124,4 +125,46 @@ public class Applicant {
 		
 		return sb.toString();
 		}
+
+	public void deletejob(int id) {
+		for(Job j : jobs) {
+			if(j.getJobId()==id) {
+				jobs.remove(j);
+			}
+		}
+		
+	}
+
+	public void deleteGroup(int id) {
+		for(Applicantgroup g : applicantgroups) {
+			if(g.getApplicantgroupId()==id) {
+				applicantgroups.remove(g);
+			}
+		}
+		
+	}
+
+	public void deleteRole(int id) {
+		Role targetR = null;
+		for(Role r : roles) {
+			if(r.getRoleId() == id) {
+				targetR = r;
+			}
+			
+		}
+		roles.remove(targetR);
+		
+	}
+
+	public void deleteTask(int id) {
+		Task targetT = null;
+		for(Task t : tasks) {
+			if(t.getTaskId() == id) {
+				targetT = t;
+			}
+			
+		}
+		tasks.remove(targetT);
+		
+	}
 }

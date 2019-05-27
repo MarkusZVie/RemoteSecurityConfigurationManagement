@@ -80,7 +80,7 @@ public class ApplicantController {
 		newApplicant.setApplicantFirstname(formVarsMap.get("applicantFirstname"));
 		newApplicant.setApplicantPassword(new BCryptPasswordEncoder().encode(formVarsMap.get("applicantPassword")));
 		
-		Collection<Role> roleList = roleRepository.findAllByRoleName("Applicant");
+		Collection<Role> roleList = roleRepository.findAllByRoleName("User");
 		assert(roleList.size()==1);
 		System.out.println(Arrays.toString(roleList.toArray()));
 		Role r = roleList.iterator().next();

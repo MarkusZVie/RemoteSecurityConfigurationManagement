@@ -71,5 +71,15 @@ public class Environment {
 		}
 		
 	}
+
+	public void deleteenvironmentthreat(int id) {
+		Environmentthreat toDeleteEnvironmentthreat= null;
+		for(Environmentthreat e : environmentthreats) {
+			if(e.getEnvironmentthreatId() == id) {
+				toDeleteEnvironmentthreat = e;
+			}
+		}
+		environmentthreats.remove(toDeleteEnvironmentthreat);
+	}
 	
 }

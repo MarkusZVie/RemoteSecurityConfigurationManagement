@@ -1,4 +1,6 @@
 
+<%@page import="org.springframework.security.core.userdetails.UserDetails"%>
+<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.HashMap"%>
@@ -51,7 +53,21 @@
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
 			<a href="RegisterAccount.jsp"	class="w3-bar-item w3-button w3-teal w3-margin-right">Register</a> 
-			<a href="login" class="w3-bar-item w3-button w3-teal w3-margin-right">Login</a>
+			
+			<%
+			//https://dzone.com/articles/how-to-get-current-logged-in-username-in-spring-se
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			if (principal instanceof UserDetails) {
+				out.println("<a href=\"logout\" class=\"w3-bar-item w3-button w3-teal w3-margin-right\">Logout</a>");
+			} else {
+				out.println("<a href=\"login\" class=\"w3-bar-item w3-button w3-teal w3-margin-right\">Login</a>");
+			}
+			
+			%>
+			
+			
+			
 <div class="w3-right w3-hide-small">
 			<a href="/WebPage/Downloads.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">Downloads</a>
 			<a href="/Administration/ClientManagement.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">Administration</a>
@@ -79,8 +95,17 @@
 					<td><p>Here you can sign up yourself to use the RSCM Application</p></td>
 				</tr>
 				<tr>
-					<td><a style="width:150px;" href="login" class="w3-bar-item w3-button w3-teal w3-margin-right">Login</a></td>
-					<td><p>If you have already an account you can sign-in here</p></td>
+					<%
+					//https://dzone.com/articles/how-to-get-current-logged-in-username-in-spring-se
+					if (principal instanceof UserDetails) {
+						out.println("<td><a href=\"logout\" class=\"w3-bar-item w3-button w3-teal w3-margin-right\">Logout</a></td>");
+						out.println("<td><p>You can logout here</p></td>");
+					} else {
+						out.println("<td><a href=\"login\" class=\"w3-bar-item w3-button w3-teal w3-margin-right\">Login</a></td>");
+						out.println("<td><p>If you have already an account you can sign-in here</p></td>");
+					}
+					
+					%>
 				</tr>
 				<tr >
 					<td style ="border-top: 1px solid black;"><a style="width:150px;" href="/WebPage/Downloads.jsp" class="w3-bar-item w3-button w3-teal w3-margin-right">Downloads</a></td>

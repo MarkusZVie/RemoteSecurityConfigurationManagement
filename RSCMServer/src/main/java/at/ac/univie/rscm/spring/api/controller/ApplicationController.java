@@ -32,14 +32,19 @@ import at.ac.univie.rscm.model.Applicantgroup;
 import at.ac.univie.rscm.model.Environment;
 import at.ac.univie.rscm.model.Environmentthreat;
 import at.ac.univie.rscm.model.Job;
+import at.ac.univie.rscm.model.RSCMClient;
+import at.ac.univie.rscm.model.RSCMClientConnection;
 import at.ac.univie.rscm.model.Role;
+import at.ac.univie.rscm.model.Scriptexecution;
 import at.ac.univie.rscm.model.Task;
 import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
 import at.ac.univie.rscm.spring.api.repository.ApplicantgroupRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentthreatsRepository;
 import at.ac.univie.rscm.spring.api.repository.JobRepository;
+import at.ac.univie.rscm.spring.api.repository.RSCMClientConnectionRepository;
 import at.ac.univie.rscm.spring.api.repository.RoleRepository;
+import at.ac.univie.rscm.spring.api.repository.ScriptexecutionRepository;
 import at.ac.univie.rscm.spring.api.repository.TaskReposiotry;
 
 
@@ -68,6 +73,12 @@ public class ApplicationController {
 	
 	@Autowired
 	private EnvironmentthreatsRepository environmentthreatRepository;
+	
+	@Autowired
+	private ScriptexecutionRepository scriptexecutionRepository;
+	
+	@Autowired
+	private RSCMClientConnectionRepository rscmClientConnectionRepository;
 	
 	@PostMapping("/pushGroup")
 	public String pushApplicantGroupRegistration(@RequestParam("formVars") String[] formVars) {
@@ -109,16 +120,108 @@ public class ApplicationController {
 		return "Role '"+formVarsMap.get("roleName")+"' was saved successfully";
 	}
 	
+
+
 	@PostMapping("/deleteRole")
 	public String deleteRole(@RequestParam("roleId") String roleId) {
-		roleRepository.deleteById(Integer.parseInt(roleId));
-		return "The Role with id: " + roleId + "was deleted successfully";
+		int id = Integer.parseInt(roleId);
+		if(id <=4) {
+			return "the role cannot be deleted, its a system role";
+		}
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByRoleId(id);
+		Role j = roleRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+			roleRepository.deleteById(Integer.parseInt(roleId));
+			return "The Role with id: " + roleId + " was deleted successfully";
+		}else {
+			return "There are other objects that depend on the role. <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getApplicants().size()+ " Applicants that depend on this role <br>"
+					+ "If you really want to delete this role press here:<br>"
+					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteRole('"+roleId+"')\">force delete</button>";
+		}
+		
 	}
 	
+	@PostMapping("/forceDeleteRole")
+	public String forceDeleteRole(@RequestParam("roleId") String roleId) {
+		int id = Integer.parseInt(roleId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByRoleId(id);
+		Role j = roleRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+			roleRepository.deleteById(Integer.parseInt(roleId));
+			return "The Role with id: " + roleId + "was deleted successfully";
+		}else {
+			for(Scriptexecution se : scriptList) {
+				if(se.getScriptexecutionExecutiondate()==null) {
+					scriptexecutionRepository.delete(se);
+				}else {
+					se.setRole(null);
+					se.setDescription("Assigned By [Role], but Role with id: "+roleId+" is deleted");
+					scriptexecutionRepository.save(se);
+				}
+			}
+			j.setApplicants(new HashSet<Applicant>());
+			roleRepository.save(j);
+			
+			List<Applicant> applicantList = applicantRepository.findByRoleId(id);
+			for(Applicant a : applicantList) {
+				a.deleteRole(id);
+				applicantRepository.save(a);
+			}
+			
+			return deleteRole(roleId);
+		}
+	}
+	
+	
+		
 	@PostMapping("/deleteGroup")
 	public String deleteGroup(@RequestParam("groupId") String groupId) {
-		groupRepository.deleteById(Integer.parseInt(groupId));
-		return "The Group with id: " + groupId + "was deleted successfully";
+		int id = Integer.parseInt(groupId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByApplicantgroupId(id);
+		Applicantgroup j = groupRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+			groupRepository.deleteById(Integer.parseInt(groupId));
+			return "The Group with id: " + groupId + " was deleted successfully";
+		}else {
+			return "There are other objects that depend on the group. <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getApplicants().size()+ " Applicants that depend on this group <br>"
+					+ "If you really want to delete this group press here:<br>"
+					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteGroup('"+groupId+"')\">force delete</button>";
+		}
+		
+	}
+	
+	@PostMapping("/forceDeleteGroup")
+	public String forceDeleteGroup(@RequestParam("groupId") String groupId) {
+		int id = Integer.parseInt(groupId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByApplicantgroupId(id);
+		Applicantgroup j = groupRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+			groupRepository.deleteById(Integer.parseInt(groupId));
+			return "The Group with id: " + groupId + "was deleted successfully";
+		}else {
+			for(Scriptexecution se : scriptList) {
+				if(se.getScriptexecutionExecutiondate()==null) {
+					scriptexecutionRepository.delete(se);
+				}else {
+					se.setApplicantgroup(null);
+					se.setDescription("Assigned By [Group], but Group with id: "+groupId+" is deleted");
+					scriptexecutionRepository.save(se);
+				}
+			}
+			j.setApplicants(new HashSet<Applicant>());
+			groupRepository.save(j);
+			
+			List<Applicant> applicantList = applicantRepository.findByApplicantgroupId(id);
+			for(Applicant a : applicantList) {
+				a.deleteGroup(id);
+				applicantRepository.save(a);
+			}
+			
+			return deleteGroup(groupId);
+		}
+		
 	}
 	
 	@PostMapping("/getApplicantList")
@@ -166,12 +269,13 @@ public class ApplicationController {
 				}
 				
 				//check if there are roles that dont appier in the new setting
+				Set<Role> toDeleteRoleSet = new HashSet<Role>();
 				for(Role r: setRoles) {
 					if(!newRoleIds.contains(r.getRoleId())) {
-						setRoles.remove(r);
+						toDeleteRoleSet.add(r);
 					}
 				}
-				
+				setRoles.removeAll(toDeleteRoleSet);
 				
 				
 				//add new Roles
@@ -215,11 +319,14 @@ public class ApplicationController {
 				}
 				
 				//check if there are roles that dont appier in the new setting
+				Set<Applicantgroup> toDeleteApplicantgroupSet = new HashSet<Applicantgroup>();
 				for(Applicantgroup g: setGroups) {
 					if(!newGroupIds.contains(g.getApplicantgroupId())) {
-						setGroups.remove(g);
+						toDeleteApplicantgroupSet.add(g);
 					}
 				}
+				setGroups.retainAll(toDeleteApplicantgroupSet);
+				
 				
 				
 				
@@ -342,8 +449,51 @@ public class ApplicationController {
 	
 	@PostMapping("/deleteJob")
 	public String deleteJob(@RequestParam("jobId") String jobId) {
-		jobRepository.deleteById(Integer.parseInt(jobId));
-		return "The Job with id: " + jobId + "was deleted successfully";
+		int id = Integer.parseInt(jobId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByJobId(id);
+		Job j = jobRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+			jobRepository.deleteById(Integer.parseInt(jobId));
+			return "The Job with id: " + jobId + " was deleted successfully";
+		}else {
+			return "There are other objects that depend on the job. <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getApplicants().size()+ " Applicants that depend on this job <br>"
+					+ "If you really want to delete this job press here:<br>"
+					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteJob('"+jobId+"')\">force delete</button>";
+		}
+		
+	}
+	
+	@PostMapping("/forceDeleteJob")
+	public String forceDeleteJob(@RequestParam("jobId") String jobId) {
+		int id = Integer.parseInt(jobId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByJobId(id);
+		Job j = jobRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+			jobRepository.deleteById(Integer.parseInt(jobId));
+			return "The Job with id: " + jobId + "was deleted successfully";
+		}else {
+			for(Scriptexecution se : scriptList) {
+				if(se.getScriptexecutionExecutiondate()==null) {
+					scriptexecutionRepository.delete(se);
+				}else {
+					se.setJob(null);
+					se.setDescription("Assigned By [Job], but Job with id: "+jobId+" is deleted");
+					scriptexecutionRepository.save(se);
+				}
+			}
+			j.setApplicants(new HashSet<Applicant>());
+			jobRepository.save(j);
+			
+			List<Applicant> applicantList = applicantRepository.findByJobId(id);
+			for(Applicant a : applicantList) {
+				a.deletejob(id);
+				applicantRepository.save(a);
+			}
+			
+			return deleteJob(jobId);
+		}
+		
 	}
 	
 	
@@ -370,12 +520,15 @@ public class ApplicationController {
 				}
 				
 				//check if there are jobs that dont appier in the new setting
+				//System.out.println(Arrays.toString(setJobs.toArray()));
+				
+				Set<Job> toDeleteJobs = new HashSet<Job>();
 				for(Job r: setJobs) {
 					if(!newJobIds.contains(r.getJobId())) {
-						setJobs.remove(r);
+						toDeleteJobs.add(r);
 					}
 				}
-				
+				setJobs.removeAll(toDeleteJobs);
 				
 				
 				//add new Jobs
@@ -484,12 +637,59 @@ public class ApplicationController {
 		return "Task '"+formVarsMap.get("taskName")+"' was saved successfully";
 	}
 	
+
 	@PostMapping("/deleteTask")
 	public String deleteTask(@RequestParam("taskId") String taskId) {
-		taskRepository.deleteById(Integer.parseInt(taskId));
-		return "The Task with id: " + taskId + "was deleted successfully";
+		int id = Integer.parseInt(taskId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByTaskId(id);
+		Task j = taskRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+			taskRepository.deleteById(Integer.parseInt(taskId));
+			return "The Task with id: " + taskId + " was deleted successfully";
+		}else {
+			return "There are other objects that depend on the task. <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getApplicants().size()+ " Applicants that depend on this task <br>"
+					+ "If you really want to delete this task press here:<br>"
+					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteTask('"+taskId+"')\">force delete</button>";
+		}
+		
 	}
 	
+	@PostMapping("/forceDeleteTask")
+	public String forceDeleteTask(@RequestParam("taskId") String taskId) {
+		int id = Integer.parseInt(taskId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByTaskId(id);
+		Task j = taskRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+			taskRepository.deleteById(Integer.parseInt(taskId));
+			return "The Task with id: " + taskId + "was deleted successfully";
+		}else {
+			for(Scriptexecution se : scriptList) {
+				if(se.getScriptexecutionExecutiondate()==null) {
+					scriptexecutionRepository.delete(se);
+				}else {
+					se.setTask(null);
+					se.setDescription("Assigned By [Task], but Task with id: "+taskId+" is deleted");
+					scriptexecutionRepository.save(se);
+				}
+			}
+			
+			
+			List<Applicant> applicantList = applicantRepository.findByTaskId(id);
+			for(Applicant a : applicantList) {
+				a.deleteTask(id);
+				applicantRepository.save(a);
+				System.out.println(Arrays.toString(a.getTasks().toArray()));
+			}
+			
+			System.out.println(j.toString());
+			j.setApplicants(new HashSet<Applicant>());
+			taskRepository.save(j);
+			System.out.println(j.toString());
+			
+			return deleteTask(taskId);
+		}
+	}
 	
 	@PostMapping("/updateAssignedToTask")
 	public String updateAssignedToTask(@RequestParam("taskIds") int[] taskId,@RequestParam("applicantId") int applicantId) {
@@ -514,12 +714,13 @@ public class ApplicationController {
 				}
 				
 				//check if there are tasks that dont appier in the new setting
+				Set<Task> toDeleteTask = new HashSet<Task>();
 				for(Task r: setTasks) {
 					if(!newTaskIds.contains(r.getTaskId())) {
-						setTasks.remove(r);
+						toDeleteTask.add(r);
 					}
 				}
-				
+				setTasks.removeAll(toDeleteTask);
 				
 				
 				//add new Tasks
@@ -624,11 +825,70 @@ public class ApplicationController {
 		return "Environment '"+formVarsMap.get("ipRangeBegin")+"' was saved successfully";
 	}
 	
+	
 	@PostMapping("/deleteEnvironment")
 	public String deleteEnvironment(@RequestParam("environmentId") String environmentId) {
-		environmentRepository.deleteById(Integer.parseInt(environmentId));
-		return "The Environment with id: " + environmentId + "was deleted successfully";
+		int id = Integer.parseInt(environmentId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByEnvironmentId(id);
+		Environment j = environmentRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getEnvironmentthreats().size()==0 && j.getRSCMClientConnections().size()==0) {
+			environmentRepository.deleteById(Integer.parseInt(environmentId));
+			return "The Environment with id: " + environmentId + " was deleted successfully";
+		}else {
+			return "There are other objects that depend on the environment. <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and <br>" +
+					j.getEnvironmentthreats().size()+ " Environmentthreats and <br> "+
+					j.getRSCMClientConnections().size() + " Connections depend on this environment  <br>"
+					+ "If you really want to delete this environment press here:<br>"
+					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteEnvironment('"+environmentId+"')\">force delete</button>";
+		}
+		
 	}
+	
+	@PostMapping("/forceDeleteEnvironment")
+	public String forceDeleteEnvironment(@RequestParam("environmentId") String environmentId) {
+		int id = Integer.parseInt(environmentId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByEnvironmentId(id);
+		Environment j = environmentRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getEnvironmentthreats().size()==0 && j.getRSCMClientConnections().size()==0) {
+			environmentRepository.deleteById(Integer.parseInt(environmentId));
+			return "The Environment with id: " + environmentId + "was deleted successfully";
+		}else {
+			//manage script dependencies
+			for(Scriptexecution se : scriptList) {
+				if(se.getScriptexecutionExecutiondate()==null) {
+					scriptexecutionRepository.delete(se);
+				}else {
+					se.setEnvironment(null);
+					se.setDescription("Assigned By [Environment], but Environment with id: "+environmentId+" is deleted");
+					scriptexecutionRepository.save(se);
+				}
+			}
+			//manage script Connection dependencies
+			for(RSCMClientConnection c : j.getRSCMClientConnections()) {
+				c.setEnvironment(null);
+				c.setConnectionDescription("Environment now Deleted, connected from ["+j.getIpRangeBegin()+"] with id ["+j.getEnvironmentId()+"]");
+				rscmClientConnectionRepository.save(c);
+				
+			}
+			j.getRSCMClientConnections().removeAll(j.getRSCMClientConnections());
+			environmentRepository.save(j);
+			// manage Environmentthreat dependencies
+			j.setEnvironmentthreats(new HashSet<Environmentthreat>());
+			environmentRepository.save(j);
+			
+			List<Environmentthreat> environmentthreatList = environmentthreatRepository.findByEnvironmentId(id);
+			for(Environmentthreat e : environmentthreatList) {
+				e.deleteEnvironment(id);
+				environmentthreatRepository.save(e);
+			}
+			
+			return deleteEnvironment(environmentId);
+		}
+		
+	}
+	
+	
 	
 	@PostMapping("/getEnvironmentList")
 	public String getEnvironmentList(@RequestParam("searchString") String searchString) {
@@ -696,11 +956,58 @@ public class ApplicationController {
 		return "Environmentthreat '"+formVarsMap.get("environmentthreatName")+"' was saved successfully";
 	}
 	
+	
+	
 	@PostMapping("/deleteEnvironmentthreat")
 	public String deleteEnvironmentthreat(@RequestParam("environmentthreatId") String environmentthreatId) {
-		environmentthreatRepository.deleteById(Integer.parseInt(environmentthreatId));
-		return "The Environmentthreat with id: " + environmentthreatId + "was deleted successfully";
+		int id = Integer.parseInt(environmentthreatId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByEnvironmentthreatId(id);
+		Environmentthreat j = environmentthreatRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getEnvironment().size()==0) {
+			environmentthreatRepository.deleteById(Integer.parseInt(environmentthreatId));
+			return "The Environmentthreat with id: " + environmentthreatId + " was deleted successfully";
+		}else {
+			return "There are other objects that depend on the environmentthreat. <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getEnvironment().size()+ " Environments that depend on this environmentthreat <br>"
+					+ "If you really want to delete this environmentthreat press here:<br>"
+					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteEnvironmentthreat('"+environmentthreatId+"')\">force delete</button>";
+		}
+		
 	}
+	
+	@PostMapping("/forceDeleteEnvironmentthreat")
+	public String forceDeleteEnvironmentthreat(@RequestParam("environmentthreatId") String environmentthreatId) {
+		int id = Integer.parseInt(environmentthreatId);
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByEnvironmentthreatId(id);
+		Environmentthreat j = environmentthreatRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getEnvironment().size()==0) {
+			environmentthreatRepository.deleteById(Integer.parseInt(environmentthreatId));
+			return "The Environmentthreat with id: " + environmentthreatId + "was deleted successfully";
+		}else {
+			for(Scriptexecution se : scriptList) {
+				if(se.getScriptexecutionExecutiondate()==null) {
+					scriptexecutionRepository.delete(se);
+				}else {
+					se.setEnvironmentthreat(null);
+					se.setDescription("Assigned By [Environmentthreat], but Environmentthreat with id: "+environmentthreatId+" is deleted");
+					scriptexecutionRepository.save(se);
+				}
+			}
+			
+			j.getEnvironment().removeAll(j.getEnvironment());
+			environmentthreatRepository.save(j);
+			
+			List<Environment> environmentList = environmentRepository.findByEnvironmentthreatId(id);
+			for(Environment e : environmentList) {
+				e.deleteenvironmentthreat(id);
+				environmentRepository.save(e);
+			}
+			
+			return deleteEnvironmentthreat(environmentthreatId);
+		}
+		
+	}
+	
 	
 	
 	@PostMapping("/updateAssignedToEnvironmentthreat")
@@ -726,12 +1033,13 @@ public class ApplicationController {
 				}
 				
 				//check if there are environmentthreats that dont appier in the new setting
+				Set<Environmentthreat> toDeleteEnvironmentthreats = new HashSet<Environmentthreat>();
 				for(Environmentthreat r: setEnvironmentthreats) {
 					if(!newEnvironmentthreatIds.contains(r.getEnvironmentthreatId())) {
-						setEnvironmentthreats.remove(r);
+						toDeleteEnvironmentthreats.add(r);
 					}
 				}
-				
+				setEnvironmentthreats.removeAll(toDeleteEnvironmentthreats);
 				
 				
 				//add new Environmentthreats

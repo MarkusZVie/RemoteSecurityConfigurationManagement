@@ -90,6 +90,9 @@ public class Scriptexecution {
     @JoinColumn(name="role_fs", nullable=true)
 	private Role role;
 	
+	@Getter
+	@Setter
+	private String description;
 	
 
 	public Integer getRSCMClient_fs() {

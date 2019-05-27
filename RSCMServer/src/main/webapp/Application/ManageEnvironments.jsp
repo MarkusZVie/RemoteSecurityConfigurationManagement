@@ -257,14 +257,14 @@
 					var onclickURL = location.protocol + '//' + location.host + location.pathname;
 					for ( var i in responsArray) {
 						if(environmentIdParameter == responsArray[i]['environmentId']){
-							contentString += "<tr style='background-color: #bde9ba;' onclick=\"window.location='" + onclickURL + "?"+"environmentId="+responsArray[i]['environmentId']+"'\">";
+							contentString += "<tr style='background-color: #bde9ba;' >";
 						}else{
-							contentString += "<tr onclick=\"window.location='" + onclickURL + "?"+"environmentId="+responsArray[i]['environmentId']+"'\">";
+							contentString += "<tr >";
 						}
-						contentString += "<td>" + responsArray[i]['environmentId']	+ "</td>";
-						contentString += "<td>" + responsArray[i]['ipRangeBegin']+ "</td>";
-						contentString += "<td>" + responsArray[i]['ipEangeEnd']+ "</td>";
-						contentString += "<td>" + responsArray[i]['environmentDescription'] + "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"environmentId="+responsArray[i]['environmentId']+"'\">" + responsArray[i]['environmentId']	+ "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"environmentId="+responsArray[i]['environmentId']+"'\">" + responsArray[i]['ipRangeBegin']+ "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"environmentId="+responsArray[i]['environmentId']+"'\">" + responsArray[i]['ipEangeEnd']+ "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"environmentId="+responsArray[i]['environmentId']+"'\">" + responsArray[i]['environmentDescription'] + "</td>";
 						contentString += "<td id='collEnvDelete"+i+"'><button onclick=\"showConfirmationEnvDelete('collEnvDelete"+i+"','"+responsArray[i]['environmentId']+"')\">delete</button></td>";
 						contentString += "</tr>";
 					}
@@ -345,6 +345,24 @@
 						loadEnvironmentthreatList()
 					} else {
 						document.getElementById("response").innerHTML = "some error happend"
+					}
+				}
+
+				xhr.send(formData);
+			}
+			
+			function forceDeleteEnvironmentthreat(environmentthreatId) {
+				var formData = new FormData();
+				formData.append("environmentthreatId", environmentthreatId);
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "/Application/forceDeleteEnvironmentthreat");
+				xhr.onload = function() {
+					if (xhr.status == 200) {
+						document.getElementById("response").innerHTML = xhr.responseText;
+						loadEnvironmentthreatList()
+					} else {
+						console.log(xhr.responseText);
+						document.getElementById("response").innerHTML = "some error happend "
 					}
 				}
 
@@ -441,6 +459,25 @@
 						loadEnvironmentList()
 					} else {
 						document.getElementById("response").innerHTML = "some error happend"
+					}
+				}
+
+				xhr.send(formData);
+			}
+			
+
+			function forceDeleteEnvironment(environmentId) {
+				var formData = new FormData();
+				formData.append("environmentId", environmentId);
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "/Application/forceDeleteEnvironment");
+				xhr.onload = function() {
+					if (xhr.status == 200) {
+						document.getElementById("response").innerHTML = xhr.responseText;
+						loadEnvironmentList()
+					} else {
+						console.log(xhr.responseText);
+						document.getElementById("response").innerHTML = "some error happend "
 					}
 				}
 

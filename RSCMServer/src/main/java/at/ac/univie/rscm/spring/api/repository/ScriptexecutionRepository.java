@@ -21,7 +21,7 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	@Query(value = "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE %:substring%" , nativeQuery = true)
 	List<Scriptexecution> findByContainsInName(@Param("substring") String substring);
 	
-	@Query(value = "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL" , nativeQuery = true)
+	@Query(value = "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND scriptexecution_executiondate IS NULL" , nativeQuery = true)
 	List<Scriptexecution> findByScriptNameAndExDateNotNull(@Param("scriptName") String scriptName);
 	
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE rscmclient_fs = :rscmclientId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
@@ -79,6 +79,31 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	
 	@Query(value= "SELECT count(*) FROM rscmdatabase.scriptexecution WHERE applicant_fs = :id AND script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL", nativeQuery = true)
 	int countByApplicant(@Param("id") int id,@Param("scriptName") String scriptName);
+	
+	
+	
+	
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE applicantgroup_fs = :id", nativeQuery = true)
+	List<Scriptexecution> findByApplicantgroupId(@Param("id") int id);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE task_fs = :id", nativeQuery = true)
+	List<Scriptexecution> findByTaskId(@Param("id") int id);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE environment_fs = :id", nativeQuery = true)
+	List<Scriptexecution> findByEnvironmentId(@Param("id") int id);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE environmentthreat_fs = :id", nativeQuery = true)
+	List<Scriptexecution> findByEnvironmentthreatId(@Param("id") int id);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE job_fs = :id", nativeQuery = true)
+	List<Scriptexecution> findByJobId(@Param("id") int id);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE role_fs = :id", nativeQuery = true)
+	List<Scriptexecution> findByRoleId(@Param("id") int id);
+	
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName", nativeQuery = true)
+	List<Scriptexecution> findByScriptName(@Param("scriptName") String scriptName);
 	
 	
 	

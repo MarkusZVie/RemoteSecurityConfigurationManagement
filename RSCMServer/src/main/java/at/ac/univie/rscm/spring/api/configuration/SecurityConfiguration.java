@@ -43,8 +43,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		http.formLogin().permitAll().and()//allow everyone to access the login page
 		.authorizeRequests() //declare multiple children									
-		.antMatchers("/applicants/**", "/notExsitent", "/ClientAuthentication/**", "/RegisterAccount.jsp", "/index.jsp", "/WebressourcenImport/**", "/applicants/pushApplicantRegistration").permitAll() //everyone can access when they are logged in
-		.antMatchers("/admin/**").hasRole("Administrator") //role admin can get access
+		.antMatchers("/ClientAuthentication/**",//for accept RSA Key with application key
+				"/RegisterAccount.jsp", //register new Applicants
+				"/index.jsp", //basic home Page
+				"/", //pattern that forward to index.jsp
+				"/WebressourcenImport/**", //css and html imports
+				"/applicants/pushApplicantRegistration").permitAll()//register new Applicatn Service
+		.antMatchers("/admin/**").access("hasRole('Administrator') and hasRole('User')") 
+		.antMatchers("/ajax/**").access("hasRole('User')") 
+		.antMatchers("/Administration/**").access("hasRole('Administrator') or hasRole('Securitymanager')") 
+		.antMatchers("/Application/**").access("hasRole('Administrator') or hasRole('Applicationmanager')") 
+		.antMatchers("/WebPage/**").access("hasRole('Administrator') or hasRole('User')") 
+		.antMatchers("/ScriptExecution/**").access("hasRole('Administrator') or hasRole('Securitymanager')") 
+		.antMatchers("/FileManager/**").access("hasRole('Administrator') or hasRole('Securitymanager') or hasRole('Applicationmanager')") 
 		.anyRequest().authenticated();
 		
 		

@@ -710,6 +710,7 @@ public class ScriptExecutionController {
 								countExsisting++;
 							}
 						}else {
+							//System.out.println(jobId + "sdssd");
 							Scriptexecution se = new Scriptexecution();
 							se.setJob(jobRepository.findById(jobId).get());
 							se.setScriptName(fileName);
