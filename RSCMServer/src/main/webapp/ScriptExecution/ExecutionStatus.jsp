@@ -205,11 +205,11 @@
 					tableContent += "<td>" + json['ClientArray'][i]['scriptexecutionAssigneddate'] + "</td>";
 					tableContent += "<td>" + json['ClientArray'][i]['scriptexecutionExecutiondate'] + "</td>";
 					tableContent += "<td>" + json['ClientArray'][i]['Assignedby'] + "</td>";
-					tableContent += "<td style=\"border-left: 1px solid #000000;\"  >" + json['ClientArray'][i]['applicantId'] + "</td>";
-					tableContent += "<td>" + json['ClientArray'][i]['applicantName'] + "</td>";
-					tableContent += "<td>" + json['ClientArray'][i]['applicantFirstname'] + "</td>";
-					tableContent += "<td>" + json['ClientArray'][i]['applicantLastname'] + "</td>";
-					tableContent += "<td>" + json['ClientArray'][i]['applicantEmail'] + "</td>";
+					tableContent += "<td style=\"border-left: 1px solid #000000;\"  >" + json['ClientArray'][i]['userId'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['userName'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['userFirstname'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['userLastname'] + "</td>";
+					tableContent += "<td>" + json['ClientArray'][i]['userEmail'] + "</td>";
 					tableContent += "<td>" + json['ClientArray'][i]['createdOn'] + "</td>";
 					tableContent += "<td style=\"border-left: 1px solid #000000;\" >" + json['ClientArray'][i]['rscmclientId'] + "</td>";
 					tableContent += "<td>" + json['ClientArray'][i]['clientPort'] + "</td>";

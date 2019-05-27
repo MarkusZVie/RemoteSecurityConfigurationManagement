@@ -28,32 +28,32 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "applicants")
-public class Applicant {
+@Table(name = "users")
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int applicantId;
-	private String applicantName;
-	private String applicantPassword;
-	private String applicantEmail;
-	private String applicantFirstname;
-	private String applicantLastname;
+	private int userId;
+	private String userName;
+	private String userPassword;
+	private String userEmail;
+	private String userFirstname;
+	private String userLastname;
 	
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name="hasRoleApplicant", joinColumns=@JoinColumn(name="applicantId"), inverseJoinColumns=@JoinColumn(name="roleId"))
+	@JoinTable(name="hasRoleUser", joinColumns=@JoinColumn(name="userId"), inverseJoinColumns=@JoinColumn(name="roleId"))
 	private Set<Role> roles;
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name="hasApplicantgroupApplicant", joinColumns=@JoinColumn(name="applicantId"), inverseJoinColumns=@JoinColumn(name="applicantgroupId"))
-	private Set<Applicantgroup> applicantgroups;
+	@JoinTable(name="hasUsergroupUser", joinColumns=@JoinColumn(name="userId"), inverseJoinColumns=@JoinColumn(name="usergroupId"))
+	private Set<Usergroup> usergroups;
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name="hasApplicantJob", joinColumns=@JoinColumn(name="applicantId"), inverseJoinColumns=@JoinColumn(name="jobId"))
+	@JoinTable(name="hasUserJob", joinColumns=@JoinColumn(name="userId"), inverseJoinColumns=@JoinColumn(name="jobId"))
 	private Set<Job> jobs;
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name="hasApplicantRscmclient", joinColumns=@JoinColumn(name="applicantId"), inverseJoinColumns=@JoinColumn(name="rscmclientId"))
+	@JoinTable(name="hasUserRscmclient", joinColumns=@JoinColumn(name="userId"), inverseJoinColumns=@JoinColumn(name="rscmclientId"))
 	private Set<RSCMClient> rscmclients;
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name="hasApplicantTask", joinColumns=@JoinColumn(name="applicantId"), inverseJoinColumns=@JoinColumn(name="taskId"))
+	@JoinTable(name="hasUserTask", joinColumns=@JoinColumn(name="userId"), inverseJoinColumns=@JoinColumn(name="taskId"))
 	private Set<Task> tasks; 
 	
 
@@ -82,17 +82,17 @@ public class Applicant {
 		int i;
 		StringBuilder sb = new StringBuilder();
 		sb.append("Class: " + this.getClass().getName() + "<br/>");
-		sb.append("applicantId: " +applicantId + "<br/>");
-		sb.append("applicantName: " + applicantName + "<br/>");
-		sb.append("applicantEmail: " + applicantEmail + "<br/>");
-		sb.append("applicantFirstname: " + applicantFirstname + "<br/>");
-		sb.append("applicantLastname: " + applicantLastname + "<br/>");
+		sb.append("userId: " +userId + "<br/>");
+		sb.append("userName: " + userName + "<br/>");
+		sb.append("userEmail: " + userEmail + "<br/>");
+		sb.append("userFirstname: " + userFirstname + "<br/>");
+		sb.append("userLastname: " + userLastname + "<br/>");
 		
-		sb.append("applicantgroups: [");
+		sb.append("usergroups: [");
 		i =0;
-		for(Applicantgroup a:applicantgroups) {
-			sb.append(a.getApplicantgroupName());
-			if(++i<applicantgroups.size()) {
+		for(Usergroup a:usergroups) {
+			sb.append(a.getUsergroupName());
+			if(++i<usergroups.size()) {
 				sb.append(",");
 			}
 				
@@ -136,9 +136,9 @@ public class Applicant {
 	}
 
 	public void deleteGroup(int id) {
-		for(Applicantgroup g : applicantgroups) {
-			if(g.getApplicantgroupId()==id) {
-				applicantgroups.remove(g);
+		for(Usergroup g : usergroups) {
+			if(g.getUsergroupId()==id) {
+				usergroups.remove(g);
 			}
 		}
 		

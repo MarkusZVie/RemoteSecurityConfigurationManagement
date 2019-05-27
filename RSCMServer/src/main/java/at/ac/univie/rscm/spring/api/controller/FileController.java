@@ -16,7 +16,7 @@ import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
 import at.ac.univie.rscm.application.global.data.DownloadFileInfo;
 import at.ac.univie.rscm.application.global.data.UploadFileResponse;
-import at.ac.univie.rscm.model.Applicant;
+import at.ac.univie.rscm.model.User;
 import at.ac.univie.rscm.model.Role;
 import at.ac.univie.rscm.model.Scriptexecution;
 import at.ac.univie.rscm.spring.api.FileStorageService;

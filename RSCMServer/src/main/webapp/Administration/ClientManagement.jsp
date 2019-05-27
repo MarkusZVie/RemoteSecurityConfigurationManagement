@@ -27,8 +27,9 @@
 
 <title>
 	<%
-		out.println(request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1,
-				request.getRequestURI().lastIndexOf(".jsp")));
+		String thisPageName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1,
+				request.getRequestURI().lastIndexOf(".jsp"));
+		out.println(thisPageName);
 	%>
 </title>
 <meta charset="UTF-8">
@@ -45,6 +46,7 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
+			<a href="ClientManagement.jsp" class="w3-bar-item w3-button w3-orange w3circle">Client-Management</a>
 			<div w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 			
 		</div>
@@ -173,13 +175,7 @@
 
 			</table>
 
-			<div class="w3-col m6 w3-padding-large">
-				<h5 class="w3-center">Es ist besser, eine Versicherung zu haben</h5>
-				<h5 class="w3-center">und nicht zu brauchen,</h5>
-				<h5 class="w3-center">als eine Versicherung zu brauchen</h5>
-				<h5 class="w3-center">und nicht zu haben.</h5>
-				<p class="w3-center">Zitat von unbekanntem Autor</p>
-			</div>
+		
 
 		</div>
 

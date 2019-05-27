@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentRepository;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 import at.ac.univie.rscm.spring.api.repository.RoleRepository;
@@ -31,7 +31,7 @@ public class JSPSupporterBean {
 	private RoleRepository roleRepository;
 	
 	@Autowired
-	private ApplicantRepository applicantRepository;
+	private UserRepository userRepository;
 	
 	@Autowired 
 	private ScriptexecutionRepository scriptexecutionRepository;
@@ -44,7 +44,7 @@ public class JSPSupporterBean {
 		
 		gsav.setRSCMClientRepository(rSCMClientRepository);
 		gsav.setRoleRepository(roleRepository);
-		gsav.setApplicantRepository(applicantRepository);
+		gsav.setUserRepository(userRepository);
 		gsav.setScriptexecutionRepository(scriptexecutionRepository);
 		gsav.setEnvironmentRepository(environmentRepository);
 		gsav.initPortScanner();

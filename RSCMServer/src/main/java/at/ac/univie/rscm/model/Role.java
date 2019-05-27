@@ -30,7 +30,7 @@ public class Role {
 	private String roleName;
 	private String roleDescription;
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Applicant> applicants = new HashSet<>();
+	private Set<User> users = new HashSet<>();
 	
 	@Override
 	public String toString() {
@@ -40,10 +40,10 @@ public class Role {
 		sb.append("roleName: " + roleName + "<br/>");
 		sb.append("roleDescription: " + roleDescription + "<br/>");
 		
-		if(applicants!=null) {
-			sb.append("applicants number: " + applicants.size() + "<br/>");
+		if(users!=null) {
+			sb.append("users number: " + users.size() + "<br/>");
 		}else {
-			sb.append("applicants: null<br/>");
+			sb.append("users: null<br/>");
 		}
 		
 		return sb.toString();

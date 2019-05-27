@@ -163,8 +163,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="at.ac.univie.rscm.model.Applicant" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model/Applicant.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="19" language="java" name="at.ac.univie.rscm.model.User" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/model/User.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2455" y="1027"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -228,8 +228,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="27" language="java" name="at.ac.univie.rscm.spring.api.controller.ApplicantController" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/ApplicantController.java" binary="false" 
+  <class id="27" language="java" name="at.ac.univie.rscm.spring.api.controller.UserController" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/controller/UserController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1325" y="1876"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -265,9 +265,9 @@
     <position height="365" width="837" x="104" y="2178"/>    
     <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <interface id="31" language="java" name="at.ac.univie.rscm.spring.api.repository.ApplicantRepository" 
+  <interface id="31" language="java" name="at.ac.univie.rscm.spring.api.repository.UserRepository" 
     project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository/ApplicantRepository.java" binary="false" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/repository/UserRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="270" y="2314"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -302,8 +302,8 @@
     <position height="1140" width="375" x="2607" y="1395"/>    
     <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <class id="35" language="java" name="at.ac.univie.rscm.spring.api.service.CustomApplicantDetails" project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service/CustomApplicantDetails.java" binary="false" 
+  <class id="35" language="java" name="at.ac.univie.rscm.spring.api.service.CustomUserDetails" project="RSCMServer" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service/CustomUserDetails.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2792" y="1664"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -312,9 +312,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="36" language="java" name="at.ac.univie.rscm.spring.api.service.CustomApplicantDetailsService" 
+  <class id="36" language="java" name="at.ac.univie.rscm.spring.api.service.CustomUserDetailsService" 
     project="RSCMServer" 
-    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service/CustomApplicantDetailsService.java" 
+    file="/RSCMServer/src/main/java/at/ac/univie/rscm/spring/api/service/CustomUserDetailsService.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2788" y="2450"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -380,7 +380,7 @@
   </association>  
   <association id="44">    
     <end type="SOURCE" refId="36" navigable="false">      
-      <attribute id="45" name="applicantRepository">        
+      <attribute id="45" name="userRepository">        
         <position height="0" width="0" x="-82" y="-196"/>      
       </attribute>      
       <multiplicity id="46" minimum="0" maximum="1">        
@@ -540,7 +540,7 @@
   </association>  
   <association id="84">    
     <end type="SOURCE" refId="27" navigable="false">      
-      <attribute id="85" name="applicantRepository">        
+      <attribute id="85" name="userRepository">        
         <position height="0" width="0" x="-82" y="-196"/>      
       </attribute>      
       <multiplicity id="86" minimum="0" maximum="1">        
@@ -556,7 +556,7 @@
   </realization>  
   <association id="88">    
     <end type="SOURCE" refId="35" navigable="false">      
-      <attribute id="89" name="applicant">        
+      <attribute id="89" name="user">        
         <position height="0" width="0" x="-384" y="-3"/>      
       </attribute>      
       <multiplicity id="90" minimum="0" maximum="1">        
@@ -708,7 +708,7 @@
   </association>  
   <association id="126">    
     <end type="SOURCE" refId="28" navigable="false">      
-      <attribute id="127" name="applicantRepository">        
+      <attribute id="127" name="userRepository">        
         <position height="0" width="0" x="-82" y="-196"/>      
       </attribute>      
       <multiplicity id="128" minimum="0" maximum="1">        
@@ -720,7 +720,7 @@
   </association>  
   <association id="129">    
     <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="130" name="applicantRepository">        
+      <attribute id="130" name="userRepository">        
         <position height="0" width="0" x="-82" y="-196"/>      
       </attribute>      
       <multiplicity id="131" minimum="0" maximum="1">        

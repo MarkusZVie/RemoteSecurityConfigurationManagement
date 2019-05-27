@@ -17,7 +17,7 @@ import at.ac.univie.rscm.application.connection.PortScanner;
 import at.ac.univie.rscm.application.connection.PortScannerInterface;
 import at.ac.univie.rscm.model.RSCMClient;
 import at.ac.univie.rscm.model.RSCMClientConnection;
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentRepository;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 import at.ac.univie.rscm.spring.api.repository.RoleRepository;
@@ -50,7 +50,7 @@ public class GlobalSettingsAndVariables implements GlobalSettingsAndVariablesInt
 	private RSCMClientRepository rSCMClientRepository;
 	@Getter
 	@Setter
-	private ApplicantRepository applicantRepository;
+	private UserRepository userRepository;
 	@Getter
 	@Setter
 	private EnvironmentRepository environmentRepository;

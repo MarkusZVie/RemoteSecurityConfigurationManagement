@@ -59,19 +59,19 @@
 		<div class="w3-bar navbar w3-padding w3-card">
 
 
-			<a href="ExecuteOnApplicants.jsp" class="w3-bar-item marginRight w3-button 
-			<%if (thisPageName.equals("ExecuteOnApplicants")) {
+			<a href="ExecuteOnUsers.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnUsers")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
-			}%>	w3circle">E. Applicants</a>
+			}%>	w3circle">E. Users</a>
 		
-			<a href="ExecuteOnApplicantgroups.jsp" class="w3-bar-item marginRight w3-button 
-			<%if (thisPageName.equals("ExecuteOnApplicantgroups")) {
+			<a href="ExecuteOnUsergroups.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnUsergroups")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
-			}%>	w3circle">E. Applicantgroups</a>
+			}%>	w3circle">E. Usergroups</a>
 			
 			<a href="ExecuteOnRoles.jsp" class="w3-bar-item marginRight w3-button 
 			<%if (thisPageName.equals("ExecuteOnRoles")) {
@@ -142,7 +142,7 @@
 							
 						<td style="font-size: 12px;">Description</td>
 						
-						<td style="font-size: 12px;">Assigned Applicants</td>
+						<td style="font-size: 12px;">Assigned Users</td>
 						<td style="font-size: 12px;">Assigned Clients</td>
 
 
@@ -364,7 +364,7 @@
 						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"roleId="+responsArray[i]['roleId']+"'\">" + responsArray[i]['roleId']+ "</td>";
 						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"roleId="+responsArray[i]['roleId']+"'\">" + responsArray[i]['roleName']	+ "</td>";
 						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"roleId="+responsArray[i]['roleId']+"'\">"	+ responsArray[i]['roleDescription'] + "</td>";
-						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"roleId="+responsArray[i]['roleId']+"'\">"	+ responsArray[i]['roleMembersApplicant'] + "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"roleId="+responsArray[i]['roleId']+"'\">"	+ responsArray[i]['roleMembersUser'] + "</td>";
 						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"roleId="+responsArray[i]['roleId']+"'\">"	+ responsArray[i]['roleMembersRSCMClients'] + "</td>";
 						if(roleIdParameter<0){
 							contentString += "<td><input type='checkbox' name='entityAssignment' value='"+responsArray[i]['roleId']+"'></td>";

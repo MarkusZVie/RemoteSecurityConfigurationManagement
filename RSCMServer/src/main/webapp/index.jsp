@@ -72,7 +72,7 @@
 			<a href="/WebPage/Downloads.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">Downloads</a>
 			<a href="/Administration/ClientManagement.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">Administration</a>
 			<a href="/Application/ManageRoles.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">Application</a>
-			<a href="/ScriptExecution/ExecuteOnApplicants.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">ScriptExecution</a>
+			<a href="/ScriptExecution/ExecuteOnUsers.jsp"class="w3-bar-item w3-button w3-blue-grey w3circle w3-margin-left">ScriptExecution</a>
 			<a href="/index.jsp" class="w3-button w3-circle w3-teal w3-margin-left"><i class="fa fa-home"></i></a> 
 		</div>
 		</div>
@@ -120,7 +120,7 @@
 					<td><p>You can add and modify applicationdata here</p></td>
 				</tr>
 				<tr>
-					<td><a style="width:150px;" href="/ScriptExecution/ExecuteOnApplicants.jsp" class="w3-bar-item w3-button w3-teal w3-margin-right">Script Execution</a></td>
+					<td><a style="width:150px;" href="/ScriptExecution/ExecuteOnUsers.jsp" class="w3-bar-item w3-button w3-teal w3-margin-right">Script Execution</a></td>
 					<td><p>You can define the script execution here</p></td>
 				</tr>
 				

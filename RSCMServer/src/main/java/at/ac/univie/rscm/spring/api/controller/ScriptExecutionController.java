@@ -30,8 +30,8 @@ import com.fasterxml.jackson.databind.util.TypeKey;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
 import at.ac.univie.rscm.application.global.data.DownloadFileInfo;
-import at.ac.univie.rscm.model.Applicant;
-import at.ac.univie.rscm.model.Applicantgroup;
+import at.ac.univie.rscm.model.User;
+import at.ac.univie.rscm.model.Usergroup;
 import at.ac.univie.rscm.model.Environment;
 import at.ac.univie.rscm.model.Environmentthreat;
 import at.ac.univie.rscm.model.Job;
@@ -39,8 +39,8 @@ import at.ac.univie.rscm.model.RSCMClient;
 import at.ac.univie.rscm.model.Role;
 import at.ac.univie.rscm.model.Scriptexecution;
 import at.ac.univie.rscm.model.Task;
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
-import at.ac.univie.rscm.spring.api.repository.ApplicantgroupRepository;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
+import at.ac.univie.rscm.spring.api.repository.UsergroupRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentthreatsRepository;
 import at.ac.univie.rscm.spring.api.repository.JobRepository;
@@ -57,10 +57,10 @@ public class ScriptExecutionController {
 	private RoleRepository roleRepository;
 	
 	@Autowired
-	private ApplicantRepository applicantRepository;
+	private UserRepository userRepository;
 	
 	@Autowired
-	private ApplicantgroupRepository applicantgroupRepository;
+	private UsergroupRepository usergroupRepository;
 	
 	@Autowired
 	private JobRepository jobRepository;
@@ -109,9 +109,9 @@ public class ScriptExecutionController {
 						List<Scriptexecution> executionLog =null;
 						int numberOfExecutions = -1;
 						switch (table) {
-						case "applicantgroup":
-							executionLog = scriptexecutionRepository.findByApplicantgroup(id, file.getName());
-							numberOfExecutions = scriptexecutionRepository.countByApplicantgroup(id, file.getName());
+						case "usergroup":
+							executionLog = scriptexecutionRepository.findByUsergroup(id, file.getName());
+							numberOfExecutions = scriptexecutionRepository.countByUsergroup(id, file.getName());
 							break;
 						case "rscmclient":
 							executionLog = scriptexecutionRepository.findByRscmclient(id, file.getName());
@@ -137,9 +137,9 @@ public class ScriptExecutionController {
 							executionLog = scriptexecutionRepository.findByRole(id, file.getName());
 							numberOfExecutions = scriptexecutionRepository.countByRole(id, file.getName());
 							break;	
-						case "applicant":
-							executionLog = scriptexecutionRepository.findByApplicant(id, file.getName());
-							numberOfExecutions = scriptexecutionRepository.countByApplicant(id, file.getName());
+						case "user":
+							executionLog = scriptexecutionRepository.findByUser(id, file.getName());
+							numberOfExecutions = scriptexecutionRepository.countByUser(id, file.getName());
 							break;	
 						default:
 							return null;
@@ -183,9 +183,9 @@ public class ScriptExecutionController {
 	public String removeAssignment(@RequestParam("uncheckedFileNameAssignments") String[] uncheckedFileNameAssignments,@RequestParam("entityID") int entityID,@RequestParam("table") String table) {
 		Set<Scriptexecution> forRemoveList = new HashSet<Scriptexecution>();
 		switch (table) {
-		case "applicantgroup":
+		case "usergroup":
 			for(String fileName: uncheckedFileNameAssignments) {
-				forRemoveList.addAll(scriptexecutionRepository.getAssignedExecutionBasedOnApplicantgroup(fileName, entityID));
+				forRemoveList.addAll(scriptexecutionRepository.getAssignedExecutionBasedOnUsergroup(fileName, entityID));
 			}
 			break;
 		case "task":
@@ -213,9 +213,9 @@ public class ScriptExecutionController {
 				forRemoveList.addAll(scriptexecutionRepository.getAssignedExecutionBasedOnRole(fileName, entityID));
 			}
 			break;	
-		case "applicant":
+		case "user":
 			for(String fileName: uncheckedFileNameAssignments) {
-				forRemoveList.addAll(scriptexecutionRepository.getAssignedExecutionBasedOnApplicant(fileName, entityID));
+				forRemoveList.addAll(scriptexecutionRepository.getAssignedExecutionBasedOnUser(fileName, entityID));
 			}
 			break;	
 		default:
@@ -248,10 +248,10 @@ public class ScriptExecutionController {
 			String entityDetails="";
 			
 			switch (table) {
-			case "applicantgroup":
-				executionLog = scriptexecutionRepository.findByApplicantgroup(id, file.getName());
-				numberOfExecutions = scriptexecutionRepository.countByApplicantgroup(id, file.getName());
-				entityDetails = applicantgroupRepository.findById(id).get().toString();
+			case "usergroup":
+				executionLog = scriptexecutionRepository.findByUsergroup(id, file.getName());
+				numberOfExecutions = scriptexecutionRepository.countByUsergroup(id, file.getName());
+				entityDetails = usergroupRepository.findById(id).get().toString();
 				break;
 			case "rscmclient":
 				executionLog = scriptexecutionRepository.findByRscmclient(id, file.getName());
@@ -283,10 +283,10 @@ public class ScriptExecutionController {
 				numberOfExecutions = scriptexecutionRepository.countByRole(id, file.getName());
 				entityDetails = roleRepository.findById(id).get().toString();
 				break;	
-			case "applicant":
-				executionLog = scriptexecutionRepository.findByApplicant(id, file.getName());
-				numberOfExecutions = scriptexecutionRepository.countByApplicant(id, file.getName());
-				entityDetails = applicantRepository.findById(id).get().toString();
+			case "user":
+				executionLog = scriptexecutionRepository.findByUser(id, file.getName());
+				numberOfExecutions = scriptexecutionRepository.countByUser(id, file.getName());
+				entityDetails = userRepository.findById(id).get().toString();
 				break;	
 			default:
 				return null;
@@ -325,30 +325,30 @@ public class ScriptExecutionController {
 					jo.put("createdOn", gsav.getDateTime().format(rscmClient.getCreatedOn()));
 					jo.put("clientPort", rscmClient.getClientPort());
 					jo.put("executed", rscmClient.getClientPort());				
-					Applicant applicant = null;
-					if(rscmClient.getApplicants().iterator().hasNext()) {
-						applicant = rscmClient.getApplicants().iterator().next();
-						jo.put("applicantId", applicant.getApplicantId());
-						jo.put("applicantName", applicant.getApplicantName());
-						jo.put("applicantEmail", applicant.getApplicantEmail());
-						jo.put("applicantFirstname", applicant.getApplicantFirstname());
-						jo.put("applicantLastname", applicant.getApplicantLastname());
+					User user = null;
+					if(rscmClient.getUsers().iterator().hasNext()) {
+						user = rscmClient.getUsers().iterator().next();
+						jo.put("userId", user.getUserId());
+						jo.put("userName", user.getUserName());
+						jo.put("userEmail", user.getUserEmail());
+						jo.put("userFirstname", user.getUserFirstname());
+						jo.put("userLastname", user.getUserLastname());
 					}else {
-						jo.put("applicantId", "null");
-						jo.put("applicantName", "null");
-						jo.put("applicantEmail", "null");
-						jo.put("applicantFirstname", "null");
-						jo.put("applicantLastname", "null");
+						jo.put("userId", "null");
+						jo.put("userName", "null");
+						jo.put("userEmail", "null");
+						jo.put("userFirstname", "null");
+						jo.put("userLastname", "null");
 					}
 				}else {
 					jo.put("rscmclientId", "null");
 					jo.put("createdOn", "null");
 					jo.put("clientPort", "null");
-					jo.put("applicantId", "null");
-					jo.put("applicantName", "null");
-					jo.put("applicantEmail", "null");
-					jo.put("applicantFirstname", "null");
-					jo.put("applicantLastname", "null");
+					jo.put("userId", "null");
+					jo.put("userName", "null");
+					jo.put("userEmail", "null");
+					jo.put("userFirstname", "null");
+					jo.put("userLastname", "null");
 				
 				}
 				
@@ -425,60 +425,60 @@ public class ScriptExecutionController {
 		}
 	}
 	
-	@PostMapping("/getApplicantgroupList")
-	public String getApplicantgroupList(@RequestParam("searchString") String searchString) {
+	@PostMapping("/getUsergroupList")
+	public String getUsergroupList(@RequestParam("searchString") String searchString) {
 		
 		//get DataList depending on Search String if "" than get all
-		List<Applicantgroup> applicantgroupList = applicantgroupRepository.findByContainsInName(searchString);
+		List<Usergroup> usergroupList = usergroupRepository.findByContainsInName(searchString);
 		
 		//build json
 		JSONArray ja = new JSONArray();
-		for(Applicantgroup g:applicantgroupList) {
+		for(Usergroup g:usergroupList) {
 			JSONObject jo = new JSONObject();
-			jo.put("applicantgroupId", g.getApplicantgroupId());
-			jo.put("applicantgroupName", g.getApplicantgroupName());
-			jo.put("applicantgroupDescription", g.getApplicantgroupDescription());
-			jo.put("applicantgroupMembersApplicant", g.getApplicants().size());
+			jo.put("usergroupId", g.getUsergroupId());
+			jo.put("usergroupName", g.getUsergroupName());
+			jo.put("usergroupDescription", g.getUsergroupDescription());
+			jo.put("usergroupMembersUser", g.getUsers().size());
 			int countRSCMClients=0;
-			for(Applicant a : g.getApplicants()) {
+			for(User a : g.getUsers()) {
 				countRSCMClients+=a.getRscmclients().size();
 			}
-			jo.put("applicantgroupMembersRSCMClients", countRSCMClients);
+			jo.put("usergroupMembersRSCMClients", countRSCMClients);
 			ja.put(jo);
 		}
 		return ja.toString();
 	}
 	
-	@PostMapping("/updateApplicantgroupAssignment")
-	public String updateApplicantgroupAssignment(@RequestParam("entityAssignment") int[] entityAssignment,@RequestParam("fileAssignment") String[] fileAssignment) {
+	@PostMapping("/updateUsergroupAssignment")
+	public String updateUsergroupAssignment(@RequestParam("entityAssignment") int[] entityAssignment,@RequestParam("fileAssignment") String[] fileAssignment) {
 		
 		if(entityAssignment.length<1 || fileAssignment.length <1) {
-			return "The Assignment is only possible when you choose at least one applicantgroup and one file";
+			return "The Assignment is only possible when you choose at least one usergroup and one file";
 		}
 		assert(entityAssignment.length>0);
 		assert(fileAssignment.length>0);
 		
-		int countApplicants=0;
+		int countUsers=0;
 		int countClients=0;
 		int countExsisting=0;
-		for(int applicantgroupId: entityAssignment) {
+		for(int usergroupId: entityAssignment) {
 			for(String fileName:fileAssignment) {
-				Applicantgroup applicantgroup = applicantgroupRepository.findById(applicantgroupId).get();
-				Set<Applicant> applicantSet = applicantgroup.getApplicants();
-				for(Applicant a: applicantSet) {
+				Usergroup usergroup = usergroupRepository.findById(usergroupId).get();
+				Set<User> userSet = usergroup.getUsers();
+				for(User a: userSet) {
 					Set<RSCMClient> rscmClients = a.getRscmclients();
-					countApplicants++;
+					countUsers++;
 					for(RSCMClient rscmClient: rscmClients) {
-						List<Scriptexecution> seList = scriptexecutionRepository.getExsistingExecutionPlanBasedOnApplicantgroup(fileName, rscmClient.getRscmclientId(),applicantgroupId);
+						List<Scriptexecution> seList = scriptexecutionRepository.getExsistingExecutionPlanBasedOnUsergroup(fileName, rscmClient.getRscmclientId(),usergroupId);
 						if(seList.size()>0) {
 							for(Scriptexecution seExsisting: seList) {
 								seExsisting.setScriptexecutionAssigneddate(new Date());
-								seExsisting.setApplicantgroup(applicantgroup);
+								seExsisting.setUsergroup(usergroup);
 								countExsisting++;
 							}
 						}else {
 							Scriptexecution se = new Scriptexecution();
-							se.setApplicantgroup(applicantgroupRepository.findById(applicantgroupId).get());
+							se.setUsergroup(usergroupRepository.findById(usergroupId).get());
 							se.setScriptName(fileName);
 							se.setScriptexecutionAssigneddate(new Date());
 							se.setRSCMClient(rscmClient);
@@ -492,7 +492,7 @@ public class ScriptExecutionController {
 				}
 			}
 		}
-		return "the script assignment effects "+countApplicants+" applicants,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
+		return "the script assignment effects "+countUsers+" users,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
 		
 	}
 	
@@ -527,9 +527,9 @@ public class ScriptExecutionController {
 			}
 			
 			
-			jo.put("taskMembersApplicant", g.getApplicants().size());
+			jo.put("taskMembersUser", g.getUsers().size());
 			int countRSCMClients=0;
-			for(Applicant a : g.getApplicants()) {
+			for(User a : g.getUsers()) {
 				countRSCMClients+=a.getRscmclients().size();
 			}
 			jo.put("taskMembersRSCMClients", countRSCMClients);
@@ -547,16 +547,16 @@ public class ScriptExecutionController {
 		assert(entityAssignment.length>0);
 		assert(fileAssignment.length>0);
 		
-		int countApplicants=0;
+		int countUsers=0;
 		int countClients=0;
 		int countExsisting=0;
 		for(int taskId: entityAssignment) {
 			for(String fileName:fileAssignment) {
 				Task task = taskRepository.findById(taskId).get();
-				Set<Applicant> applicantSet = task.getApplicants();
-				for(Applicant a: applicantSet) {
+				Set<User> userSet = task.getUsers();
+				for(User a: userSet) {
 					Set<RSCMClient> rscmClients = a.getRscmclients();
-					countApplicants++;
+					countUsers++;
 					for(RSCMClient rscmClient: rscmClients) {
 						List<Scriptexecution> seList = scriptexecutionRepository.getExsistingExecutionPlanBasedOnTask(fileName, rscmClient.getRscmclientId(),taskId);
 						if(seList.size()>0) {
@@ -581,7 +581,7 @@ public class ScriptExecutionController {
 				}
 			}
 		}
-		return "the script assignment effects "+countApplicants+" applicants,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
+		return "the script assignment effects "+countUsers+" users,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
 		
 	}
 	
@@ -599,9 +599,9 @@ public class ScriptExecutionController {
 			jo.put("roleId", g.getRoleId());
 			jo.put("roleName", g.getRoleName());
 			jo.put("roleDescription", g.getRoleDescription());
-			jo.put("roleMembersApplicant", g.getApplicants().size());
+			jo.put("roleMembersUser", g.getUsers().size());
 			int countRSCMClients=0;
-			for(Applicant a : g.getApplicants()) {
+			for(User a : g.getUsers()) {
 				countRSCMClients+=a.getRscmclients().size();
 			}
 			jo.put("roleMembersRSCMClients", countRSCMClients);
@@ -619,16 +619,16 @@ public class ScriptExecutionController {
 		assert(entityAssignment.length>0);
 		assert(fileAssignment.length>0);
 		
-		int countApplicants=0;
+		int countUsers=0;
 		int countClients=0;
 		int countExsisting=0;
 		for(int roleId: entityAssignment) {
 			for(String fileName:fileAssignment) {
 				Role role = roleRepository.findById(roleId).get();
-				Set<Applicant> applicantSet = role.getApplicants();
-				for(Applicant a: applicantSet) {
+				Set<User> userSet = role.getUsers();
+				for(User a: userSet) {
 					Set<RSCMClient> rscmClients = a.getRscmclients();
-					countApplicants++;
+					countUsers++;
 					for(RSCMClient rscmClient: rscmClients) {
 						List<Scriptexecution> seList = scriptexecutionRepository.getExsistingExecutionPlanBasedOnRole(fileName, rscmClient.getRscmclientId(),roleId);
 						if(seList.size()>0) {
@@ -653,7 +653,7 @@ public class ScriptExecutionController {
 				}
 			}
 		}
-		return "the script assignment effects "+countApplicants+" applicants,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
+		return "the script assignment effects "+countUsers+" users,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
 		
 	}
 	
@@ -671,9 +671,9 @@ public class ScriptExecutionController {
 			jo.put("jobId", g.getJobId());
 			jo.put("jobName", g.getJobName());
 			jo.put("jobDescription", g.getJobDescription());
-			jo.put("jobMembersApplicant", g.getApplicants().size());
+			jo.put("jobMembersUser", g.getUsers().size());
 			int countRSCMClients=0;
-			for(Applicant a : g.getApplicants()) {
+			for(User a : g.getUsers()) {
 				countRSCMClients+=a.getRscmclients().size();
 			}
 			jo.put("jobMembersRSCMClients", countRSCMClients);
@@ -691,16 +691,16 @@ public class ScriptExecutionController {
 		assert(entityAssignment.length>0);
 		assert(fileAssignment.length>0);
 		
-		int countApplicants=0;
+		int countUsers=0;
 		int countClients=0;
 		int countExsisting=0;
 		for(int jobId: entityAssignment) {
 			for(String fileName:fileAssignment) {
 				Job job = jobRepository.findById(jobId).get();
-				Set<Applicant> applicantSet = job.getApplicants();
-				for(Applicant a: applicantSet) {
+				Set<User> userSet = job.getUsers();
+				for(User a: userSet) {
 					Set<RSCMClient> rscmClients = a.getRscmclients();
-					countApplicants++;
+					countUsers++;
 					for(RSCMClient rscmClient: rscmClients) {
 						List<Scriptexecution> seList = scriptexecutionRepository.getExsistingExecutionPlanBasedOnJob(fileName, rscmClient.getRscmclientId(),jobId);
 						if(seList.size()>0) {
@@ -726,62 +726,62 @@ public class ScriptExecutionController {
 				}
 			}
 		}
-		return "the script assignment effects "+countApplicants+" applicants,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
+		return "the script assignment effects "+countUsers+" users,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
 		
 	}
 	
-	@PostMapping("/getApplicantList")
-	public String getApplicantList(@RequestParam("searchString") String searchString) {
+	@PostMapping("/getUserList")
+	public String getUserList(@RequestParam("searchString") String searchString) {
 		
 		//get DataList depending on Search String if "" than get all
-		List<Applicant> applicantList = applicantRepository.findByContainsInName(searchString);
+		List<User> userList = userRepository.findByContainsInName(searchString);
 		
 		//build json
 		JSONArray ja = new JSONArray();
-		for(Applicant g:applicantList) {
+		for(User g:userList) {
 			JSONObject jo = new JSONObject();
-			jo.put("applicantId", g.getApplicantId());
-			jo.put("applicantName", g.getApplicantName());
-			jo.put("applicantFirstname", g.getApplicantFirstname());
-			jo.put("applicantLastname", g.getApplicantLastname());
-			jo.put("applicantEmail", g.getApplicantEmail());
-			jo.put("applicantMembersRSCMClients", g.getRscmclients().size());
+			jo.put("userId", g.getUserId());
+			jo.put("userName", g.getUserName());
+			jo.put("userFirstname", g.getUserFirstname());
+			jo.put("userLastname", g.getUserLastname());
+			jo.put("userEmail", g.getUserEmail());
+			jo.put("userMembersRSCMClients", g.getRscmclients().size());
 			ja.put(jo);
 		}
 		return ja.toString();
 	}
 	
 	
-	@PostMapping("/updateApplicantAssignment")
-	public String updateApplicantAssignment(@RequestParam("entityAssignment") int[] entityAssignment,@RequestParam("fileAssignment") String[] fileAssignment) {
+	@PostMapping("/updateUserAssignment")
+	public String updateUserAssignment(@RequestParam("entityAssignment") int[] entityAssignment,@RequestParam("fileAssignment") String[] fileAssignment) {
 		if(entityAssignment.length<1 || fileAssignment.length <1) {
-			return "The Assignment is only possible when you choose at least one applicant and one file";
+			return "The Assignment is only possible when you choose at least one user and one file";
 		}
 		assert(entityAssignment.length>0);
 		assert(fileAssignment.length>0);
 		
-		int countApplicants=0;
+		int countUsers=0;
 		int countClients=0;
 		int countExsisting=0;
-		for(int applicantId: entityAssignment) {
+		for(int userId: entityAssignment) {
 			for(String fileName:fileAssignment) {
-				Applicant applicant = applicantRepository.findById(applicantId).get();
-				Set<Applicant> applicantSet = new HashSet<Applicant>();
-				applicantSet.add(applicant);
-				for(Applicant a: applicantSet) {
+				User user = userRepository.findById(userId).get();
+				Set<User> userSet = new HashSet<User>();
+				userSet.add(user);
+				for(User a: userSet) {
 					Set<RSCMClient> rscmClients = a.getRscmclients();
-					countApplicants++;
+					countUsers++;
 					for(RSCMClient rscmClient: rscmClients) {
-						List<Scriptexecution> seList = scriptexecutionRepository.getExsistingExecutionPlanBasedOnApplicant(fileName, rscmClient.getRscmclientId(),applicantId);
+						List<Scriptexecution> seList = scriptexecutionRepository.getExsistingExecutionPlanBasedOnUser(fileName, rscmClient.getRscmclientId(),userId);
 						if(seList.size()>0) {
 							for(Scriptexecution seExsisting: seList) {
 								seExsisting.setScriptexecutionAssigneddate(new Date());
-								seExsisting.setApplicant(applicant);
+								seExsisting.setUser(user);
 								countExsisting++;
 							}
 						}else {
 							Scriptexecution se = new Scriptexecution();
-							se.setApplicant(applicantRepository.findById(applicantId).get());
+							se.setUser(userRepository.findById(userId).get());
 							se.setScriptName(fileName);
 							se.setScriptexecutionAssigneddate(new Date());
 							se.setRSCMClient(rscmClient);
@@ -795,7 +795,7 @@ public class ScriptExecutionController {
 				}
 			}
 		}
-		return "the script assignment effects "+countApplicants+" applicants,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
+		return "the script assignment effects "+countUsers+" users,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
 		
 	}
 	
@@ -829,7 +829,7 @@ public class ScriptExecutionController {
 		assert(entityAssignment.length>0);
 		assert(fileAssignment.length>0);
 		
-		int countApplicants=0;
+		int countUsers=0;
 		int countClients=0;
 		int countExsisting=0;
 		for(int environmentId: entityAssignment) {
@@ -857,7 +857,7 @@ public class ScriptExecutionController {
 				
 			}
 		}
-		return "the script assignment effects "+countApplicants+" applicants,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
+		return "the script assignment effects "+countUsers+" users,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
 		
 	}
 	
@@ -891,7 +891,7 @@ public class ScriptExecutionController {
 		assert(entityAssignment.length>0);
 		assert(fileAssignment.length>0);
 		
-		int countApplicants=0;
+		int countUsers=0;
 		int countClients=0;
 		int countExsisting=0;
 		for(int environmentthreatId: entityAssignment) {
@@ -918,7 +918,7 @@ public class ScriptExecutionController {
 				
 			}
 		}
-		return "the script assignment effects "+countApplicants+" applicants,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
+		return "the script assignment effects "+countUsers+" users,<br> and " + countClients +" clients has an new script assignment, <br> and " + countExsisting + " existing script assignments are updated";
 		
 	}
 	

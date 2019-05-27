@@ -59,19 +59,19 @@
 		<div class="w3-bar navbar w3-padding w3-card">
 
 
-			<a href="ExecuteOnApplicants.jsp" class="w3-bar-item marginRight w3-button 
-			<%if (thisPageName.equals("ExecuteOnApplicants")) {
+			<a href="ExecuteOnUsers.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnUsers")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
-			}%>	w3circle">E. Applicants</a>
+			}%>	w3circle">E. Users</a>
 		
-			<a href="ExecuteOnApplicantgroups.jsp" class="w3-bar-item marginRight w3-button 
-			<%if (thisPageName.equals("ExecuteOnApplicantgroups")) {
+			<a href="ExecuteOnUsergroups.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnUsergroups")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
-			}%>	w3circle">E. Applicantgroups</a>
+			}%>	w3circle">E. Usergroups</a>
 			
 			<a href="ExecuteOnRoles.jsp" class="w3-bar-item marginRight w3-button 
 			<%if (thisPageName.equals("ExecuteOnRoles")) {

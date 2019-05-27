@@ -212,7 +212,7 @@
 			<div class="w3-col l6 w3-padding-large">
 				<h2 class="w3-center">Assign Environmentthreats</h2>
 				
-				<form id="updateEnvironmentthreat" name="updateEnvironmentthreat" method="POST"	onsubmit="updateApplicantEnvironmentthreat();return false">
+				<form id="updateEnvironmentthreat" name="updateEnvironmentthreat" method="POST"	onsubmit="updateUserEnvironmentthreat();return false">
 				<table class='w3-table w3-striped w3-hoverable'>
 					<thead>
 					<td>ThreatID</td>
@@ -369,7 +369,7 @@
 				xhr.send(formData);
 			}
 			
-			function updateApplicantEnvironmentthreat(){
+			function updateUserEnvironmentthreat(){
 				//https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-in-Array-using-JavaScript.aspx
 		        var selected = new Array();
 		        var updateEnvironmentthreatForm = document.getElementById("updateEnvironmentthreat");

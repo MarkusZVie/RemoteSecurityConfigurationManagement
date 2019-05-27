@@ -7,30 +7,30 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import at.ac.univie.rscm.model.Applicant;
+import at.ac.univie.rscm.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CustomApplicantDetails implements UserDetails{
+public class CustomUserDetails implements UserDetails{
 
-	private Applicant applicant;
+	private User user;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return applicant.getRoles().stream().map(role-> new SimpleGrantedAuthority("ROLE_"+role.getRoleName())).collect(Collectors.toList());
+		return user.getRoles().stream().map(role-> new SimpleGrantedAuthority("ROLE_"+role.getRoleName())).collect(Collectors.toList());
 		
 	}
 
 	@Override
 	public String getPassword() {
-		return applicant.getApplicantPassword();
+		return user.getUserPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return applicant.getApplicantName();
+		return user.getUserName();
 	}
 
 	@Override

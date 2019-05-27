@@ -66,17 +66,17 @@
 	<!-- Page content -->
 	<div class="w3-content content">
 		<div class="w3-container w3-padding-64" id="maincontent">
-			<h1>Register Applicant</h1>
+			<h1>Register User</h1>
 			<br>
 			
-			<form id="registerApplicant" name="registerApplicant" method="POST" onsubmit="sendRegisterFormData();return false">
+			<form id="registerUser" name="registerUser" method="POST" onsubmit="sendRegisterFormData();return false">
 			<table border="0">
 			
-			<tr><td>Firstname:</td><td><input id="f1" type="text" name="applicantFirstname" required/></td></tr>
-			<tr><td>Lastname:</td><td><input id="f2" type="text" name="applicantLastname" required/></td></tr>
-			<tr><td>UserName:</td><td><input id="f3" type="text" name="applicantName" required/></td></tr>
-			<tr><td>Password:</td><td><input id="f4" type="password" name="applicantPassword" required/></td></tr>
-			<tr><td>Email:</td><td><input id="f5" type="email" name="applicantEmail" required /></td></tr>
+			<tr><td>Firstname:</td><td><input id="f1" type="text" name="userFirstname" required/></td></tr>
+			<tr><td>Lastname:</td><td><input id="f2" type="text" name="userLastname" required/></td></tr>
+			<tr><td>UserName:</td><td><input id="f3" type="text" name="userName" required/></td></tr>
+			<tr><td>Password:</td><td><input id="f4" type="password" name="userPassword" required/></td></tr>
+			<tr><td>Email:</td><td><input id="f5" type="email" name="userEmail" required /></td></tr>
 			<tr><td>Submit:</td><td><input type='submit' value='submit'></td></tr>
 			
 			
@@ -99,7 +99,7 @@
 			function sendRegisterFormData() {
 				var formData = new FormData();
 				//https://stackoverflow.com/questions/19978600/how-to-loop-through-elements-of-forms-with-javascript
-				var elements = document.getElementById("registerApplicant").elements;
+				var elements = document.getElementById("registerUser").elements;
 				for (var i = 0, element; element = elements[i++];) {
 					if(element.type != "submit"){
 						formData.append("formVars", element.name);
@@ -108,7 +108,7 @@
 				}
 				
 				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "/applicants/pushApplicantRegistration");
+				xhr.open("POST", "/users/pushUserRegistration");
 				xhr.onload = function() {
 					console.log(xhr.responseText);
 					if (xhr.status == 200) {

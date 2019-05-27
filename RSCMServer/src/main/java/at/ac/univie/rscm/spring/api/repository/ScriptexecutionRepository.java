@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import at.ac.univie.rscm.model.Applicantgroup;
+import at.ac.univie.rscm.model.Usergroup;
 import at.ac.univie.rscm.model.Job;
 import at.ac.univie.rscm.model.Scriptexecution;
 
@@ -28,8 +28,8 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	List<Scriptexecution> findAllToExecuteScriptAssigns(@Param("rscmclientId") int rscmclientId);
 	
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE applicantgroup_fs = :id AND script_name LIKE :scriptName", nativeQuery = true)
-	List<Scriptexecution> findByApplicantgroup(@Param("id") int id,@Param("scriptName") String scriptName);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE usergroup_fs = :id AND script_name LIKE :scriptName", nativeQuery = true)
+	List<Scriptexecution> findByUsergroup(@Param("id") int id,@Param("scriptName") String scriptName);
 	
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE rscmclient_fs = :id AND script_name LIKE :scriptName", nativeQuery = true)
 	List<Scriptexecution> findByRscmclient(@Param("id") int id,@Param("scriptName") String scriptName);
@@ -49,15 +49,15 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE role_fs = :id AND script_name LIKE :scriptName", nativeQuery = true)
 	List<Scriptexecution> findByRole(@Param("id") int id,@Param("scriptName") String scriptName);
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE applicant_fs = :id AND script_name LIKE :scriptName", nativeQuery = true)
-	List<Scriptexecution> findByApplicant(@Param("id") int id,@Param("scriptName") String scriptName);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE user_fs = :id AND script_name LIKE :scriptName", nativeQuery = true)
+	List<Scriptexecution> findByUser(@Param("id") int id,@Param("scriptName") String scriptName);
 	
 
 
 	
 	
-	@Query(value= "SELECT count(*) FROM rscmdatabase.scriptexecution WHERE applicantgroup_fs = :id AND script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL", nativeQuery = true)
-	int countByApplicantgroup(@Param("id") int id,@Param("scriptName") String scriptName);
+	@Query(value= "SELECT count(*) FROM rscmdatabase.scriptexecution WHERE usergroup_fs = :id AND script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL", nativeQuery = true)
+	int countByUsergroup(@Param("id") int id,@Param("scriptName") String scriptName);
 	
 	@Query(value= "SELECT count(*) FROM rscmdatabase.scriptexecution WHERE rscmclient_fs = :id AND script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL", nativeQuery = true)
 	int countByRscmclient(@Param("id") int id,@Param("scriptName") String scriptName);
@@ -77,15 +77,15 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	@Query(value= "SELECT count(*) FROM rscmdatabase.scriptexecution WHERE role_fs = :id AND script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL", nativeQuery = true)
 	int countByRole(@Param("id") int id,@Param("scriptName") String scriptName);
 	
-	@Query(value= "SELECT count(*) FROM rscmdatabase.scriptexecution WHERE applicant_fs = :id AND script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL", nativeQuery = true)
-	int countByApplicant(@Param("id") int id,@Param("scriptName") String scriptName);
+	@Query(value= "SELECT count(*) FROM rscmdatabase.scriptexecution WHERE user_fs = :id AND script_name LIKE :scriptName AND scriptexecution_executiondate IS NOT NULL", nativeQuery = true)
+	int countByUser(@Param("id") int id,@Param("scriptName") String scriptName);
 	
 	
 	
 	
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE applicantgroup_fs = :id", nativeQuery = true)
-	List<Scriptexecution> findByApplicantgroupId(@Param("id") int id);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE usergroup_fs = :id", nativeQuery = true)
+	List<Scriptexecution> findByUsergroupId(@Param("id") int id);
 	
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE task_fs = :id", nativeQuery = true)
 	List<Scriptexecution> findByTaskId(@Param("id") int id);
@@ -119,11 +119,11 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND job_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
 	List<Scriptexecution> getExsistingExecutionPlanBasedOnJob(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND applicantgroup_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
-	List<Scriptexecution> getExsistingExecutionPlanBasedOnApplicantgroup(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND usergroup_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getExsistingExecutionPlanBasedOnUsergroup(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND applicant_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
-	List<Scriptexecution> getExsistingExecutionPlanBasedOnApplicant(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND user_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getExsistingExecutionPlanBasedOnUser(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
 	
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND rscmclient_fs = :rscmclientId AND role_fs =:entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
 	List<Scriptexecution> getExsistingExecutionPlanBasedOnRole(@Param("scriptName") String scriptName,@Param("rscmclientId") int rscmclientId, @Param("entityId") int entityId);
@@ -142,11 +142,11 @@ public interface ScriptexecutionRepository extends JpaRepository<Scriptexecution
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND job_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
 	List<Scriptexecution> getAssignedExecutionBasedOnJob(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND applicantgroup_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
-	List<Scriptexecution> getAssignedExecutionBasedOnApplicantgroup(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND usergroup_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnUsergroup(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
 	
-	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND applicant_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
-	List<Scriptexecution> getAssignedExecutionBasedOnApplicant(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
+	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND user_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
+	List<Scriptexecution> getAssignedExecutionBasedOnUser(@Param("scriptName") String scriptName, @Param("entityId") int entityId);
 	
 	@Query(value= "SELECT * FROM rscmdatabase.scriptexecution WHERE script_name LIKE :scriptName AND role_fs = :entityId AND scriptexecution_executiondate IS NULL", nativeQuery = true)
 	List<Scriptexecution> getAssignedExecutionBasedOnRole(@Param("scriptName") String scriptName, @Param("entityId") int entityId);

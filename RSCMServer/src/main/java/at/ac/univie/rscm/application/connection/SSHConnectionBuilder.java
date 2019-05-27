@@ -73,6 +73,10 @@ public class SSHConnectionBuilder {
 	public String sendComand(String command) throws JSchException, IOException {
 		// https://stackoverflow.com/questions/4194439/sending-commands-to-server-via-jsch-shell-channel
 		Channel channel = session.openChannel("exec");
+		if(command.endsWith(".ps1")) {
+			command = "powershell.exe -NoLogo -NoProfile -file C:\\Users\\rscm\\" + command;
+		}
+			
 		((ChannelExec) channel).setCommand(command);
 		channel.setInputStream(null);
 		((ChannelExec) channel).setErrStream(System.err);

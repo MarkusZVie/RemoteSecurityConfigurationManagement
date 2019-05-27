@@ -78,6 +78,7 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
+			<a href="ClientManagement.jsp" class="w3-bar-item w3-button w3-teal w3circle">Client-Management</a>
 			<a href="ClientDetail.jsp?clientId=<%out.println(clientId);%>"
 				class="w3-bar-item w3-button <%if (thisPageName.equals("ClientDetail")) {
 				out.println("w3-orange");

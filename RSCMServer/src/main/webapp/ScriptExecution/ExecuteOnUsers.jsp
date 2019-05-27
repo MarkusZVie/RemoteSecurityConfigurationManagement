@@ -57,20 +57,20 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 		<div class="w3-bar navbar w3-padding w3-card">
-		
-			<a href="ExecuteOnApplicants.jsp" class="w3-bar-item marginRight w3-button 
-			<%if (thisPageName.equals("ExecuteOnApplicants")) {
+
+			<a href="ExecuteOnUsers.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnUsers")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
-			}%>	w3circle">E. Applicants</a>
+			}%>	w3circle">E. Users</a>
 		
-			<a href="ExecuteOnApplicantgroups.jsp" class="w3-bar-item marginRight w3-button 
-			<%if (thisPageName.equals("ExecuteOnApplicantgroups")) {
+			<a href="ExecuteOnUsergroups.jsp" class="w3-bar-item marginRight w3-button 
+			<%if (thisPageName.equals("ExecuteOnUsergroups")) {
 				out.println("w3-orange");
 			} else {
 				out.println("w3-teal");
-			}%>	w3circle">E. Applicantgroups</a>
+			}%>	w3circle">E. Usergroups</a>
 			
 			<a href="ExecuteOnRoles.jsp" class="w3-bar-item marginRight w3-button 
 			<%if (thisPageName.equals("ExecuteOnRoles")) {
@@ -106,7 +106,7 @@
 			} else {
 				out.println("w3-teal");
 			}%>	w3circle">E. Environmentthreats</a>
-			
+
 			<div w3-include-html="../WebressourcenImport/NavBarGeneral.html"></div>
 		</div>
 	</div>
@@ -131,18 +131,21 @@
 		<!-- Menu Section -->
 		<div class="w3-row" id="menu">
 			<div class="w3-col l6 w3-padding-large">
-				<h2 class="w3-center">Applicantgroups</h2>
-				<table class='w3-table w3-striped w3-hoverable'>
+				<h2 class="w3-center">Users</h2>
+				<table class='w3-table w3-striped w3-hoverable' style="width:775px; overflow: scroll;">
 					<thead>
-						<td><button onclick="clearSelection();"  class="w3-bar-item w3-btn w3-teal" >Clear<br>Selection</button></td>
-						<td><input type="text" id="searchApplicantgroup" size="15"name="searchApplicantgroup" placeholder="Search by Name" />
-							<button onclick="loadApplicantgroupList();">Search</button></td>
-						<td>Applicantgroup Description</td>
-						<td>Assigned Applicants</td>
-						<td>Assigned Clients</td>
+						<td><button style="width: 100%" onclick="clearSelection(); return false;"  class="w3-bar-item w3-btn w3-teal" >Clear<br> Selection</button></td>
+						<td>
+						<input type="text" id="searchUser" style="width: 100%" name="searchUser" placeholder="Search by Name" width="100%"/>
+							<button onclick="loadUserList(); return false;">Search</button></td>
+							
+						<td style="font-size: 12px;">User Firstname</td>
+						<td style="font-size: 12px;">User Lastname</td>
+						<td style="font-size: 12px;">User Email</td>
+						<td style="font-size: 12px;">Assigned Clients</td>
 
 					</thead>
-					<tbody id="applicantgroupListContent">
+					<tbody id="userListContent">
 
 					</tbody>
 				</table>
@@ -180,22 +183,22 @@
 				
 				//check for Parameter
 				var baseHeadLineContent = "<th><input type=\"text\" id=\"searchFile\" name=\"searchFile\" placeholder=\"Search by Name\" />";
-				baseHeadLineContent += "<button onclick=\"getFileList();\">Search</button></th>";
+				baseHeadLineContent += "<button onclick=\"getFileList(); return false;\">Search</button></th>";
 				baseHeadLineContent += "<th>Creation Date</th>";
 				baseHeadLineContent += "<th>Size</th>";
 				
 				
 				
-				var applicantgroupIdParameter ="";
+				var userIdParameter ="";
 				var url = new URL(window.location.href);
-				if(window.location.href.indexOf('?applicantgroupId=') != -1){
-					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
+				if(window.location.href.indexOf('?userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
 					document.getElementById("headLineContent").innerHTML = baseHeadLineContent + "<th>Assigned</th><th>Progress</th>";
-				}else if(window.location.href.indexOf('&applicantgroupId=') != -1){
-					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
+				}else if(window.location.href.indexOf('&userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
 					document.getElementById("headLineContent").innerHTML = baseHeadLineContent + "<th>Assigned</th><th>Progress</th>";
 				}else{
-					applicantgroupIdParameter=-1;
+					userIdParameter=-1;
 					document.getElementById("headLineContent").innerHTML = baseHeadLineContent;
 				}
 
@@ -213,14 +216,14 @@
 							contentString += "<td>" + responsArray[i]['fileCreationDate']	+ "</td>";
 							contentString += "<td>"	+ responsArray[i]['fileSize'] + "</td>";
 							//File settings
-							if(applicantgroupIdParameter>=0){
+							if(userIdParameter>=0){
 								contentString += "<td>"	+ responsArray[i]['executionAssignDate'] + "</td>";
 								if(responsArray[i]['executionPercentageNumbers']!=""){
 									contentString += "<td> ";
 									var onclickString = ""
 									onclickString += "window.location='ExecutionStatus.jsp";
-									onclickString += "?id="+ applicantgroupIdParameter;
-									onclickString += "&table=applicantgroup";
+									onclickString += "?id="+ userIdParameter;
+									onclickString += "&table=user";
 									onclickString += "&fileName=" + responsArray[i]['fileName'];
 									onclickString += "&returnURL=" + onclickURL;
 									onclickString += "'";
@@ -247,13 +250,13 @@
 							
 							contentString += "</tr>";
 						}
-						if(applicantgroupIdParameter>=0){
+						if(userIdParameter>=0){
 							contentString += "<tr>";
 							contentString += "<td></td>";
 							contentString += "<td></td>";
 							contentString += "<td></td>";
 							contentString += "<td></td>";
-							contentString += "<td align='right' colspan=\"2\"><button class=\"w3-bar-item marginRight w3-btn w3-teal\" onclick=\"removeAssignment()\" >update assign &#8593;</button></td>";
+							contentString += "<td align='right' colspan=\"2\"><button class=\"w3-bar-item marginRight w3-btn w3-teal\" onclick=\"removeAssignment(); return false;\" >update assign &#8593;</button></td>";
 							contentString += "</tr>";
 						}
 						
@@ -267,8 +270,8 @@
 					}
 				}
 				var data = new FormData();
-				data.append("table", "applicantgroup");
-				data.append("identifier", applicantgroupIdParameter);
+				data.append("table", "user");
+				data.append("identifier", userIdParameter);
 				data.append("searchString", document.getElementById("searchFile").value);
 				xhr.send(data);
 				
@@ -279,16 +282,16 @@
 			}
 			
 			function removeAssignment(){
-				var applicantgroupIdParameter ="";
+				var userIdParameter ="";
 				var url = new URL(window.location.href);
-				if(window.location.href.indexOf('?applicantgroupId=') != -1){
-					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
-				}else if(window.location.href.indexOf('&applicantgroupId=') != -1){
-					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
+				if(window.location.href.indexOf('?userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
+				}else if(window.location.href.indexOf('&userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
 				}else{
-					applicantgroupIdParameter=-1;
-					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
-					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+					userIdParameter=-1;
+					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "<input type='submit' value='Assign selected Users to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "<input type='submit' value='Assign selected Users to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
 					
 				}
 				
@@ -301,12 +304,12 @@
 		        }
 			        
 			    console.log(uncheckedAssignments);    
-			    console.log(applicantgroupIdParameter);  
-			    console.log("applicantgroup");  
+			    console.log(userIdParameter);  
+			    console.log("user");  
 		        var formData = new FormData();
 				formData.append("uncheckedFileNameAssignments", uncheckedAssignments);
-				formData.append("entityID", applicantgroupIdParameter);
-				formData.append("table", "applicantgroup");
+				formData.append("entityID", userIdParameter);
+				formData.append("table", "user");
 				
 				var xhr = new XMLHttpRequest();
 				xhr.open("POST", "/ScriptExecution/removeAssignment");
@@ -322,67 +325,69 @@
 				xhr.send(formData);
 			}
 			
-			function loadApplicantgroupList() {
+			function loadUserList() {
 				
 				//check for Parameter
-				var applicantgroupIdParameter ="";
+				var userIdParameter ="";
 				var url = new URL(window.location.href);
-				if(window.location.href.indexOf('?applicantgroupId=') != -1){
-					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
+				if(window.location.href.indexOf('?userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
 					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "";
 					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "";
-				}else if(window.location.href.indexOf('&applicantgroupId=') != -1){
-					applicantgroupIdParameter=url.searchParams.get("applicantgroupId");
+				}else if(window.location.href.indexOf('&userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
 					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "";
 					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "";
 				}else{
-					applicantgroupIdParameter=-1;
-					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
-					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "<input type='submit' value='Assign selected Applicantgroups to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+					userIdParameter=-1;
+					document.getElementById("updateAssignmentButtonDiv1").innerHTML = "<input type='submit' value='Assign selected Users to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
+					document.getElementById("updateAssignmentButtonDiv2").innerHTML = "<input type='submit' value='Assign selected Users to selected Scripts (checkboxes)' style=\"width: 100%;\" class=\"w3-bar-item marginRight w3-button w3-teal\" >";
 
 					
 				}
 				
 				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "/ScriptExecution/getApplicantgroupList");
+				xhr.open("POST", "/ScriptExecution/getUserList");
 				xhr.onload = function() {
 					var responsArray = JSON.parse(xhr.responseText); //parse Json
 					var contentString = ""; //build table content
 					var onclickURL = location.protocol + '//' + location.host + location.pathname; //GetURL
 					for ( var i in responsArray) {
-						if(applicantgroupIdParameter == responsArray[i]['applicantgroupId']){
+						if(userIdParameter == responsArray[i]['userId']){
 							contentString += "<tr style='background-color: #bde9ba;'>";
 						}else{
 							contentString += "<tr>";
-						}
-						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"applicantgroupId="+responsArray[i]['applicantgroupId']+"'\">" + responsArray[i]['applicantgroupId']+ "</td>";
-						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"applicantgroupId="+responsArray[i]['applicantgroupId']+"'\">" + responsArray[i]['applicantgroupName']	+ "</td>";
-						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"applicantgroupId="+responsArray[i]['applicantgroupId']+"'\">"	+ responsArray[i]['applicantgroupDescription'] + "</td>";
-						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"applicantgroupId="+responsArray[i]['applicantgroupId']+"'\">"	+ responsArray[i]['applicantgroupMembersApplicant'] + "</td>";
-						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"applicantgroupId="+responsArray[i]['applicantgroupId']+"'\">"	+ responsArray[i]['applicantgroupMembersRSCMClients'] + "</td>";
-						if(applicantgroupIdParameter<0){
-							contentString += "<td><input type='checkbox' name='entityAssignment' value='"+responsArray[i]['applicantgroupId']+"'></td>";
+						}						
+
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"userId="+responsArray[i]['userId']+"'\">" + responsArray[i]['userId']+ "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"userId="+responsArray[i]['userId']+"'\">" + responsArray[i]['userName']	+ "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"userId="+responsArray[i]['userId']+"'\">"	+ responsArray[i]['userFirstname'] + "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"userId="+responsArray[i]['userId']+"'\">"	+ responsArray[i]['userLastname'] + "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"userId="+responsArray[i]['userId']+"'\">"	+ responsArray[i]['userEmail'] + "</td>";
+						contentString += "<td onclick=\"window.location='" + onclickURL + "?"+"userId="+responsArray[i]['userId']+"'\">"	+ responsArray[i]['userMembersRSCMClients'] + "</td>";
+						if(userIdParameter<0){
+							contentString += "<td><input type='checkbox' name='entityAssignment' value='"+responsArray[i]['userId']+"'></td>";
 						}
 						
 						contentString += "</tr>";
 					}
-					document.getElementById("applicantgroupListContent").innerHTML = contentString; //set table content
+					document.getElementById("userListContent").innerHTML = contentString; //set table content
 					getFileList();
 				}
 
 				var data = new FormData();
-				data.append("searchString", document.getElementById("searchApplicantgroup").value);
+				data.append("searchString", document.getElementById("searchUser").value);
 				xhr.send(data);
 
 			}
 			
 			function updateAssignment() {
 				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "/ScriptExecution/updateApplicantgroupAssignment");
+				xhr.open("POST", "/ScriptExecution/updateUserAssignment");
 				xhr.onload = function() {
 					document.getElementById("response").innerHTML = xhr.responseText;
 					getFileList();
-					loadApplicantgroupList();
+					loadUserList();
 				}
 				//https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-in-Array-using-JavaScript.aspx
 		        var entityAssignment = new Array();
@@ -409,7 +414,7 @@
 			}
 			
 			includeHTML();
-			loadApplicantgroupList();
+			loadUserList();
 		</script>
 	</footer>
 

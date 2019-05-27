@@ -7,7 +7,7 @@ import java.util.Map;
 import at.ac.univie.rscm.application.connection.PortScanner;
 import at.ac.univie.rscm.application.connection.PortScannerInterface;
 import at.ac.univie.rscm.model.RSCMClientConnection;
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentRepository;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 import at.ac.univie.rscm.spring.api.repository.RoleRepository;
@@ -45,7 +45,7 @@ public interface GlobalSettingsAndVariablesInterface {
 
 	public void setRoleRepository(RoleRepository rr);
 
-	public void setApplicantRepository(ApplicantRepository ar);
+	public void setUserRepository(UserRepository ar);
 	public PortScannerInterface getPortScanner();
 
 	public void initPortScanner();
@@ -57,7 +57,7 @@ public interface GlobalSettingsAndVariablesInterface {
 
 	public void setScriptexecutionRepository(ScriptexecutionRepository ser);
 	public ScriptexecutionRepository getScriptexecutionRepository();
-	public ApplicantRepository getApplicantRepository();
+	public UserRepository getUserRepository();
 
 	public void updatePortScannerPortEnd();
 

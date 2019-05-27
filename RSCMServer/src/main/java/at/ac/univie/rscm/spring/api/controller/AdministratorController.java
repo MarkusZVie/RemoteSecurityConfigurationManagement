@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import at.ac.univie.rscm.model.Applicant;
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.model.User;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
 
 @RestController
 @RequestMapping("/admin")
@@ -21,19 +21,19 @@ public class AdministratorController {
 	
 	
 	@Autowired
-	private ApplicantRepository applicantRepository;
+	private UserRepository userRepository;
 	
 
 	
 
 	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping("/user/add")
-	public String addApplicantByAdmin(@RequestBody Applicant applicant) {
-		String applicantPassword = applicant.getApplicantPassword();
-		String encrypedApplicantPassword = new BCryptPasswordEncoder().encode(applicantPassword);
-		applicant.setApplicantPassword(encrypedApplicantPassword);
-		System.out.println(applicant);
-		applicantRepository.save(applicant);
+	public String addUserByAdmin(@RequestBody User user) {
+		String userPassword = user.getUserPassword();
+		String encrypedUserPassword = new BCryptPasswordEncoder().encode(userPassword);
+		user.setUserPassword(encrypedUserPassword);
+		System.out.println(user);
+		userRepository.save(user);
 		return "user added ";
 	}
 	

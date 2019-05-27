@@ -173,14 +173,14 @@
 					</h2>
 				<table class='w3-table w3-striped w3-hoverable'>
 					<thead>
-					<td>ApplicantID</td>
-					<td><input type="text" id="searchApplicant" name="searchApplicant" placeholder="Search by Name"/><button onclick="loadApplicantList();">Search</button></td>
+					<td>UserID</td>
+					<td><input type="text" id="searchUser" name="searchUser" placeholder="Search by Name"/><button onclick="loadUserList();">Search</button></td>
 					<td>LastName</td>
 					<td>FirstName</td>
 					<td>E-Mail</td>
 					
 					</thead>
-					<tbody id="applicantListContent">
+					<tbody id="userListContent">
 
 					</tbody>
 				</table>	
@@ -188,7 +188,7 @@
 			<div class="w3-col l6 w3-padding-large">
 				<h2 class="w3-center">Assign Tasks</h2>
 				
-				<form id="updateTasks" name="updateTasks" method="POST"	onsubmit="updateApplicantTasks();return false">
+				<form id="updateTasks" name="updateTasks" method="POST"	onsubmit="updateUserTasks();return false">
 				<table class='w3-table w3-striped w3-hoverable'>
 					<thead>
 					<td>TaskID</td>
@@ -211,56 +211,56 @@
 		<script>
 			includeHTML();
 
-			function loadApplicantList() {
-				var applicantIdParameter ="";
+			function loadUserList() {
+				var userIdParameter ="";
 				var url = new URL(window.location.href);
-				if(window.location.href.indexOf('?applicantId=') != -1){
-					applicantIdParameter=url.searchParams.get("applicantId");
-				}else if(window.location.href.indexOf('&applicantId=') != -1){
-					applicantIdParameter=url.searchParams.get("applicantId");
+				if(window.location.href.indexOf('?userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
+				}else if(window.location.href.indexOf('&userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
 				}else{
-					applicantIdParameter=-1;
+					userIdParameter=-1;
 				}
 				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "/Application/getApplicantList");
+				xhr.open("POST", "/Application/getUserList");
 				xhr.onload = function() {
 					var responsArray = JSON.parse(xhr.responseText);
 					var contentString = "";
 					var onclickURL = location.protocol + '//' + location.host + location.pathname;
 					for ( var i in responsArray) {
-						if(applicantIdParameter == responsArray[i]['applicantId']){
-							contentString += "<tr style='background-color: #bde9ba;' onclick=\"window.location='" + onclickURL + "?"+"applicantId="+responsArray[i]['applicantId']+"'\">";
+						if(userIdParameter == responsArray[i]['userId']){
+							contentString += "<tr style='background-color: #bde9ba;' onclick=\"window.location='" + onclickURL + "?"+"userId="+responsArray[i]['userId']+"'\">";
 						}else{
-							contentString += "<tr onclick=\"window.location='" + onclickURL + "?"+"applicantId="+responsArray[i]['applicantId']+"'\">";
+							contentString += "<tr onclick=\"window.location='" + onclickURL + "?"+"userId="+responsArray[i]['userId']+"'\">";
 						}
 						
-						contentString += "<td>" + responsArray[i]['applicantId']	+ "</td>";
-						contentString += "<td>" + responsArray[i]['applicantName']	+ "</td>";
-						contentString += "<td>" + responsArray[i]['applicantFirstname']	+ "</td>";
-						contentString += "<td>" + responsArray[i]['applicantLastname']	+ "</td>";
-						contentString += "<td>" + responsArray[i]['applicantEmail']	+ "</td>";
+						contentString += "<td>" + responsArray[i]['userId']	+ "</td>";
+						contentString += "<td>" + responsArray[i]['userName']	+ "</td>";
+						contentString += "<td>" + responsArray[i]['userFirstname']	+ "</td>";
+						contentString += "<td>" + responsArray[i]['userLastname']	+ "</td>";
+						contentString += "<td>" + responsArray[i]['userEmail']	+ "</td>";
 						contentString += "</tr>";
 						
 					}
-					 document.getElementById("applicantListContent").innerHTML =contentString;
+					 document.getElementById("userListContent").innerHTML =contentString;
 					 loadTaskList();
 				}
 
 				var data = new FormData();
-				data.append("searchString", document.getElementById("searchApplicant").value);
+				data.append("searchString", document.getElementById("searchUser").value);
 				xhr.send(data);
 
 			}
 			
 			function loadTaskList() {
-				var applicantIdParameter ="";
+				var userIdParameter ="";
 				var url = new URL(window.location.href);
-				if(window.location.href.indexOf('?applicantId=') != -1){
-					applicantIdParameter=url.searchParams.get("applicantId");
-				}else if(window.location.href.indexOf('&applicantId=') != -1){
-					applicantIdParameter=url.searchParams.get("applicantId");
+				if(window.location.href.indexOf('?userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
+				}else if(window.location.href.indexOf('&userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
 				}else{
-					applicantIdParameter=-1;
+					userIdParameter=-1;
 				}
 				
 				var xhr = new XMLHttpRequest();
@@ -277,7 +277,7 @@
 						contentString += "<td>" + responsArray[i]['taskPlanEnddate'] + "</td>";
 						contentString += "<td>" + responsArray[i]['taskDescription'] + "</td>";
 						contentString += "<td>" + responsArray[i]['taskOutcome'] + "</td>";
-						if(applicantIdParameter>=0){
+						if(userIdParameter>=0){
 							if(responsArray[i]['isAssignetTo']==='yes'){
 								contentString += "<td><input type='checkbox' name='assignToTask' value='"+responsArray[i]['taskId']+"' checked></td>";
 							}else{
@@ -288,7 +288,7 @@
 						contentString += "<td id='collDelete"+i+"'><button onclick=\"showConfirmationDelete('collDelete"+i+"','"+responsArray[i]['taskId']+"')\">delete</button></td>";
 						contentString += "</tr>";
 					}
-					if(applicantIdParameter>=0){
+					if(userIdParameter>=0){
 						contentString += "<tr><td/><td/><td/><td><input type='submit' value='submit'></td></tr>";
 					}
 					 document.getElementById("taskListContent").innerHTML =contentString;
@@ -296,11 +296,11 @@
 
 				var data = new FormData();
 				data.append("searchString", document.getElementById("searchTask").value);
-				data.append("applicantIdParameter", applicantIdParameter);
+				data.append("userIdParameter", userIdParameter);
 				xhr.send(data);
 
 			}
-			loadApplicantList();
+			loadUserList();
 			loadTaskList();
 			
 			function showConfirmationDelete(htmlID, taskId) {
@@ -310,7 +310,7 @@
 				document.getElementById(htmlID).innerHTML = newCellContent;
 			}
 			
-			function updateApplicantTasks(){
+			function updateUserTasks(){
 				//https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-in-Array-using-JavaScript.aspx
 		        var selected = new Array();
 		        var updateTasksForm = document.getElementById("updateTasks");
@@ -324,18 +324,18 @@
 				formData.append("taskIds", selected);
 				
 				
-				var applicantIdParameter ="";
+				var userIdParameter ="";
 				var url = new URL(window.location.href);
-				if(window.location.href.indexOf('?applicantId=') != -1){
-					applicantIdParameter=url.searchParams.get("applicantId");
-				}else if(window.location.href.indexOf('&applicantId=') != -1){
-					applicantIdParameter=url.searchParams.get("applicantId");
+				if(window.location.href.indexOf('?userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
+				}else if(window.location.href.indexOf('&userId=') != -1){
+					userIdParameter=url.searchParams.get("userId");
 				}else{
-					applicantIdParameter=-1;
+					userIdParameter=-1;
 				}
 				
 				
-				formData.append("applicantId", applicantIdParameter);
+				formData.append("userId", userIdParameter);
 				
 				var xhr = new XMLHttpRequest();
 				xhr.open("POST", "/Application/updateAssignedToTask");

@@ -48,7 +48,7 @@ public class RSCMClient {
 	private List<RSCMClientConnection> rSCMClientConnections;
 	private boolean isActive;
 	@ManyToMany(mappedBy = "rscmclients", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Applicant> applicants = new HashSet<>();
+	private Set<User> users = new HashSet<>();
 	
 	public boolean getIsActive(){
 		return isActive;
@@ -59,11 +59,11 @@ public class RSCMClient {
 	}
 	
 
-	public void addApplicant(Applicant applicant) {
-		if(applicants==null) {
-			applicants = new HashSet<Applicant>();
+	public void addUser(User user) {
+		if(users==null) {
+			users = new HashSet<User>();
 		}
-		applicants.add(applicant);
+		users.add(user);
 		
 	}
 	
@@ -99,14 +99,14 @@ public class RSCMClient {
 		}else {
 			sb.append("rSCMClientConnections: null<br/>");
 		}
-		if(applicants!=null) {
-			if(applicants.iterator().hasNext()) {
-				sb.append("applicant: " + applicants.iterator().next().getApplicantName() + "<br/>");
+		if(users!=null) {
+			if(users.iterator().hasNext()) {
+				sb.append("user: " + users.iterator().next().getUserName() + "<br/>");
 			}else {
-				sb.append("applicant: <br/>");
+				sb.append("user: <br/>");
 			}
 		}else {
-			sb.append("applicants: null<br/>");
+			sb.append("users: null<br/>");
 		}
 		
 		

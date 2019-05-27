@@ -1,11 +1,11 @@
-CREATE TABLE `applicants` (
-	`applicant_id` int(11) NOT NULL AUTO_INCREMENT,
-	`applicant_firstname` varchar(255),
-	`applicant_lastname` varchar(255),
-	`applicant_name` varchar(255),
-	`applicant_password` varchar(255),
-	`applicant_email` varchar(255),
-	PRIMARY KEY (`applicant_id`)
+CREATE TABLE `users` (
+	`user_id` int(11) NOT NULL AUTO_INCREMENT,
+	`user_firstname` varchar(255),
+	`user_lastname` varchar(255),
+	`user_name` varchar(255),
+	`user_password` varchar(255),
+	`user_email` varchar(255),
+	PRIMARY KEY (`user_id`)
 )DEFAULT CHARSET=utf8;
 
 CREATE TABLE `roles` (
@@ -15,27 +15,27 @@ CREATE TABLE `roles` (
 	PRIMARY KEY (`role_id`)
 )DEFAULT CHARSET=utf8;
 
-CREATE TABLE `has_role_applicant` (
-  `applicant_id` int(11) NOT NULL,
+CREATE TABLE `has_role_user` (
+  `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`applicant_id`,`role_id`),
-  CONSTRAINT `has_role_applicant_fkapplicant` FOREIGN KEY (`applicant_id`) REFERENCES `applicants` (`applicant_id`),
-  CONSTRAINT `has_role_applicant_fkrole` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`)
+  PRIMARY KEY (`user_id`,`role_id`),
+  CONSTRAINT `has_role_user_fkuser` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `has_role_user_fkrole` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`)
 )DEFAULT CHARSET=utf8;
 
-CREATE TABLE `applicantgroups` (
-	`applicantgroup_id` int(11) NOT NULL AUTO_INCREMENT,
-	`applicantgroup_name` varchar(255),
-	`applicantgroup_description` varchar(255),
-	PRIMARY KEY (`applicantgroup_id`)
+CREATE TABLE `usergroups` (
+	`usergroup_id` int(11) NOT NULL AUTO_INCREMENT,
+	`usergroup_name` varchar(255),
+	`usergroup_description` varchar(255),
+	PRIMARY KEY (`usergroup_id`)
 )DEFAULT CHARSET=utf8;
 
-CREATE TABLE `has_applicantgroup_applicant` (
-  `applicant_id` int(11) NOT NULL,
-  `applicantgroup_id` int(11) NOT NULL,
-  PRIMARY KEY (`applicant_id`,`applicantgroup_id`),
-  CONSTRAINT `has_applicantgroup_fkapplicant` FOREIGN KEY (`applicant_id`) REFERENCES `applicants` (`applicant_id`),
-  CONSTRAINT `has_applicantgroup_fkapplicantgroup` FOREIGN KEY (`applicantgroup_id`) REFERENCES `applicantgroups` (`applicantgroup_id`)
+CREATE TABLE `has_usergroup_user` (
+  `user_id` int(11) NOT NULL,
+  `usergroup_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`usergroup_id`),
+  CONSTRAINT `has_usergroup_fkuser` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `has_usergroup_fkusergroup` FOREIGN KEY (`usergroup_id`) REFERENCES `usergroups` (`usergroup_id`)
 )DEFAULT CHARSET=utf8;
 
 CREATE TABLE `jobs` (
@@ -46,12 +46,12 @@ CREATE TABLE `jobs` (
 )DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `has_applicant_job` (
-  `applicant_id` int(11) NOT NULL,
+CREATE TABLE `has_user_job` (
+  `user_id` int(11) NOT NULL,
   `job_id` int(11) NOT NULL,
-  PRIMARY KEY (`applicant_id`,`job_id`),
-  CONSTRAINT `has_applicant_fk_applicant` FOREIGN KEY (`applicant_id`) REFERENCES `applicants` (`applicant_id`),
-  CONSTRAINT `has_applicant_fk_job` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`)
+  PRIMARY KEY (`user_id`,`job_id`),
+  CONSTRAINT `has_user_fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `has_user_fk_job` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`)
 )DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rscmclients` (
@@ -68,12 +68,12 @@ CREATE TABLE `rscmclients` (
 	PRIMARY KEY (`rscmclient_id`)
 )DEFAULT CHARSET=utf8;
 
-CREATE TABLE `has_applicant_rscmclient` (
-  `applicant_id` int(11) NOT NULL,
+CREATE TABLE `has_user_rscmclient` (
+  `user_id` int(11) NOT NULL,
   `rscmclient_id` int(11) NOT NULL,
-  PRIMARY KEY (`applicant_id`,`rscmclient_id`),
-  CONSTRAINT `has_applicant_fk_applicant` FOREIGN KEY (`applicant_id`) REFERENCES `applicants` (`applicant_id`),
-  CONSTRAINT `has_applicant_fk_rscmclient` FOREIGN KEY (`rscmclient_id`) REFERENCES `rscmclients` (`rscmclient_id`)
+  PRIMARY KEY (`user_id`,`rscmclient_id`),
+  CONSTRAINT `has_user_fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `has_user_fk_rscmclient` FOREIGN KEY (`rscmclient_id`) REFERENCES `rscmclients` (`rscmclient_id`)
 )DEFAULT CHARSET=utf8;
 
 CREATE TABLE `environments` (
@@ -130,12 +130,12 @@ CREATE TABLE `tasks` (
 	PRIMARY KEY (`task_id`)
 )DEFAULT CHARSET=utf8;
 
-CREATE TABLE `has_applicant_task` (
+CREATE TABLE `has_user_task` (
 	`task_id` int(11) NOT NULL,
-	`applicant_id` int(11) NOT NULL,
-	PRIMARY KEY (`task_id`,`applicant_id`),
-	CONSTRAINT `has_applicant_task_fk_task` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`),
-	CONSTRAINT `has_applicant_task_fk_applicant` FOREIGN KEY (`applicant_id`) REFERENCES `applicants` (`applicant_id`)
+	`user_id` int(11) NOT NULL,
+	PRIMARY KEY (`task_id`,`user_id`),
+	CONSTRAINT `has_user_task_fk_task` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`),
+	CONSTRAINT `has_user_task_fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 )DEFAULT CHARSET=utf8;
 
 CREATE TABLE `scriptexecution` (
@@ -148,8 +148,8 @@ CREATE TABLE `scriptexecution` (
 	`environment_fs` int(11),
 	`environmentthreat_fs` int(11),
 	`job_fs` int(11),
-	`applicantgroup_fs` int(11),
-	`applicant_fs` int(11),
+	`usergroup_fs` int(11),
+	`user_fs` int(11),
 	`role_fs` int(11),
 	PRIMARY KEY (`scriptexecution_id`),
 	CONSTRAINT `scriptexecution_fk_rscmclient` FOREIGN KEY (`rscmclient_fs`) REFERENCES `rscmclients` (`rscmclient_id`),
@@ -157,8 +157,8 @@ CREATE TABLE `scriptexecution` (
 	CONSTRAINT `scriptexecution_fk_environment` FOREIGN KEY (`environment_fs`) REFERENCES `environments` (`environment_id`),
 	CONSTRAINT `scriptexecution_fk_environmentthreat` FOREIGN KEY (`environmentthreat_fs`) REFERENCES `environmentthreats` (`environmentthreat_id`),
 	CONSTRAINT `scriptexecution_fk_job` FOREIGN KEY (`job_fs`) REFERENCES `jobs` (`job_id`),
-	CONSTRAINT `scriptexecution_fk_applicantgroup` FOREIGN KEY (`applicantgroup_fs`) REFERENCES `applicantgroups` (`applicantgroup_id`),
-	CONSTRAINT `scriptexecution_fk_applicant` FOREIGN KEY (`applicant_fs`) REFERENCES `applicants` (`applicant_id`),
+	CONSTRAINT `scriptexecution_fk_usergroup` FOREIGN KEY (`usergroup_fs`) REFERENCES `usergroups` (`usergroup_id`),
+	CONSTRAINT `scriptexecution_fk_user` FOREIGN KEY (`user_fs`) REFERENCES `users` (`user_id`),
 	CONSTRAINT `scriptexecution_fk_role` FOREIGN KEY (`role_fs`) REFERENCES `roles` (`role_id`)
 )DEFAULT CHARSET=utf8;
 

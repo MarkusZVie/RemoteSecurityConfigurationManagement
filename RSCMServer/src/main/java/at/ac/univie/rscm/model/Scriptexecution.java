@@ -75,14 +75,14 @@ public class Scriptexecution {
 	@Getter
 	@Setter
 	@ManyToOne
-    @JoinColumn(name="applicantgroup_fs", nullable=true)
-	private Applicantgroup applicantgroup;
+    @JoinColumn(name="usergroup_fs", nullable=true)
+	private Usergroup usergroup;
 	
 	@Getter
 	@Setter
 	@ManyToOne
-    @JoinColumn(name="applicant_fs", nullable=true)
-	private Applicant applicant;
+    @JoinColumn(name="user_fs", nullable=true)
+	private User user;
 	
 	@Getter
 	@Setter
@@ -130,18 +130,18 @@ public class Scriptexecution {
 		return job.getJobId();
 	}
 
-	public Integer getApplicantgroup_fs() {
-		if(applicantgroup == null) {
+	public Integer getUsergroup_fs() {
+		if(usergroup == null) {
 			return null;
 		}
-		return applicantgroup.getApplicantgroupId();
+		return usergroup.getUsergroupId();
 	}
 
-	public Integer getApplicant_fs() {
-		if(applicant == null) {
+	public Integer getUser_fs() {
+		if(user == null) {
 			return null;
 		}
-		return applicant.getApplicantId();
+		return user.getUserId();
 	}
 
 	public Integer getRole_fs() {

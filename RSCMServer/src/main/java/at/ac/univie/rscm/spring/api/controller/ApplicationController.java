@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import at.ac.univie.rscm.model.Applicant;
-import at.ac.univie.rscm.model.Applicantgroup;
+import at.ac.univie.rscm.model.User;
+import at.ac.univie.rscm.model.Usergroup;
 import at.ac.univie.rscm.model.Environment;
 import at.ac.univie.rscm.model.Environmentthreat;
 import at.ac.univie.rscm.model.Job;
@@ -37,8 +37,8 @@ import at.ac.univie.rscm.model.RSCMClientConnection;
 import at.ac.univie.rscm.model.Role;
 import at.ac.univie.rscm.model.Scriptexecution;
 import at.ac.univie.rscm.model.Task;
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
-import at.ac.univie.rscm.spring.api.repository.ApplicantgroupRepository;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
+import at.ac.univie.rscm.spring.api.repository.UsergroupRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentRepository;
 import at.ac.univie.rscm.spring.api.repository.EnvironmentthreatsRepository;
 import at.ac.univie.rscm.spring.api.repository.JobRepository;
@@ -57,10 +57,10 @@ public class ApplicationController {
 	private RoleRepository roleRepository;
 	
 	@Autowired
-	private ApplicantRepository applicantRepository;
+	private UserRepository userRepository;
 	
 	@Autowired
-	private ApplicantgroupRepository groupRepository;
+	private UsergroupRepository groupRepository;
 	
 	@Autowired
 	private JobRepository jobRepository;
@@ -81,20 +81,20 @@ public class ApplicationController {
 	private RSCMClientConnectionRepository rscmClientConnectionRepository;
 	
 	@PostMapping("/pushGroup")
-	public String pushApplicantGroupRegistration(@RequestParam("formVars") String[] formVars) {
+	public String pushUserGroupRegistration(@RequestParam("formVars") String[] formVars) {
 		HashMap<String, String> formVarsMap = new HashMap<String, String>();
 		assert (formVars.length % 2 == 0);
 		for (int i = 0; i < formVars.length;) {
 			formVarsMap.put(formVars[i++], formVars[i++]);
 		}
 		
-		Collection<Applicantgroup> exsistingGroupList = groupRepository.findAllByApplicantgroupName(formVarsMap.get("groupName"));
+		Collection<Usergroup> exsistingGroupList = groupRepository.findAllByUsergroupName(formVarsMap.get("groupName"));
 		if(exsistingGroupList.size()>0) {
 			return "Group cannot be added, because the Groupname '"+formVarsMap.get("groupName")+"' is already used";
 		}
-		Applicantgroup newGroup = new Applicantgroup();
-		newGroup.setApplicantgroupName(formVarsMap.get("groupName"));
-		newGroup.setApplicantgroupDescription(formVarsMap.get("groupDescription"));
+		Usergroup newGroup = new Usergroup();
+		newGroup.setUsergroupName(formVarsMap.get("groupName"));
+		newGroup.setUsergroupDescription(formVarsMap.get("groupDescription"));
 				
 		groupRepository.save(newGroup);
 		return "Group '"+formVarsMap.get("groupName")+"' was saved successfully";
@@ -130,12 +130,12 @@ public class ApplicationController {
 		}
 		List<Scriptexecution> scriptList = scriptexecutionRepository.findByRoleId(id);
 		Role j = roleRepository.findById(id).get();
-		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+		if(scriptList.size()==0 && j.getUsers().size()==0) {
 			roleRepository.deleteById(Integer.parseInt(roleId));
 			return "The Role with id: " + roleId + " was deleted successfully";
 		}else {
 			return "There are other objects that depend on the role. <br>"
-					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getApplicants().size()+ " Applicants that depend on this role <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getUsers().size()+ " Users that depend on this role <br>"
 					+ "If you really want to delete this role press here:<br>"
 					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteRole('"+roleId+"')\">force delete</button>";
 		}
@@ -147,7 +147,7 @@ public class ApplicationController {
 		int id = Integer.parseInt(roleId);
 		List<Scriptexecution> scriptList = scriptexecutionRepository.findByRoleId(id);
 		Role j = roleRepository.findById(id).get();
-		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+		if(scriptList.size()==0 && j.getUsers().size()==0) {
 			roleRepository.deleteById(Integer.parseInt(roleId));
 			return "The Role with id: " + roleId + "was deleted successfully";
 		}else {
@@ -160,13 +160,13 @@ public class ApplicationController {
 					scriptexecutionRepository.save(se);
 				}
 			}
-			j.setApplicants(new HashSet<Applicant>());
+			j.setUsers(new HashSet<User>());
 			roleRepository.save(j);
 			
-			List<Applicant> applicantList = applicantRepository.findByRoleId(id);
-			for(Applicant a : applicantList) {
+			List<User> userList = userRepository.findByRoleId(id);
+			for(User a : userList) {
 				a.deleteRole(id);
-				applicantRepository.save(a);
+				userRepository.save(a);
 			}
 			
 			return deleteRole(roleId);
@@ -178,14 +178,14 @@ public class ApplicationController {
 	@PostMapping("/deleteGroup")
 	public String deleteGroup(@RequestParam("groupId") String groupId) {
 		int id = Integer.parseInt(groupId);
-		List<Scriptexecution> scriptList = scriptexecutionRepository.findByApplicantgroupId(id);
-		Applicantgroup j = groupRepository.findById(id).get();
-		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByUsergroupId(id);
+		Usergroup j = groupRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getUsers().size()==0) {
 			groupRepository.deleteById(Integer.parseInt(groupId));
 			return "The Group with id: " + groupId + " was deleted successfully";
 		}else {
 			return "There are other objects that depend on the group. <br>"
-					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getApplicants().size()+ " Applicants that depend on this group <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getUsers().size()+ " Users that depend on this group <br>"
 					+ "If you really want to delete this group press here:<br>"
 					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteGroup('"+groupId+"')\">force delete</button>";
 		}
@@ -195,9 +195,9 @@ public class ApplicationController {
 	@PostMapping("/forceDeleteGroup")
 	public String forceDeleteGroup(@RequestParam("groupId") String groupId) {
 		int id = Integer.parseInt(groupId);
-		List<Scriptexecution> scriptList = scriptexecutionRepository.findByApplicantgroupId(id);
-		Applicantgroup j = groupRepository.findById(id).get();
-		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+		List<Scriptexecution> scriptList = scriptexecutionRepository.findByUsergroupId(id);
+		Usergroup j = groupRepository.findById(id).get();
+		if(scriptList.size()==0 && j.getUsers().size()==0) {
 			groupRepository.deleteById(Integer.parseInt(groupId));
 			return "The Group with id: " + groupId + "was deleted successfully";
 		}else {
@@ -205,18 +205,18 @@ public class ApplicationController {
 				if(se.getScriptexecutionExecutiondate()==null) {
 					scriptexecutionRepository.delete(se);
 				}else {
-					se.setApplicantgroup(null);
+					se.setUsergroup(null);
 					se.setDescription("Assigned By [Group], but Group with id: "+groupId+" is deleted");
 					scriptexecutionRepository.save(se);
 				}
 			}
-			j.setApplicants(new HashSet<Applicant>());
+			j.setUsers(new HashSet<User>());
 			groupRepository.save(j);
 			
-			List<Applicant> applicantList = applicantRepository.findByApplicantgroupId(id);
-			for(Applicant a : applicantList) {
+			List<User> userList = userRepository.findByUsergroupId(id);
+			for(User a : userList) {
 				a.deleteGroup(id);
-				applicantRepository.save(a);
+				userRepository.save(a);
 			}
 			
 			return deleteGroup(groupId);
@@ -224,39 +224,39 @@ public class ApplicationController {
 		
 	}
 	
-	@PostMapping("/getApplicantList")
-	public String getApplicantList(@RequestParam("searchString") String searchString) {
-		List<Applicant> applicantList;
+	@PostMapping("/getUserList")
+	public String getUserList(@RequestParam("searchString") String searchString) {
+		List<User> userList;
 		if(searchString == null) {searchString="";}
 		
-		applicantList = applicantRepository.findByContainsInName(searchString);
+		userList = userRepository.findByContainsInName(searchString);
 			
 		
 		
 		JSONArray ja = new JSONArray();
-		for(Applicant a:applicantList) {
+		for(User a:userList) {
 			JSONObject jo = new JSONObject();
-			jo.put("applicantId", a.getApplicantId());
-			jo.put("applicantName", a.getApplicantName());
-			jo.put("applicantFirstname", a.getApplicantFirstname());
-			jo.put("applicantLastname", a.getApplicantLastname());
-			jo.put("applicantEmail", a.getApplicantEmail());
+			jo.put("userId", a.getUserId());
+			jo.put("userName", a.getUserName());
+			jo.put("userFirstname", a.getUserFirstname());
+			jo.put("userLastname", a.getUserLastname());
+			jo.put("userEmail", a.getUserEmail());
 			ja.put(jo);
 		}
 		return ja.toString();
 	}
 	
 	@PostMapping("/updateAssignedToRole")
-	public String updateAssignedToRole(@RequestParam("roleIds") int[] roleId,@RequestParam("applicantId") int applicantId) {
-		if(applicantId<0) {
-			return "Applicant ID is not valid, it is: "+ applicantId;
+	public String updateAssignedToRole(@RequestParam("roleIds") int[] roleId,@RequestParam("userId") int userId) {
+		if(userId<0) {
+			return "User ID is not valid, it is: "+ userId;
 		}else {
-			Optional<Applicant> optionalApplicant = applicantRepository.findById(applicantId);
-			if(!optionalApplicant.isPresent()) {
-				return "Cannot find ApplicantID, it is: "+ applicantId;
+			Optional<User> optionalUser = userRepository.findById(userId);
+			if(!optionalUser.isPresent()) {
+				return "Cannot find UserID, it is: "+ userId;
 			}else {
-				Applicant applicant = optionalApplicant.get();
-				Set<Role> setRoles = applicant.getRoles();
+				User user = optionalUser.get();
+				Set<Role> setRoles = user.getRoles();
 				
 				//create Set of roles
 				Set<Integer> newRoleIds = new HashSet<Integer>();
@@ -289,7 +289,7 @@ public class ApplicationController {
 					}
 				}
 				
-				applicantRepository.save(applicant);
+				userRepository.save(user);
 				return"Roles are updated";
 			}
 		}
@@ -297,16 +297,16 @@ public class ApplicationController {
 	}
 	
 	@PostMapping("/updateAssignedToGroup")
-	public String updateAssignedToGroup(@RequestParam("groupIds") int[] groupId,@RequestParam("applicantId") int applicantId) {
-		if(applicantId<0) {
-			return "Applicant ID is not valid, it is: "+ applicantId;
+	public String updateAssignedToGroup(@RequestParam("groupIds") int[] groupId,@RequestParam("userId") int userId) {
+		if(userId<0) {
+			return "User ID is not valid, it is: "+ userId;
 		}else {
-			Optional<Applicant> optionalApplicant = applicantRepository.findById(applicantId);
-			if(!optionalApplicant.isPresent()) {
-				return "Cannot find ApplicantID, it is: "+ applicantId;
+			Optional<User> optionalUser = userRepository.findById(userId);
+			if(!optionalUser.isPresent()) {
+				return "Cannot find UserID, it is: "+ userId;
 			}else {
-				Applicant applicant = optionalApplicant.get();
-				Set<Applicantgroup> setGroups = applicant.getApplicantgroups();
+				User user = optionalUser.get();
+				Set<Usergroup> setGroups = user.getUsergroups();
 				
 				//create Set of roles
 				Set<Integer> newGroupIds = new HashSet<Integer>();
@@ -314,18 +314,18 @@ public class ApplicationController {
 					newGroupIds.add(id);
 				}
 				Set<Integer> oldGroupIds = new HashSet<Integer>();
-				for(Applicantgroup g: setGroups) {
-					oldGroupIds.add(g.getApplicantgroupId());
+				for(Usergroup g: setGroups) {
+					oldGroupIds.add(g.getUsergroupId());
 				}
 				
 				//check if there are roles that dont appier in the new setting
-				Set<Applicantgroup> toDeleteApplicantgroupSet = new HashSet<Applicantgroup>();
-				for(Applicantgroup g: setGroups) {
-					if(!newGroupIds.contains(g.getApplicantgroupId())) {
-						toDeleteApplicantgroupSet.add(g);
+				Set<Usergroup> toDeleteUsergroupSet = new HashSet<Usergroup>();
+				for(Usergroup g: setGroups) {
+					if(!newGroupIds.contains(g.getUsergroupId())) {
+						toDeleteUsergroupSet.add(g);
 					}
 				}
-				setGroups.retainAll(toDeleteApplicantgroupSet);
+				setGroups.retainAll(toDeleteUsergroupSet);
 				
 				
 				
@@ -333,7 +333,7 @@ public class ApplicationController {
 				//add new Roles
 				for(int id:groupId) {
 					if(!oldGroupIds.contains(id)) {
-						Optional<Applicantgroup> optionalGroup= groupRepository.findById(id);
+						Optional<Usergroup> optionalGroup= groupRepository.findById(id);
 						if(optionalGroup.isPresent()) {
 							setGroups.add(optionalGroup.get());
 						}
@@ -341,7 +341,7 @@ public class ApplicationController {
 					}
 				}
 				
-				applicantRepository.save(applicant);
+				userRepository.save(user);
 				return"Groups are updated";
 			}
 		}
@@ -351,19 +351,19 @@ public class ApplicationController {
 	
 	
 	@PostMapping("/getRoleList")
-	public String getRoleList(@RequestParam("searchString") String searchString,@RequestParam("applicantIdParameter") String applicantIdParameter) {
+	public String getRoleList(@RequestParam("searchString") String searchString,@RequestParam("userIdParameter") String userIdParameter) {
 		List<Role> roleList;
 		if(searchString == null || searchString.equals("")) {
 			roleList = roleRepository.findAll();
 		}else {
 			roleList = roleRepository.findByContainsInName(searchString);
 		}
-		int applicantId = Integer.parseInt(applicantIdParameter);
-		Applicant applicant = null;
-		if(applicantId!=-1) {
-			Optional<Applicant> applicantOpt = applicantRepository.findById(applicantId);
-			if(applicantOpt.isPresent()) {
-				applicant=applicantOpt.get();
+		int userId = Integer.parseInt(userIdParameter);
+		User user = null;
+		if(userId!=-1) {
+			Optional<User> userOpt = userRepository.findById(userId);
+			if(userOpt.isPresent()) {
+				user=userOpt.get();
 			}
 		}
 		
@@ -373,10 +373,10 @@ public class ApplicationController {
 			jo.put("roleId", r.getRoleId());
 			jo.put("roleName", r.getRoleName());
 			jo.put("roleDescription", r.getRoleDescription());
-			if(applicant==null) {
+			if(user==null) {
 				jo.put("isAssignetTo", "null");
 			}else{
-				if(applicant.getRoles().contains(r)){
+				if(user.getRoles().contains(r)){
 					jo.put("isAssignetTo", "yes");
 				}else {
 					jo.put("isAssignetTo", "no");
@@ -389,32 +389,32 @@ public class ApplicationController {
 	}
 	
 	@PostMapping("/getGroupList")
-	public String getGroupList(@RequestParam("searchString") String searchString,@RequestParam("applicantIdParameter") String applicantIdParameter) {
-		List<Applicantgroup> groupList;
+	public String getGroupList(@RequestParam("searchString") String searchString,@RequestParam("userIdParameter") String userIdParameter) {
+		List<Usergroup> groupList;
 		if(searchString == null || searchString.equals("")) {
 			groupList = groupRepository.findAll();
 		}else {
 			groupList = groupRepository.findByContainsInName(searchString);
 		}
-		int applicantId = Integer.parseInt(applicantIdParameter);
-		Applicant applicant = null;
-		if(applicantId!=-1) {
-			Optional<Applicant> applicantOpt = applicantRepository.findById(applicantId);
-			if(applicantOpt.isPresent()) {
-				applicant=applicantOpt.get();
+		int userId = Integer.parseInt(userIdParameter);
+		User user = null;
+		if(userId!=-1) {
+			Optional<User> userOpt = userRepository.findById(userId);
+			if(userOpt.isPresent()) {
+				user=userOpt.get();
 			}
 		}
 		
 		JSONArray ja = new JSONArray();
-		for(Applicantgroup g:groupList) {
+		for(Usergroup g:groupList) {
 			JSONObject jo = new JSONObject();
-			jo.put("groupId", g.getApplicantgroupId());
-			jo.put("groupName", g.getApplicantgroupName());
-			jo.put("groupDescription", g.getApplicantgroupDescription());
-			if(applicant==null) {
+			jo.put("groupId", g.getUsergroupId());
+			jo.put("groupName", g.getUsergroupName());
+			jo.put("groupDescription", g.getUsergroupDescription());
+			if(user==null) {
 				jo.put("isAssignetTo", "null");
 			}else{
-				if(applicant.getApplicantgroups().contains(g)){
+				if(user.getUsergroups().contains(g)){
 					jo.put("isAssignetTo", "yes");
 				}else {
 					jo.put("isAssignetTo", "no");
@@ -452,12 +452,12 @@ public class ApplicationController {
 		int id = Integer.parseInt(jobId);
 		List<Scriptexecution> scriptList = scriptexecutionRepository.findByJobId(id);
 		Job j = jobRepository.findById(id).get();
-		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+		if(scriptList.size()==0 && j.getUsers().size()==0) {
 			jobRepository.deleteById(Integer.parseInt(jobId));
 			return "The Job with id: " + jobId + " was deleted successfully";
 		}else {
 			return "There are other objects that depend on the job. <br>"
-					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getApplicants().size()+ " Applicants that depend on this job <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getUsers().size()+ " Users that depend on this job <br>"
 					+ "If you really want to delete this job press here:<br>"
 					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteJob('"+jobId+"')\">force delete</button>";
 		}
@@ -469,7 +469,7 @@ public class ApplicationController {
 		int id = Integer.parseInt(jobId);
 		List<Scriptexecution> scriptList = scriptexecutionRepository.findByJobId(id);
 		Job j = jobRepository.findById(id).get();
-		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+		if(scriptList.size()==0 && j.getUsers().size()==0) {
 			jobRepository.deleteById(Integer.parseInt(jobId));
 			return "The Job with id: " + jobId + "was deleted successfully";
 		}else {
@@ -482,13 +482,13 @@ public class ApplicationController {
 					scriptexecutionRepository.save(se);
 				}
 			}
-			j.setApplicants(new HashSet<Applicant>());
+			j.setUsers(new HashSet<User>());
 			jobRepository.save(j);
 			
-			List<Applicant> applicantList = applicantRepository.findByJobId(id);
-			for(Applicant a : applicantList) {
+			List<User> userList = userRepository.findByJobId(id);
+			for(User a : userList) {
 				a.deletejob(id);
-				applicantRepository.save(a);
+				userRepository.save(a);
 			}
 			
 			return deleteJob(jobId);
@@ -498,16 +498,16 @@ public class ApplicationController {
 	
 	
 	@PostMapping("/updateAssignedToJob")
-	public String updateAssignedToJob(@RequestParam("jobIds") int[] jobId,@RequestParam("applicantId") int applicantId) {
-		if(applicantId<0) {
-			return "Applicant ID is not valid, it is: "+ applicantId;
+	public String updateAssignedToJob(@RequestParam("jobIds") int[] jobId,@RequestParam("userId") int userId) {
+		if(userId<0) {
+			return "User ID is not valid, it is: "+ userId;
 		}else {
-			Optional<Applicant> optionalApplicant = applicantRepository.findById(applicantId);
-			if(!optionalApplicant.isPresent()) {
-				return "Cannot find ApplicantID, it is: "+ applicantId;
+			Optional<User> optionalUser = userRepository.findById(userId);
+			if(!optionalUser.isPresent()) {
+				return "Cannot find UserID, it is: "+ userId;
 			}else {
-				Applicant applicant = optionalApplicant.get();
-				Set<Job> setJobs = applicant.getJobs();
+				User user = optionalUser.get();
+				Set<Job> setJobs = user.getJobs();
 				
 				//create Set of jobs
 				Set<Integer> newJobIds = new HashSet<Integer>();
@@ -542,7 +542,7 @@ public class ApplicationController {
 					}
 				}
 				
-				applicantRepository.save(applicant);
+				userRepository.save(user);
 				return"Jobs are updated";
 			}
 		}
@@ -551,19 +551,19 @@ public class ApplicationController {
 	
 	
 	@PostMapping("/getJobList")
-	public String getJobList(@RequestParam("searchString") String searchString,@RequestParam("applicantIdParameter") String applicantIdParameter) {
+	public String getJobList(@RequestParam("searchString") String searchString,@RequestParam("userIdParameter") String userIdParameter) {
 		List<Job> jobList;
 		if(searchString == null || searchString.equals("")) {
 			jobList = jobRepository.findAll();
 		}else {
 			jobList = jobRepository.findByContainsInName(searchString);
 		}
-		int applicantId = Integer.parseInt(applicantIdParameter);
-		Applicant applicant = null;
-		if(applicantId!=-1) {
-			Optional<Applicant> applicantOpt = applicantRepository.findById(applicantId);
-			if(applicantOpt.isPresent()) {
-				applicant=applicantOpt.get();
+		int userId = Integer.parseInt(userIdParameter);
+		User user = null;
+		if(userId!=-1) {
+			Optional<User> userOpt = userRepository.findById(userId);
+			if(userOpt.isPresent()) {
+				user=userOpt.get();
 			}
 		}
 		
@@ -573,10 +573,10 @@ public class ApplicationController {
 			jo.put("jobId", r.getJobId());
 			jo.put("jobName", r.getJobName());
 			jo.put("jobDescription", r.getJobDescription());
-			if(applicant==null) {
+			if(user==null) {
 				jo.put("isAssignetTo", "null");
 			}else{
-				if(applicant.getJobs().contains(r)){
+				if(user.getJobs().contains(r)){
 					jo.put("isAssignetTo", "yes");
 				}else {
 					jo.put("isAssignetTo", "no");
@@ -590,7 +590,7 @@ public class ApplicationController {
 	
 
 	@PostMapping("/pushTask")
-	public String pushApplicantRegistration(@RequestParam("formVars") String[] formVars) {
+	public String pushUserRegistration(@RequestParam("formVars") String[] formVars) {
 		HashMap<String, String> formVarsMap = new HashMap<String, String>();
 		assert (formVars.length % 2 == 0);
 		for (int i = 0; i < formVars.length;) {
@@ -643,12 +643,12 @@ public class ApplicationController {
 		int id = Integer.parseInt(taskId);
 		List<Scriptexecution> scriptList = scriptexecutionRepository.findByTaskId(id);
 		Task j = taskRepository.findById(id).get();
-		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+		if(scriptList.size()==0 && j.getUsers().size()==0) {
 			taskRepository.deleteById(Integer.parseInt(taskId));
 			return "The Task with id: " + taskId + " was deleted successfully";
 		}else {
 			return "There are other objects that depend on the task. <br>"
-					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getApplicants().size()+ " Applicants that depend on this task <br>"
+					+ "There are "+scriptList.size() +" ScriptExecutions and "+j.getUsers().size()+ " Users that depend on this task <br>"
 					+ "If you really want to delete this task press here:<br>"
 					+ "<button class=\"w3-button w3-red\" onclick=\"forceDeleteTask('"+taskId+"')\">force delete</button>";
 		}
@@ -660,7 +660,7 @@ public class ApplicationController {
 		int id = Integer.parseInt(taskId);
 		List<Scriptexecution> scriptList = scriptexecutionRepository.findByTaskId(id);
 		Task j = taskRepository.findById(id).get();
-		if(scriptList.size()==0 && j.getApplicants().size()==0) {
+		if(scriptList.size()==0 && j.getUsers().size()==0) {
 			taskRepository.deleteById(Integer.parseInt(taskId));
 			return "The Task with id: " + taskId + "was deleted successfully";
 		}else {
@@ -675,15 +675,15 @@ public class ApplicationController {
 			}
 			
 			
-			List<Applicant> applicantList = applicantRepository.findByTaskId(id);
-			for(Applicant a : applicantList) {
+			List<User> userList = userRepository.findByTaskId(id);
+			for(User a : userList) {
 				a.deleteTask(id);
-				applicantRepository.save(a);
+				userRepository.save(a);
 				System.out.println(Arrays.toString(a.getTasks().toArray()));
 			}
 			
 			System.out.println(j.toString());
-			j.setApplicants(new HashSet<Applicant>());
+			j.setUsers(new HashSet<User>());
 			taskRepository.save(j);
 			System.out.println(j.toString());
 			
@@ -692,16 +692,16 @@ public class ApplicationController {
 	}
 	
 	@PostMapping("/updateAssignedToTask")
-	public String updateAssignedToTask(@RequestParam("taskIds") int[] taskId,@RequestParam("applicantId") int applicantId) {
-		if(applicantId<0) {
-			return "Applicant ID is not valid, it is: "+ applicantId;
+	public String updateAssignedToTask(@RequestParam("taskIds") int[] taskId,@RequestParam("userId") int userId) {
+		if(userId<0) {
+			return "User ID is not valid, it is: "+ userId;
 		}else {
-			Optional<Applicant> optionalApplicant = applicantRepository.findById(applicantId);
-			if(!optionalApplicant.isPresent()) {
-				return "Cannot find ApplicantID, it is: "+ applicantId;
+			Optional<User> optionalUser = userRepository.findById(userId);
+			if(!optionalUser.isPresent()) {
+				return "Cannot find UserID, it is: "+ userId;
 			}else {
-				Applicant applicant = optionalApplicant.get();
-				Set<Task> setTasks = applicant.getTasks();
+				User user = optionalUser.get();
+				Set<Task> setTasks = user.getTasks();
 				
 				//create Set of tasks
 				Set<Integer> newTaskIds = new HashSet<Integer>();
@@ -734,7 +734,7 @@ public class ApplicationController {
 					}
 				}
 				
-				applicantRepository.save(applicant);
+				userRepository.save(user);
 				return"Tasks are updated";
 			}
 		}
@@ -743,19 +743,19 @@ public class ApplicationController {
 	
 	
 	@PostMapping("/getTaskList")
-	public String getTaskList(@RequestParam("searchString") String searchString,@RequestParam("applicantIdParameter") String applicantIdParameter) {
+	public String getTaskList(@RequestParam("searchString") String searchString,@RequestParam("userIdParameter") String userIdParameter) {
 		List<Task> taskList;
 		if(searchString == null || searchString.equals("")) {
 			taskList = taskRepository.findAll();
 		}else {
 			taskList = taskRepository.findByContainsInName(searchString);
 		}
-		int applicantId = Integer.parseInt(applicantIdParameter);
-		Applicant applicant = null;
-		if(applicantId!=-1) {
-			Optional<Applicant> applicantOpt = applicantRepository.findById(applicantId);
-			if(applicantOpt.isPresent()) {
-				applicant=applicantOpt.get();
+		int userId = Integer.parseInt(userIdParameter);
+		User user = null;
+		if(userId!=-1) {
+			Optional<User> userOpt = userRepository.findById(userId);
+			if(userOpt.isPresent()) {
+				user=userOpt.get();
 			}
 		}
 		
@@ -780,10 +780,10 @@ public class ApplicationController {
 			
 			jo.put("taskDescription", r.getTaskDescription());
 			jo.put("taskOutcome", r.getTaskOutcome());
-			if(applicant==null) {
+			if(user==null) {
 				jo.put("isAssignetTo", "null");
 			}else{
-				if(applicant.getTasks().contains(r)){
+				if(user.getTasks().contains(r)){
 					jo.put("isAssignetTo", "yes");
 				}else {
 					jo.put("isAssignetTo", "no");

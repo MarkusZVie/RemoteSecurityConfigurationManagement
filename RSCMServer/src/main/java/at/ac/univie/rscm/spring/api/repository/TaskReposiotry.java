@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import at.ac.univie.rscm.model.Applicant;
+import at.ac.univie.rscm.model.User;
 import at.ac.univie.rscm.model.Task;
 
 public interface TaskReposiotry extends JpaRepository<Task, Integer>{

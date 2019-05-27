@@ -22,7 +22,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -30,12 +30,12 @@ import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	@Autowired
-	private UserDetailsService applicantDetailsService;
+	private UserDetailsService userDetailsService;
 	
 		
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(applicantDetailsService).passwordEncoder(encodePassword());
+		auth.userDetailsService(userDetailsService).passwordEncoder(encodePassword());
 	}
 
 	@Override
@@ -44,11 +44,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.formLogin().permitAll().and()//allow everyone to access the login page
 		.authorizeRequests() //declare multiple children									
 		.antMatchers("/ClientAuthentication/**",//for accept RSA Key with application key
-				"/RegisterAccount.jsp", //register new Applicants
+				"/RegisterAccount.jsp", //register new Users
 				"/index.jsp", //basic home Page
 				"/", //pattern that forward to index.jsp
 				"/WebressourcenImport/**", //css and html imports
-				"/applicants/pushApplicantRegistration").permitAll()//register new Applicatn Service
+				"/users/pushUserRegistration").permitAll()//register new Applicatn Service
 		.antMatchers("/admin/**").access("hasRole('Administrator') and hasRole('User')") 
 		.antMatchers("/ajax/**").access("hasRole('User')") 
 		.antMatchers("/Administration/**").access("hasRole('Administrator') or hasRole('Securitymanager')") 

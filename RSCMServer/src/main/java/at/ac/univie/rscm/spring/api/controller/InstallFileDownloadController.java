@@ -26,8 +26,8 @@ import at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptHelp
 import at.ac.univie.rscm.application.filemanagement.ClientInstallationScriptManager;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
-import at.ac.univie.rscm.model.Applicant;
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.model.User;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 
 @RestController
@@ -38,7 +38,7 @@ public class InstallFileDownloadController {
 	private RSCMClientRepository rcsmClientRepository;
 	
 	@Autowired
-	private ApplicantRepository applicantRepository;
+	private UserRepository userRepository;
 	
 	private GlobalSettingsAndVariablesInterface gsav;
 	private ClientInstallationScriptBuilder cisb;
@@ -66,14 +66,14 @@ public class InstallFileDownloadController {
 		}else {
 			username = principal.toString();
 		}
-		Applicant loggedInApplicant = applicantRepository.findByApplicantName(username);
+		User loggedInUser = userRepository.findByUserName(username);
 		
 		if(fileName.contentEquals("RSCMExternClientInstaller.exe")) {
 			
 			gsav.setRSCMClientRepository(rcsmClientRepository);
 			
 			
-			File file = cisb.getClientInstallProgram(true,loggedInApplicant.getApplicantId());
+			File file = cisb.getClientInstallProgram(true,loggedInUser.getUserId());
 			response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
 			try {
 				Path path = file.toPath();
@@ -88,7 +88,7 @@ public class InstallFileDownloadController {
 			gsav.setRSCMClientRepository(rcsmClientRepository);
 			
 			cisb = ClientInstallationScriptManager.getInstance();
-			File file = cisb.getClientInstallProgram(false,loggedInApplicant.getApplicantId());
+			File file = cisb.getClientInstallProgram(false,loggedInUser.getUserId());
 			response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
 			try {
 				Path path = file.toPath();

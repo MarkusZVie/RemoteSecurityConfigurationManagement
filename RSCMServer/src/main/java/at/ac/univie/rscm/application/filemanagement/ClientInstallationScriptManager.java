@@ -20,9 +20,9 @@ import org.springframework.stereotype.Service;
 
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariables;
 import at.ac.univie.rscm.application.global.GlobalSettingsAndVariablesInterface;
-import at.ac.univie.rscm.model.Applicant;
+import at.ac.univie.rscm.model.User;
 import at.ac.univie.rscm.model.RSCMClient;
-import at.ac.univie.rscm.spring.api.repository.ApplicantRepository;
+import at.ac.univie.rscm.spring.api.repository.UserRepository;
 import at.ac.univie.rscm.spring.api.repository.RSCMClientRepository;
 
 public class ClientInstallationScriptManager implements ClientInstallationScriptBuilder{
@@ -33,7 +33,7 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	
 	private RSCMClientRepository rcrClientRepository;
 	private GlobalSettingsAndVariablesInterface gsav;
-	private ApplicantRepository applicantRepository;
+	private UserRepository userRepository;
 	
 	private ClientInstallationScriptManager() {
 		activeClientInstallations = new ArrayList<ClientInstallationScriptHelper>();
@@ -50,9 +50,9 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	}
 		
 	@Override
-	public File getClientInstallProgram(boolean isExtern, int loggedInApplicantId) {
+	public File getClientInstallProgram(boolean isExtern, int loggedInUserId) {
 		//create a new Thread with availabilityTime for the API Key
-		ClientInstallationScriptHelper cish = new ClientInstallationScriptHelper(availabilityTime,loggedInApplicantId);
+		ClientInstallationScriptHelper cish = new ClientInstallationScriptHelper(availabilityTime,loggedInUserId);
 		//add Thread to list
 		activeClientInstallations.add(cish);
 		//let the Tread create the exe file
@@ -79,7 +79,7 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 	@Override
 	public String confirmAppKey(String applikationKey, String clientRSAPublicKey) {
 
-		applicantRepository = gsav.getApplicantRepository();
+		userRepository = gsav.getUserRepository();
 		rcrClientRepository = gsav.getRSCMClientRepository();
 		ClientInstallationScriptHelper cish = getHelperByAppKey(applikationKey);
 		
@@ -93,13 +93,13 @@ public class ClientInstallationScriptManager implements ClientInstallationScript
 			rscmClient.setKeyCreationDate(cish.getCreatenDate());
 			rscmClient.setRscmKeypass(cish.getRscm_keypass_value());
 			rscmClient.setRscmPassword(cish.getRscm_password_value());
-			System.out.println(cish.getLoggedInApplicantId());
-			Applicant applicant = applicantRepository.findById(cish.getLoggedInApplicantId()).get();
-			rscmClient.addApplicant(applicant);
+			System.out.println(cish.getLoggedInUserId());
+			User user = userRepository.findById(cish.getLoggedInUserId()).get();
+			rscmClient.addUser(user);
 			rcrClientRepository.save(rscmClient);
 			
-			applicant.addRSCMClient(rscmClient);
-			applicantRepository.save(applicant);
+			user.addRSCMClient(rscmClient);
+			userRepository.save(user);
 			
 			registerRSAKey(rscmClient.getClientRSAPublicKey());
 			gsav.updatePortScannerPortEnd();
